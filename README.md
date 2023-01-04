@@ -1,4 +1,4 @@
-# TypeScript definitions for `@minecraft/*`
+# TypeScript definitions for `@minecraft/server`
 
 This should really be hosted by
 [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) but
