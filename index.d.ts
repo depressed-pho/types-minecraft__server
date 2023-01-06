@@ -14990,6 +14990,14 @@ export class World {
     readonly 'scoreboard': Scoreboard;
     broadcastClientMessage(id: string, value: string): void;
     /**
+     * Returns the absolute time since the start of the world.
+     */
+    getAbsoluteTime(): number;
+    /**
+     * Returns an array of all active players within the world.
+     */
+    getAllPlayers(): Player[];
+    /**
      * @param dimensionId
      * @returns
      * The requested dimension
