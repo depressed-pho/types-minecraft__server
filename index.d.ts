@@ -1059,21 +1059,21 @@ export class BlockPropertyType {
  * Contains additional options for configuring a block raycast
  * query.
  */
-export class BlockRaycastOptions {
+export interface BlockRaycastOptions {
     /**
      * If true, liquid blocks will be considered as blocks that
-     * 'stop' the raycast.
+     * "stop" the raycast.
      */
-    'includeLiquidBlocks': boolean;
+    includeLiquidBlocks?: boolean;
     /**
      * If true, passable blocks like vines and flowers will be
-     * considered as blocks that 'stop' the raycast.
+     * considered as blocks that "stop" the raycast.
      */
-    'includePassableBlocks': boolean;
+    includePassableBlocks?: boolean;
     /**
      * Maximum distance, in blocks, to process the raycast.
      */
-    'maxDistance': number;
+    maxDistance?: number;
 }
 /**
  * Represents a block that can play a record.
