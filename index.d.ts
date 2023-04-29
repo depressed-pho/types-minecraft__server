@@ -189,6 +189,14 @@ export enum ItemLockMode {
     none      = "none",
     slot      = "slot",
 }
+export enum MessageSourceType {
+    clientScript = "clientScript",
+    commandBlock = "commandBlock",
+    dialogueCommand = "dialogueCommand",
+    entityCommand = "entityCommand",
+    serverCommand = "serverCommand",
+    serverScript = "serverScript"
+}
 /**
  * Used for specifying a sort order for how to display an
  * objective and its list of participants.
@@ -12542,6 +12550,38 @@ export class ScreenDisplay {
      */
     updateSubtitle(subtitle: string): void;
     protected constructor();
+}
+/**
+ * Returns additional data about a /scriptevent command invocation.
+ */
+export class ScriptEventCommandMessageEvent {
+    /**
+     * Identifier of this ScriptEvent command message.
+     */
+    readonly id: string;
+    /**
+     * If this command was initiated via an NPC, returns the entity that
+     * initiated the NPC dialogue.
+     */
+    readonly initiator?: Entity;
+    /**
+     * Optional additional data passed in with the script event command.
+     */
+    readonly message: string;
+    /**
+     * Source block if this command was triggered via a block (e.g., a
+     * commandblock.)
+     */
+    readonly sourceBlock?: Block;
+    /**
+     * Source entity if this command was triggered by an entity (e.g., a
+     * NPC).
+     */
+    readonly sourceEntity?: Entity;
+    /**
+     * Returns the type of source that fired this command.
+     */
+    readonly sourceType: MessageSourceType;
 }
 /**
  * Manages callbacks that are connected to an event that fires when
