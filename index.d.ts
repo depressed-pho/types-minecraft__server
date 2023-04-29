@@ -2651,7 +2651,7 @@ export class EntityDieEvent {
 }
 export class EntityDieEventSignal {
     subscribe(callback: (arg: EntityDieEvent) => void, options?: EntityEventOptions): (arg: EntityDieEvent) => void;
-    unsubscribe(callback: (arg: EntityDieEvent) => void);
+    unsubscribe(callback: (arg: EntityDieEvent) => void): void;
     protected constructor();
 }
 /**
@@ -12093,6 +12093,28 @@ export class PistonActivateEventSignal {
      */
     unsubscribe(callback: (arg: PistonActivateEvent) => void): void;
     protected constructor();
+}
+/**
+ * Contains additional options for how an animation is played.
+ */
+export interface PlayAnimationOptions {
+    /**
+     * Amount of time to fade out after an animation stops.
+     */
+    blendOutTime?: number;
+    /**
+     * Specifies a controller to use that has been defined on the entity.
+     */
+    controller?: string;
+    /**
+     * Specifies the state to transition to.
+     */
+    nextState?: string;
+    /**
+     * Specifies a Molang expression for when this animation should
+     * complete.
+     */
+    stopExpression?: string;
 }
 /**
  * Represents a player within the world.
