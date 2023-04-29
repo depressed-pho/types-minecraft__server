@@ -13746,6 +13746,11 @@ export class Player extends Entity {
      */
     'selectedSlot': number;
     /**
+     * If this player has an individual spawn point set, returns the
+     * dimension that their spawn point is within.
+     */
+    readonly spawnDimension?: Dimension;
+    /**
      * Retrieves or sets an entity that is used as the target of
      * AI-related behaviors, like attacking. For players, which
      * don't use any AI semantics, this property does not do
@@ -13783,6 +13788,13 @@ export class Player extends Entity {
      * @throws This function can throw errors.
      */
     addTag(tag: string): boolean;
+    /**
+     * @remarks
+     * Clears the spawn point that has been individually set for a player.
+     * @throws
+     * This function can throw errors.
+     */
+    clearSpawn(): void;
     /**
      * @remarks
      * Gets the first block that intersects with the vector of the
@@ -13849,6 +13861,12 @@ export class Player extends Entity {
      * @throws This function can throw errors.
      */
     getItemCooldown(itemCategory: string): number;
+    /**
+     * @remarks
+     * Returns an individualized spawn position, if set, for a player.
+     * @throws This function can throw errors.
+     */
+    getSpawnPosition(): Vector3 | undefined;
     /**
      * @remarks
      * Returns all tags associated with an entity.
@@ -13921,6 +13939,43 @@ export class Player extends Entity {
     runCommandAsync(commandString: string): Promise<CommandResult>;
     /**
      * @remarks
+     * Sends a message to the player.
+     * @param message
+     * The message to be displayed.
+     * @throws
+     * This method can throw if the provided {@link
+     * @minecraft/server.RawMessage} is in an invalid format. For example,
+     * if an empty `name` string is provided to `score`.
+     * @example nestedTranslation.ts
+     * ```typescript
+     * // Displays "Apple or Coal"
+     * let rawMessage = {
+     *   translate: "accessibility.list.or.two",
+     *   with: { rawtext: [{ translate: "item.apple.name" }, { translate: "item.coal.name" }] },
+     * };
+     * player.sendMessage(rawMessage);
+     * ```
+     * @example scoreWildcard.ts
+     * ```typescript
+     * // Displays the player's score for objective "obj". Each player will see their own score.
+     * const rawMessage = { score: { name: "*", objective: "obj" } };
+     * world.sendMessage(rawMessage);
+     * ```
+     * @example simpleString.ts
+     * ```typescript
+     * // Displays "Hello, world!"
+     * world.sendMessage("Hello, world!");
+     * ```
+     * @example translation.ts
+     * ```
+     * // Displays "First or Second"
+     * const rawMessage = { translate: "accessibility.list.or.two", with: ["First", "Second"] };
+     * player.sendMessage(rawMessage);
+     * ```
+     */
+    sendMessage(message: (RawMessage | string)[] | RawMessage | string): void;
+    /**
+     * @remarks
      * Sets a specified property to a value.
      * @param identifier
      * @param value
@@ -13936,6 +13991,17 @@ export class Player extends Entity {
      * @throws This function can throw errors.
      */
     setRotation(degreesX: number, degreesY: number): void;
+    /**
+     * @remarks
+     * Sets the individual spawn point of this player.
+     * @param spawnPosition
+     * Location of the spawn point.
+     * @param spawnDimension
+     * Dimension to place the player's individualized spawn point within.
+     * @throws
+     * This function can throw errors.
+     */
+    setSpawn(spawnPosition: Vector3, spawnDimension: Dimension): void;
     /**
      * @remarks
      * Sets a velocity for the entity to move with.
@@ -13991,14 +14057,6 @@ export class Player extends Entity {
      * @throws This function can throw errors.
      */
     teleportFacing(location: Vector3, dimension: Dimension, facingLocation: Vector3, keepVelocity?: boolean): void;
-    /**
-     * @remarks
-     * Sends a message that is displayed on the connected client
-     * for this player.
-     * @param message
-     * @throws This function can throw errors.
-     */
-    tell(message: RawMessage | string): void;
     /**
      * @remarks
      * Triggers an entity type event. For every entity, a number of
