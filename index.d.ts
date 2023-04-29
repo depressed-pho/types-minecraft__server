@@ -15,7 +15,7 @@
  * ```json
  * {
  *   "module_name": "@minecraft/server",
- *   "version": "1.2.0"
+ *   "version": "1.2.0-beta"
  * }
  * ```
  */
@@ -12608,43 +12608,40 @@ export class System {
      */
     clearRun(runId: number): void;
     /**
-     * Cancels the execution of a scheduled function run that was
-     * previously scheduled via the {@link
-     * @minecraft/server.System.runSchedule} function.
-     */
-    clearRunSchedule(runScheduleId: number): void;
-    /**
      * Runs a specified function at a future time. This is frequently used
      * to implement delayed behaviors and game loops.
      * @param callback
      * Function callback to run when the tickDelay time criteria is met.
-     * @param tickDelay
-     * Number of ticks to wait before running this function. 1 means this
-     * function will run on the next tick. A value of 20 means that this
-     * function will run in 20 ticks (or approximately one second). When
-     * the value of '0' is used within an event handler, this funtion will
-     * run later within the tick frame. Using the value of '0' within a
-     * {@link @minecraft/server.System.run} function is not supported.
      * @returns
      * An opaque identifier that can be used with the {@link
      * @minecraft/server.System.clearRun} function to cancel the execution
      * of this run.
      */
-    run(callback: () => void, tickDelay?: number): number;
+    run(callback: () => void): number;
     /**
-     * Runs a specified function at a scheduled interval. This is
-     * frequently used to implement delayed behaviors and game loops.
+     * Runs a set of code on an interval.
      * @param callback
-     * Function callback to run on the specified schedule.
+     * Functional code that will run when this interval occurs.
      * @param tickInterval
-     * The number of ticks to run this function within - run this function
-     * every 'tickInterval' ticks.
+     * An interval of every N ticks that the callback will be called upon.
      * @returns
-     * An opaque identifier that can be used with the {@link
-     * @minecraft/server.System.clearRunSchedule} function to cancel the
-     * execution of this scheduled run.
+     * An opaque handle that can be used with the {@link
+     * @minecraft/server.System.clearRun} function to stop the run of this
+     * function on an interval.
      */
-    runSchedule(callback: () => void, tickInterval?: number): number;
+    runInterval(callback: () => void, tickInterval?: number): number;
+    /**
+     * Runs a set of code at a future time specified by tickDelay.
+     * @param callback
+     * Functional code that will run when this timeout occurs.
+     * @param tickDelay
+     * Amount of time, in ticks, before the interval will be called.
+     * @returns
+     * An opaque handle that can be used with the {@link
+     * @minecraft/server.System.clearRun} function to stop the run of this
+     * function on an interval.
+     */
+    runTimeout(callback: () => void, tickDelay?: number): number;
 }
 /**
  * Contains a set of events that are available across the scope
