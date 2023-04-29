@@ -265,24 +265,18 @@ export class BeforeChatEventSignal {
  * entity event - for example, the minecraft:ageable_grow_up
  * event on a chicken.
  */
-export class BeforeDataDrivenEntityTriggerEvent {
+export class BeforeDataDrivenEntityTriggerEvent extends DataDrivenEntityTriggerEvent {
     /**
      * If set to true, this entity event is not triggered.
      */
-    'cancel': boolean;
+    cancel: boolean;
     /**
-     * Entity that the event triggered on.
+     * Changes a list of modifications to component state that are the
+     * effect of this triggered event.
+     * @param modifiers
+     * An updated list of modifications to component state.
      */
-    readonly 'entity': Entity;
-    /**
-     * Name of the data driven event being triggered.
-     */
-    readonly 'id': string;
-    /**
-     * An updateable list of modifications to component state that
-     * are the effect of this triggered event.
-     */
-    'modifiers': DefinitionModifier[];
+    setModifiers(modifiers: DefinitionModifier[]): void;
     protected constructor();
 }
 /**
@@ -1985,16 +1979,16 @@ export class ChatEvent {
      * handler, _message_ can be updated with edits before the
      * message is displayed to players.
      */
-    'message': string;
+    message: string;
     /**
      * Player that sent the chat message.
      */
-    'sender': Player;
+    sender: Player;
     /**
      * If true, this message is directly targeted to one or more
      * players (i.e., is not broadcast.)
      */
-    'sendToTargets': boolean;
+    sendToTargets: boolean;
     /**
      * List of players that will receive this message.
      */
@@ -2188,16 +2182,16 @@ export class DataDrivenEntityTriggerEvent {
     /**
      * Entity that the event triggered on.
      */
-    readonly 'entity': Entity;
+    readonly entity: Entity;
     /**
      * Name of the data driven event being triggered.
      */
-    readonly 'id': string;
+    readonly id: string;
     /**
-     * A list of modifications to component state that are the
-     * effect of this triggered event.
+     * A list of modifications to component state that are the effect of
+     * this triggered event.
      */
-    readonly 'modifiers': DefinitionModifier[];
+    getModifiers(): DefinitionModifier[];
     protected constructor();
 }
 /**
