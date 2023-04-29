@@ -2217,20 +2217,39 @@ export class DataDrivenEntityTriggerEventSignal {
  */
 export class DefinitionModifier {
     /**
-     * A list of components that will be added via this definition
-     * modification.
+     * Constructor for a new DefinitionModifier.
      */
-    readonly 'componentGroupsToAdd': string[];
+    constructor();
     /**
-     * A list of components that will be removed via this
+     * Retrieves the list of component groups that will be added via this
      * definition modification.
      */
-    readonly 'componentGroupsToRemove': string[];
+    getComponentGroupsToAdd(): string[];
     /**
-     * A list of entity definition events that will be fired via
+     * Retrieves the list of component groups that will be removed via this
+     * definition modification.
+     */
+    getComponentGroupsToRemove(): string[];
+    /**
+     * Retrieves the list of entity definition events that will be fired
+     * via this update.
+     */
+    getTriggers(): Trigger[];
+    /**
+     * Updates the list of component groups that will be added via this
+     * definition modification.
+     */
+    setComponentGroupsToAdd(newGroups: string[]): void;
+    /**
+     * Updates the list of component groups that will be removed via this
+     * definition modification.
+     */
+    setComponentGroupsToRemove(removedGroups: string[]): void;
+    /**
+     * Updates the list of entity definition events that will be fired via
      * this update.
      */
-    'triggers': Trigger[];
+    setTriggers(newTriggers: Trigger[]): void;
 }
 /**
  * A class that represents a particular dimension (e.g., The
