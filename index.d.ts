@@ -3275,6 +3275,18 @@ export class EntityCreateEventSignal {
     protected constructor();
 }
 /**
+ * Contains information related to the death of an entity.
+ */
+export class EntityDieEvent {
+    readonly damageCause: EntityDamageCause;
+    readonly deadEntity: Entity;
+}
+export class EntityDieEventSignal {
+    subscribe(callback: (arg: EntityDieEvent) => void, options?: EntityEventOptions): (arg: EntityDieEvent) => void;
+    unsubscribe(callback: (arg: EntityDieEvent) => void);
+    protected constructor();
+}
+/**
  * Specifies additional filters that are used in registering a
  * data driven trigger event for entities.
  */
@@ -5347,6 +5359,10 @@ export class Events {
      * This event fires when a new entity is created.
      */
     readonly 'entityCreate': EntityCreateEventSignal;
+    /**
+     * This event fires when an entity dies.
+     */
+    readonly 'entityDie': EntityDieEventSignal;
     /**
      * This event fires when an entity hits (makes a melee attack)
      * and potentially impacts another entity or block.
