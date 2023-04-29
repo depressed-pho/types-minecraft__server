@@ -3463,12 +3463,11 @@ export class EntityHitEventSignal {
  * Contains additional information about an entity that was
  * hit.
  */
-export class EntityHitInformation {
+export interface EntityHitInformation {
     /**
      * Entity that was hit.
      */
-    readonly 'entity': Entity;
-    protected constructor();
+    entity: Entity;
 }
 /**
  * Contains information related to an entity getting hurt by
