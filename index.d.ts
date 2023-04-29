@@ -5447,7 +5447,7 @@ export class Events {
     /**
      * This event fires when a projectile hits an entity or block.
      */
-    'projectileHit': ProjectileHitEventSignal;
+    readonly projectileHit: ProjectileHitEventSignal;
     /**
      * This event will be triggered when the weather changes within
      * Minecraft.
