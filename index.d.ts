@@ -2497,8 +2497,11 @@ export class Dimension {
 }
 export class DirectionBlockProperty extends IBlockProperty {
     readonly 'name': string;
-    readonly 'validValues': Direction[];
     'value': Direction;
+    /**
+     * Gets all valid direction enum values for the DirectionBlockProperty.
+     */
+    getValidValues(): boolean[];
     protected constructor();
 }
 /**
