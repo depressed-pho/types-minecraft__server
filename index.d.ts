@@ -343,7 +343,7 @@ export class BeforeExplosionEvent {
      * Note that this property can be updated to change the set of
      * blocks impacted.
      */
-    'impactedBlocks': BlockLocation[];
+    'impactedBlocks': Vector3[];
     /**
      * Optional source of the explosion.
      */
@@ -471,7 +471,7 @@ export class BeforeItemUseOnEvent {
     /**
      * Location of the block being impacted.
      */
-    readonly 'blockLocation': BlockLocation;
+    readonly 'blockLocation': Vector3;
     /**
      * If set to true, this will cancel the item use behavior.
      */
@@ -636,7 +636,7 @@ export class Block {
     /**
      * Coordinates of the specified block.
      */
-    readonly 'location': BlockLocation;
+    readonly 'location': Vector3;
     /**
      * Additional block configuration data that describes the
      * block.
@@ -692,10 +692,10 @@ export class Block {
      * @throws This function can throw errors.
      * @example check_block_tags.js
      * ```typescript
-     *        import { world, BlockLocation } from "minecraft/server";
+     *        import { world } from "minecraft/server";
      *
      *        // Fetch the block
-     *        const block = world.getDimension("overworld").getBlock(new BlockLocation(1, 2, 3));
+     *        const block = world.getDimension("overworld").getBlock({x: 1, y: 2, z: 3});
      *
      *        console.log(`Block is dirt: ${block.hasTag("dirt")}`);
      *        console.log(`Block is wood: ${block.hasTag("wood")}`);
@@ -909,7 +909,7 @@ export class BlockInventoryComponent extends BlockComponent {
     /**
      * Coordinates of the specified block.
      */
-    readonly 'location': BlockLocation;
+    readonly 'location': Vector3;
     static readonly 'typeId' = 'inventory';
     protected constructor();
 }
@@ -1018,87 +1018,9 @@ export class BlockLavaContainerComponent extends BlockComponent {
     /**
      * Source location of the block.
      */
-    readonly 'location': BlockLocation;
+    readonly 'location': Vector3;
     static readonly 'typeId' = 'lavaContainer';
     protected constructor();
-}
-/**
- * Contains the integer X, Y, Z coordinates for a block. For
- * decimal locations useful for entities, items, and more, see
- * {@link @minecraft/server.Location}.
- */
-export class BlockLocation {
-    /**
-     * The X coordinate.
-     */
-    'x': number;
-    /**
-     * The integer-based Y position.
-     */
-    'y': number;
-    /**
-     * The integer-based Z position.
-     */
-    'z': number;
-    /**
-     * @remarks
-     * Returns a BlockLocation for a block above this BlockLocation
-     * (that is, y + 1).
-     */
-    above(): BlockLocation;
-    /**
-     * @remarks
-     * Returns an array of block locations representing all blocks
-     * in the volume (cuboid) between this location and another
-     * location.
-     * @param other
-     * Additional BlockLocation used to determine the set of
-     * locations in between this location and another point.
-     * @returns
-     * Array of block locations representing the volume between
-     * this location and another, inclusive of the start and end
-     * points.
-     */
-    blocksBetween(other: BlockLocation): BlockLocation[];
-    /**
-     * @remarks
-     * Creates a new instance of an abstract block location.
-     * @param x
-     * X position of the block location. This number should be an
-     * integer.
-     * @param y
-     * Y position of the block location. This number should be an
-     * integer.
-     * @param z
-     * Z position of the block location. This number should be an
-     * integer.
-     */
-    constructor(x: number, y: number, z: number);
-    /**
-     * @remarks
-     * Compares this BlockLocation and another BlockLocation to one
-     * another.
-     * @param other
-     * Other block location to compare this BlockLocation to.
-     * @returns
-     * True if the two block locations are equal.
-     */
-    equals(other: BlockLocation): boolean;
-    /**
-     * @remarks
-     * Returns a block location using a position relative to this
-     * block location
-     * @param x
-     * X offset relative to this BlockLocation.
-     * @param y
-     * Y offset relative to this BlockLocation.
-     * @param z
-     * Z offset relative to this BlockLocation.
-     * @returns
-     * BlockLocation that is positioned relative to this
-     * BlockLocation.
-     */
-    offset(x: number, y: number, z: number): BlockLocation;
 }
 /**
  * Contains the combination of type {@link @minecraft/server.BlockType}
@@ -1147,10 +1069,10 @@ export class BlockPermutation {
      * Returns `true` if the permutation has the tag, else `false`.
      * @example check_block_tags.js
      * ```typescript
-     *        import { world, BlockLocation } from "mojang-minecraft";
+     *        import { world } from "mojang-minecraft";
      *
      *        // Fetch the block
-     *        const block = world.getDimension("overworld").getBlock(new BlockLocation(1, 2, 3));
+     *        const block = world.getDimension("overworld").getBlock({x: 1, y: 2, z: 3});
      *        const blockPerm = block.getPermutation();
      *
      *        console.log(`Block is dirt: ${blockPerm.hasTag("dirt")}`);
@@ -1172,7 +1094,7 @@ export class BlockPistonComponent extends BlockComponent {
      * activation of this piston.
      * @throws This property can throw when used.
      */
-    readonly 'attachedBlocks': BlockLocation[];
+    readonly 'attachedBlocks': Vector3[];
     /**
      * Whether the piston is fully expanded.
      * @throws This property can throw when used.
@@ -1202,7 +1124,7 @@ export class BlockPistonComponent extends BlockComponent {
     /**
      * Source location of the block.
      */
-    readonly 'location': BlockLocation;
+    readonly 'location': Vector3;
     static readonly 'typeId' = 'piston';
     protected constructor();
 }
@@ -1262,7 +1184,7 @@ export class BlockPotionContainerComponent extends BlockComponent {
     /**
      * Source location of the block.
      */
-    readonly 'location': BlockLocation;
+    readonly 'location': Vector3;
     static readonly 'typeId' = 'potionContainer';
     /**
      * @remarks
@@ -1899,7 +1821,7 @@ export class BlockRaycastOptions {
  * Represents a block that can play a record.
  */
 export class BlockRecordPlayerComponent extends BlockComponent {
-    readonly 'location': BlockLocation;
+    readonly 'location': Vector3;
     static readonly 'typeId' = 'recordPlayer';
     /**
      * @remarks
@@ -1925,7 +1847,7 @@ export class BlockRecordPlayerComponent extends BlockComponent {
     protected constructor();
 }
 export class BlockSignComponent extends BlockComponent {
-    readonly 'location': BlockLocation;
+    readonly 'location': Vector3;
     readonly 'text': string;
     static readonly 'typeId' = 'sign';
     protected constructor();
@@ -1944,7 +1866,7 @@ export class BlockSnowContainerComponent extends BlockComponent {
     /**
      * Source location of the block.
      */
-    readonly 'location': BlockLocation;
+    readonly 'location': Vector3;
     static readonly 'typeId' = 'snowContainer';
     protected constructor();
 }
@@ -1992,7 +1914,7 @@ export class BlockWaterContainerComponent extends BlockComponent {
     /**
      * Source location of the block.
      */
-    readonly 'location': BlockLocation;
+    readonly 'location': Vector3;
     static readonly 'typeId' = 'waterContainer';
     /**
      * @remarks
@@ -2409,7 +2331,7 @@ export class Dimension {
      * Block at the specified location.
      * @throws This function can throw errors.
      */
-    getBlock(location: BlockLocation): Block;
+    getBlock(location: Vector3): Block;
     /**
      * @remarks
      * Gets the first block that intersects with a vector emanating
@@ -2459,7 +2381,7 @@ export class Dimension {
      * @returns
      * Zero or more entities at the specified location.
      */
-    getEntitiesAtBlockLocation(location: BlockLocation): Entity[];
+    getEntitiesAtBlockLocation(location: Vector3): Entity[];
     /**
      * @remarks
      * Gets entities that intersect with a specified vector
@@ -2518,21 +2440,21 @@ export class Dimension {
      * ```typescript
      *          const fox = overworld.spawnEntity(
      *            "minecraft:fox",
-     *            new mc.BlockLocation(targetLocation.x + 1, targetLocation.y + 2, targetLocation.z + 3)
+     *            {x: targetLocation.x + 1, y: targetLocation.y + 2, z: targetLocation.z}
      *          );
      *          fox.addEffect(mc.MinecraftEffectTypes.speed, 10, 20);
      *          log("Created a fox.");
      *
      *          const wolf = overworld.spawnEntity(
      *            "minecraft:wolf",
-     *            new mc.BlockLocation(targetLocation.x + 4, targetLocation.y + 2, targetLocation.z + 3)
+     *            {x: targetLocation.x + 4, y: targetLocation.y + 2, z: targetLocation.z + 3}
      *          );
      *          wolf.addEffect(mc.MinecraftEffectTypes.slowness, 10, 20);
      *          wolf.isSneaking = true;
      *          log("Created a sneaking wolf.", 1);
      * ```
      */
-    spawnEntity(identifier: string, location: BlockLocation | Location): Entity;
+    spawnEntity(identifier: string, location: Vector3 | Location): Entity;
     /**
      * @remarks
      * Creates a new item stack as an entity at the specified
@@ -2545,9 +2467,9 @@ export class Dimension {
      * @throws This function can throw errors.
      * @example itemStacks.ts
      * ```typescript
-     *          const oneItemLoc = new mc.BlockLocation(3, 2, 1);
-     *          const fiveItemsLoc = new mc.BlockLocation(1, 2, 1);
-     *          const diamondPickaxeLoc = new mc.BlockLocation(2, 2, 4);
+     *          const oneItemLoc = {x: 3, y: 2, z: 1};
+     *          const fiveItemsLoc = {x: 1, y: 2, z: 1};
+     *          const diamondPickaxeLoc = {x: 2, y: 2, z: 4};
      *
      *          const oneEmerald = new mc.ItemStack(mc.MinecraftItemTypes.emerald, 1, 0);
      *          const onePickaxe = new mc.ItemStack(mc.MinecraftItemTypes.diamondPickaxe, 1, 0);
@@ -2565,7 +2487,7 @@ export class Dimension {
      *          log("New feather created!");
      * ```
      */
-    spawnItem(item: ItemStack, location: BlockLocation | Location): Entity;
+    spawnItem(item: ItemStack, location: Vector3 | Location): Entity;
     /**
      * @remarks
      * Creates a new particle emitter at a specified location in
@@ -2886,7 +2808,7 @@ export class Entity {
      * @example addEffect.js
      * ```typescript
      *        const villagerId = "minecraft:villager_v2<minecraft:ageable_grow_up>";
-     *        const villagerLoc = new BlockLocation(1, 2, 1);
+     *        const villagerLoc = {x: 1, y: 2, z: 1};
      *        const villager = test.spawn(villagerId, villagerLoc);
      *        const duration = 20;
      *
@@ -2897,14 +2819,14 @@ export class Entity {
      * ```typescript
      *          const fox = overworld.spawnEntity(
      *            "minecraft:fox",
-     *            new mc.BlockLocation(targetLocation.x + 1, targetLocation.y + 2, targetLocation.z + 3)
+     *            {x: targetLocation.x + 1, y: targetLocation.y + 2, z: targetLocation.z + 3}
      *          );
      *          fox.addEffect(mc.MinecraftEffectTypes.speed, 10, 20);
      *          log("Created a fox.");
      *
      *          const wolf = overworld.spawnEntity(
      *            "minecraft:wolf",
-     *            new mc.BlockLocation(targetLocation.x + 4, targetLocation.y + 2, targetLocation.z + 3)
+     *            {x: targetLocation.x + 4, y: targetLocation.y + 2, z: targetLocation.z + 3}
      *          );
      *          wolf.addEffect(mc.MinecraftEffectTypes.slowness, 10, 20);
      *          wolf.isSneaking = true;
@@ -5392,7 +5314,7 @@ export class Events {
      */
     readonly 'blockBreak': BlockBreakEventSignal;
     /**
-     * This event fires for each BlockLocation destroyed by an
+     * This event fires for each Vector3 destroyed by an
      * explosion. It is fired after the blocks have already been
      * destroyed.
      */
@@ -5535,7 +5457,7 @@ export class ExplosionEvent {
     /**
      * A collection of blocks impacted by this explosion event.
      */
-    readonly 'impactedBlocks': BlockLocation[];
+    readonly 'impactedBlocks': Vector3[];
     /**
      * Optional source of the explosion.
      */
@@ -6217,12 +6139,12 @@ export class ItemStartUseOnEvent {
     /**
      * Location of the block being impacted.
      */
-    readonly 'blockLocation': BlockLocation;
+    readonly 'blockLocation': Vector3;
     /**
      * Location of the resulting build block position. Useful for
      * determining where a block was placed.
      */
-    readonly 'buildBlockLocation': BlockLocation;
+    readonly 'buildBlockLocation': Vector3;
     /**
      * The impacted item stack that is starting to be used.
      */
@@ -6307,7 +6229,7 @@ export class ItemStopUseOnEvent {
     /**
      * Location of the block being impacted.
      */
-    readonly 'blockLocation': BlockLocation;
+    readonly 'blockLocation': Vector3;
     /**
      * The impacted item stack that is being used on a block.
      */
@@ -6396,7 +6318,7 @@ export class ItemUseOnEvent {
     /**
      * Location of the block being impacted.
      */
-    readonly 'blockLocation': BlockLocation;
+    readonly 'blockLocation': Vector3;
     /**
      * X coordinate of the item-use impact location on the face of
      * the target block.
@@ -6490,7 +6412,7 @@ export class LeverActionEventSignal {
  * Contains a location description that is useful for entities
  * and other items. X, Y, and Z can contain decimal fractions.
  * For integer-based locations useful for blocks, see
- * {@link @minecraft/server.BlockLocation}.
+ * {@link @minecraft/server.Vector3}.
  */
 export class Location {
     /**
@@ -13718,7 +13640,7 @@ export class NavigationResult {
     /**
      * A set of block locations that comprise the navigation route.
      */
-    readonly 'path': BlockLocation[];
+    readonly 'path': Vector3[];
     protected constructor();
 }
 /**
@@ -13779,11 +13701,11 @@ export class PistonActivateEventSignal {
      * ```typescript
      *          let canceled = false;
      *
-     *          const pistonLoc = new mc.BlockLocation(
-     *            Math.floor(targetLocation.x) + 1,
-     *            Math.floor(targetLocation.y) + 2,
-     *            Math.floor(targetLocation.z) + 1
-     *          );
+     *          const pistonLoc = {
+     *            x: Math.floor(targetLocation.x) + 1,
+     *            y: Math.floor(targetLocation.y) + 2,
+     *            z: Math.floor(targetLocation.z) + 1
+     *          };
      *
      *          const pistonCallback = mc.world.events.beforePistonActivate.subscribe((pistonEvent: mc.BeforePistonActivateEvent) => {
      *            if (pistonEvent.piston.location.equals(pistonLoc)) {
