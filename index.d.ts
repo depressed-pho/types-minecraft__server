@@ -224,31 +224,18 @@ interface IEventSignal<T> {
 /**
  * An event that fires as players enter chat messages.
  */
-export class BeforeChatEvent {
+export class BeforeChatEvent extends ChatEvent {
     /**
      * If set to true in a beforeChat event handler, this message
      * is not broadcast out.
      */
-    'cancel': boolean;
+    cancel: boolean;
     /**
-     * Message that is being broadcast. In a beforeChat event
-     * handler, _message_ can be updated with edits before the
-     * message is displayed to players.
+     * Sets an updated list of players that will receive this message.
+     * @param players
+     * Updated array of players that should receive this message.
      */
-    'message': string;
-    /**
-     * Player that sent the chat message.
-     */
-    'sender': Player;
-    /**
-     * If true, this message is directly targeted to one or more
-     * players (i.e., is not broadcast.)
-     */
-    'sendToTargets': boolean;
-    /**
-     * List of players that will receive this message.
-     */
-    'targets': Player[];
+    setTargets(players: Player[]): void;
     protected constructor();
 }
 /**
@@ -2011,7 +1998,7 @@ export class ChatEvent {
     /**
      * List of players that will receive this message.
      */
-    'targets': Player[];
+    getTargets(): Player[];
     protected constructor();
 }
 /**
