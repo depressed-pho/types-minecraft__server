@@ -2032,36 +2032,27 @@ export class ChatEventSignal {
 /**
  * Represents a fully customizable color within Minecraft.
  */
-export class Color {
+export interface Color {
     /**
      * Determines a color's alpha (opacity) component. Valid values
      * are between 0 (transparent) and 1.0 (opaque).
      */
-    'alpha': number;
+    alpha: number;
     /**
      * Determines a color's blue component. Valid values are
      * between 0 and 1.0.
      */
-    'blue': number;
+    blue: number;
     /**
      * Determines a color's green component. Valid values are
      * between 0 and 1.0.
      */
-    'green': number;
+    green: number;
     /**
      * Determines a color's red component. Valid values are between
      * 0 and 1.0.
      */
-    'red': number;
-    /**
-     * @remarks
-     * Creates a new color using the specified color values.
-     * @param red
-     * @param green
-     * @param blue
-     * @param alpha
-     */
-    constructor(red: number, green: number, blue: number, alpha: number);
+    red: number;
 }
 /**
  * Contains return data on the result of a command execution.
