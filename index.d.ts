@@ -858,24 +858,23 @@ export class BlockExplodeEventSignal {
 /**
  * Contains more information for events where a block is hit.
  */
-export class BlockHitInformation {
+export interface BlockHitInformation {
     /**
      * Block that was hit.
      */
-    readonly 'block': Block;
+    block: Block;
     /**
      * Face of the block that was hit.
      */
-    readonly 'face': Direction;
+    face: Direction;
     /**
      * X coordinate on the face that was hit.
      */
-    readonly 'faceLocationX': number;
+    faceLocationX: number;
     /**
      * Y coordinate on the face that was hit.
      */
-    readonly 'faceLocationY': number;
-    protected constructor();
+    faceLocationY: number;
 }
 /**
  * Represents the inventory of a block in the world. Used with
@@ -1914,11 +1913,7 @@ export class BoolBlockProperty extends IBlockProperty {
     /**
      * The name of this property.
      */
-    readonly 'name': string;
-    /**
-     * A list of valid values for this property.
-     */
-    readonly 'validValues': boolean[];
+    readonly name: string;
     /**
      * The current value of this property.
      * @throws
@@ -1927,7 +1922,11 @@ export class BoolBlockProperty extends IBlockProperty {
      * {@link @minecraft/server.BoolBlockProperty.validValues} to check
      * allowed values.
      */
-    'value': boolean;
+    value: boolean;
+    /**
+     * Gets all valid boolean values for the BoolBlockProperty.
+     */
+    getValidValues(): boolean[];
     protected constructor();
 }
 /**
