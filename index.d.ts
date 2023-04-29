@@ -12544,6 +12544,26 @@ export class ScreenDisplay {
     protected constructor();
 }
 /**
+ * Manages callbacks that are connected to an event that fires when
+ * `/scriptevent` command is called.
+ */
+export class ScriptEventCommandMessageEventSignal {
+    subscribe(callback: (arg: ScriptEventCommandMessageEvent) => void,
+              options?: ScriptEventMessageFilterOptions
+             ): (arg: ScriptEventCommandMessageEvent) => void;
+    unsubscribe(callback: (arg: ScriptEventCommandMessageEvent) => void): void;
+}
+/**
+ * Contains additional options for registering a script event event
+ * callback.
+ */
+export interface ScriptEventMessageFilterOptions {
+    /**
+     * Optional list of namespaces to filter inbound script event messages.
+     */
+    namespaces: string[];
+}
+/**
  * Describes a particular seating position on this rideable
  * entity.
  */
@@ -12656,7 +12676,12 @@ export class SystemEvents {
      * example, on certain dedicated server environments the
      * ability to override termination events may be disabled.
      */
-    readonly 'beforeWatchdogTerminate': BeforeWatchdogTerminateEventSignal;
+    readonly beforeWatchdogTerminate: BeforeWatchdogTerminateEventSignal;
+    /**
+     * This event fires if a `/scriptevent` command is invoked by a player,
+     * NPC, or block.
+     */
+    readonly scriptEventReceive: ScriptEventCommandMessageEventSignal;
     protected constructor();
 }
 /**
