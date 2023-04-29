@@ -2232,12 +2232,12 @@ export class Entity {
      */
     clearVelocity(): void;
     /**
-     * Gets the first block that intersects with the vector of the
-     * view of this entity.
+     * Returns the first intersecting block from the direction that this
+     * entity is looking at.
      * @param options
      * Additional options for processing this raycast query.
      */
-    getBlockFromViewVector(options?: BlockRaycastOptions): Block;
+    getBlockFromViewDirection(options?: BlockRaycastOptions): Block;
     /**
      * Gets a component (that represents additional capabilities)
      * for an entity.
