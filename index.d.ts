@@ -244,18 +244,13 @@ export class BeforeChatEvent extends ChatEvent {
  */
 export class BeforeChatEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called before new chat messages
      * are sent.
-     * @param callback
      */
     subscribe(callback: (arg: BeforeChatEvent) => void): (arg: BeforeChatEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called before new chat
      * messages are sent.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: BeforeChatEvent) => void): void;
     protected constructor();
@@ -286,22 +281,16 @@ export class BeforeDataDrivenEntityTriggerEvent extends DataDrivenEntityTriggerE
  */
 export class BeforeDataDrivenEntityTriggerEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called before a data driven
      * entity event is triggered.
-     * @param callback
-     * @param options
      */
     subscribe(
         callback: (arg: BeforeDataDrivenEntityTriggerEvent) => void,
         options?: EntityDataDrivenTriggerEventOptions,
     ): (arg: BeforeDataDrivenEntityTriggerEvent) => void;
     /**
-     * @remarks
      * Removes a callback that will be called before a data driven
      * entity event is triggered.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: BeforeDataDrivenEntityTriggerEvent) => void): void;
     protected constructor();
@@ -337,19 +326,14 @@ export class BeforeExplosionEvent {
  */
 export class BeforeExplosionEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when before an explosion
      * occurs. The callback can optionally change or cancel
      * explosion behavior.
-     * @param callback
      */
     subscribe(callback: (arg: BeforeExplosionEvent) => void): (arg: BeforeExplosionEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called from before when an
      * explosion would occur.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: BeforeExplosionEvent) => void): void;
     protected constructor();
@@ -360,20 +344,15 @@ export class BeforeExplosionEventSignal {
  */
 export class BeforeItemDefinitionEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when an item's
      * definition and components change.
-     * @param callback
      */
     subscribe(
         callback: (arg: BeforeItemDefinitionTriggeredEvent) => void,
     ): (arg: BeforeItemDefinitionTriggeredEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an item's
      * definition and components change.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: BeforeItemDefinitionTriggeredEvent) => void): void;
     protected constructor();
@@ -426,16 +405,11 @@ export class BeforeItemUseEvent {
  */
 export class BeforeItemUseEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called before an item is used.
-     * @param callback
      */
     subscribe(callback: (arg: BeforeItemUseEvent) => void): (arg: BeforeItemUseEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called before an item is used.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: BeforeItemUseEvent) => void): void;
     protected constructor();
@@ -483,18 +457,13 @@ export class BeforeItemUseOnEvent {
  */
 export class BeforeItemUseOnEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called before an item is used
      * on a block.
-     * @param callback
      */
     subscribe(callback: (arg: BeforeItemUseOnEvent) => void): (arg: BeforeItemUseOnEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called before an item is used
      * on a block.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: BeforeItemUseOnEvent) => void): void;
     protected constructor();
@@ -534,18 +503,13 @@ export class BeforePistonActivateEvent extends BlockEvent {
  */
 export class BeforePistonActivateEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called before a piston expands
      * or retracts.
-     * @param callback
      */
     subscribe(callback: (arg: BeforePistonActivateEvent) => void): (arg: BeforePistonActivateEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called before a piston expands
      * or retracts.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: BeforePistonActivateEvent) => void): void;
     protected constructor();
@@ -576,20 +540,15 @@ export class BeforeWatchdogTerminateEvent {
  */
 export class BeforeWatchdogTerminateEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a script runtime is
      * being terminated due to a violation of the performance
      * watchdog system.
-     * @param callback
      */
     subscribe(callback: (arg: BeforeWatchdogTerminateEvent) => void): (arg: BeforeWatchdogTerminateEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when a script runtime
      * is being terminated due to a violation of the performance
      * watchdog system.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: BeforeWatchdogTerminateEvent) => void): void;
     protected constructor();
@@ -607,7 +566,6 @@ export class Block {
     readonly 'dimension': Dimension;
     /**
      * Identifier of the type of block for this block.
-     * @throws This property can throw when used.
      */
     readonly 'typeId': string;
     /**
@@ -621,12 +579,10 @@ export class Block {
     /**
      * Additional block configuration data that describes the
      * block.
-     * @throws This property can throw when used.
      */
     readonly 'permutation': BlockPermutation;
     /**
      * Gets the type of block.
-     * @throws This property can throw when used.
      */
     readonly 'type': BlockType;
     /**
@@ -642,7 +598,6 @@ export class Block {
      */
     readonly 'z': number;
     /**
-     * @remarks
      * Gets additional configuration properties (a component) for
      * specific capabilities of particular blocks - for example, an
      * inventory component of a chest block.
@@ -652,17 +607,14 @@ export class Block {
      * @returns
      * Returns the component object if it is present on the
      * particular block.
-     * @throws This function can throw errors.
      */
     getComponent(componentName: string): any;
     /**
      * @returns
      * The list of tags that the block has.
-     * @throws This function can throw errors.
      */
     getTags(): string[];
     /**
-     * @remarks
      * Checks to see if the permutation of this block has a
      * specific tag.
      * @param tag
@@ -670,7 +622,6 @@ export class Block {
      * @returns
      * Returns `true` if the permutation of this block has the tag,
      * else `false`.
-     * @throws This function can throw errors.
      * @example check_block_tags.js
      * ```typescript
      *        import { world } from "minecraft/server";
@@ -686,22 +637,18 @@ export class Block {
      */
     hasTag(tag: string): boolean;
     /**
-     * @remarks
      * Sets the block in the dimension to the state of the
      * permutation.
      * @param permutation
      * Permutation that contains a set of property states for the
      * Block.
-     * @throws This function can throw errors.
      */
     setPermutation(permutation: BlockPermutation): void;
     /**
-     * @remarks
      * Sets the type of block.
      * @param blockType
      * Identifier of the type of block to apply - for example,
      * minecraft:powered_repeater.
-     * @throws This function can throw errors.
      */
     setType(blockType: BlockType): void;
     protected constructor();
@@ -724,18 +671,12 @@ export class BlockAreaSize {
      */
     'z': number;
     /**
-     * @remarks
      * Creates a new BlockAreaSize object.
-     * @param x
-     * @param y
-     * @param z
      */
     constructor(x: number, y: number, z: number);
     /**
-     * @remarks
      * Tests whether this block area size is equal to another
      * BlockAreaSize object.
-     * @param other
      */
     equals(other: BlockAreaSize): boolean;
 }
@@ -774,18 +715,13 @@ export class BlockBreakEvent extends BlockEvent {
  */
 export class BlockBreakEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a block is broken
      * by a player.
-     * @param callback
      */
     subscribe(callback: (arg: BlockBreakEvent) => void): (arg: BlockBreakEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an block is
      * broken.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: BlockBreakEvent) => void): void;
     protected constructor();
@@ -839,18 +775,13 @@ export class BlockExplodeEvent extends BlockEvent {
  */
 export class BlockExplodeEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when an explosion
      * occurs, as it impacts individual blocks.
-     * @param callback
      */
     subscribe(callback: (arg: BlockExplodeEvent) => void): (arg: BlockExplodeEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an explosion
      * occurs, as it impacts individual blocks.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: BlockExplodeEvent) => void): void;
     protected constructor();
@@ -883,7 +814,6 @@ export interface BlockHitInformation {
 export class BlockInventoryComponent extends BlockComponent {
     /**
      * The container which holds an {@link @minecraft/server.ItemStack}.
-     * @throws This property can throw when used.
      */
     readonly 'container': BlockInventoryComponentContainer;
     /**
@@ -901,33 +831,27 @@ export class BlockInventoryComponentContainer extends Container {
     /**
      * Contains a count of the slots in the container that are
      * empty.
-     * @throws This property can throw when used.
      */
     readonly 'emptySlotsCount': number;
     /**
      * Returns the size capacity of the inventory container on this
      * block.
-     * @throws This property can throw when used.
      */
     readonly 'size': number;
     /**
-     * @remarks
      * Adds an item to the specified container. Item will be placed
      * in the first available empty slot. (use .setItem if you wish
      * to set items in a particular slot.)
      * @param itemStack
      * The stack of items to add.
-     * @throws This function can throw errors.
      */
     addItem(itemStack: ItemStack): void;
     /**
-     * @remarks
      * Gets the item stack for the set of items at the specified
      * slot. If the slot is empty, returns undefined. This method
      * does not change or clear the contents of the specified slot.
      * @param slot
      * Zero-based index of the slot to retrieve items from.
-     * @throws This function can throw errors.
      * @example getItem.js
      * ```typescript
      *        const itemStack = rightChestContainer.getItem(0);
@@ -937,17 +861,14 @@ export class BlockInventoryComponentContainer extends Container {
      */
     getItem(slot: number): ItemStack;
     /**
-     * @remarks
      * Sets an item stack within a particular slot.
      * @param slot
      * Zero-based index of the slot to set an item at.
      * @param itemStack
      * Stack of items to place within the specified slot.
-     * @throws This function can throw errors.
      */
     setItem(slot: number, itemStack: ItemStack): void;
     /**
-     * @remarks
      * Swaps items between two different slots within containers.
      * @param slot
      * Zero-based index of the slot to swap from this container.
@@ -956,7 +877,6 @@ export class BlockInventoryComponentContainer extends Container {
      * @param otherContainer
      * Target container to swap with. Note this can be the same
      * container as this source.
-     * @throws This function can throw errors.
      * @example swapItems.js
      * ```typescript
      *        rightChestContainer.swapItems(1, 0, leftChestContainer); // swap item in slot 1 of rightChestContainer with item in slot 0 of leftChestContainer
@@ -965,7 +885,6 @@ export class BlockInventoryComponentContainer extends Container {
      */
     swapItems(slot: number, otherSlot: number, otherContainer: Container): boolean;
     /**
-     * @remarks
      * Moves an item from one slot to another, potentially across
      * containers.
      * @param fromSlot
@@ -974,7 +893,6 @@ export class BlockInventoryComponentContainer extends Container {
      * @param toContainer
      * Target container to transfer to. Note this can be the same
      * container as the source.
-     * @throws This function can throw errors.
      * @example transferItem.js
      * ```typescript
      *        rightChestContainer.transferItem(0, 4, chestCartContainer); // transfer the apple from the right chest to a chest cart
@@ -1015,7 +933,6 @@ export class BlockPermutation {
      */
     readonly 'type': BlockType;
     /**
-     * @remarks
      * Creates a copy of this permutation.
      * @returns
      * A copy of the permutation.
@@ -1028,23 +945,17 @@ export class BlockPermutation {
      */
     getAllProperties(): IBlockProperty[];
     /**
-     * @remarks
      * Gets a property for the permutation.
-     * @param propertyName
      * @returns
      * Returns the property if the permutation has it, else `null`.
-     * @throws This function can throw errors.
      */
     getProperty(propertyName: string): IBlockProperty;
     /**
-     * @remarks
      * Creates a copy of the permutation.
      */
     getTags(): string[];
     /**
-     * @remarks
      * Checks to see if the permutation has a specific tag.
-     * @param tag
      * @returns
      * Returns `true` if the permutation has the tag, else `false`.
      * @example check_block_tags.js
@@ -1072,33 +983,27 @@ export class BlockPistonComponent extends BlockComponent {
     /**
      * A set of locations for blocks that are impacted by the
      * activation of this piston.
-     * @throws This property can throw when used.
      */
     readonly 'attachedBlocks': Vector3[];
     /**
      * Whether the piston is fully expanded.
-     * @throws This property can throw when used.
      */
     readonly 'isExpanded': boolean;
     /**
      * Whether the piston is in the process of expanding.
-     * @throws This property can throw when used.
      */
     readonly 'isExpanding': boolean;
     /**
      * Whether the piston is in the process of expanding or
      * retracting.
-     * @throws This property can throw when used.
      */
     readonly 'isMoving': boolean;
     /**
      * Whether the piston is fully retracted.
-     * @throws This property can throw when used.
      */
     readonly 'isRetracted': boolean;
     /**
      * Whether the piston is in the process of retracting.
-     * @throws This property can throw when used.
      */
     readonly 'isRetracting': boolean;
     /**
@@ -1134,18 +1039,13 @@ export class BlockPlaceEvent extends BlockEvent {
  */
 export class BlockPlaceEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a block is placed
      * by a player.
-     * @param callback
      */
     subscribe(callback: (arg: BlockPlaceEvent) => void): (arg: BlockPlaceEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an block is
      * placed.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: BlockPlaceEvent) => void): void;
     protected constructor();
@@ -1167,12 +1067,10 @@ export class BlockPotionContainerComponent extends BlockComponent {
     readonly 'location': Vector3;
     static readonly 'typeId' = 'potionContainer';
     /**
-     * @remarks
      * Sets the potion type based on an item stack.
      * @param item
      * Potion to use as the type of potion for this potion
      * container.
-     * @throws This function can throw errors.
      */
     setPotionType(item: ItemStack): void;
     protected constructor();
@@ -1804,24 +1702,17 @@ export class BlockRecordPlayerComponent extends BlockComponent {
     readonly 'location': Vector3;
     static readonly 'typeId' = 'recordPlayer';
     /**
-     * @remarks
      * Clears the currently playing record of this record-playing
      * block.
-     * @throws This function can throw errors.
      */
     clearRecord(): void;
     /**
-     * @remarks
      * Returns true if the record-playing block is currently
      * playing a record.
-     * @throws This function can throw errors.
      */
     isPlaying(): boolean;
     /**
-     * @remarks
      * Sets and plays a record based on an item type.
-     * @param recordItemType
-     * @throws This function can throw errors.
      */
     setRecord(recordItemType: ItemType): void;
     protected constructor();
@@ -1866,12 +1757,10 @@ export class BlockType {
      */
     readonly 'id': string;
     /**
-     * @remarks
      * Creates the default {@link @minecraft/server.BlockPermutation} for
      * this type which uses the default values for all properties.
      * @returns
      * Returns created permutation.
-     * @throws This function can throw errors.
      */
     createDefaultBlockPermutation(): BlockPermutation;
     protected constructor();
@@ -1897,10 +1786,7 @@ export class BlockWaterContainerComponent extends BlockComponent {
     readonly 'location': Vector3;
     static readonly 'typeId' = 'waterContainer';
     /**
-     * @remarks
      * Adds an item and colors the water based on a dye item type.
-     * @param itemType
-     * @throws This function can throw errors.
      */
     addDye(itemType: ItemType): void;
     protected constructor();
@@ -1954,17 +1840,12 @@ export class ButtonPushEvent extends BlockEvent {
  */
 export class ButtonPushEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a button is pushed.
-     * @param callback
      */
     subscribe(callback: (arg: ButtonPushEvent) => void): (arg: ButtonPushEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when a button is
      * pushed.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ButtonPushEvent) => void): void;
     protected constructor();
@@ -2000,10 +1881,8 @@ export class ChatEvent {
  */
 export class ChatEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when new chat messages
      * are sent.
-     * @param callback
      * @example custom_command.js
      * ```typescript
      *        const chatCallback = World.events.beforeChat.subscribe((eventData) => {
@@ -2020,11 +1899,8 @@ export class ChatEventSignal {
      */
     subscribe(callback: (arg: ChatEvent) => void): (arg: ChatEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when new chat messages
      * are sent.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ChatEvent) => void): void;
     protected constructor();
@@ -2075,34 +1951,28 @@ export class Container {
     /**
      * Contains a count of the slots in the container that are
      * empty.
-     * @throws This property can throw when used.
      */
     readonly 'emptySlotsCount': number;
     /**
      * Represents the size of the container. For example, a
      * standard single-block chest has a size of 27, for the 27
      * slots in their inventory.
-     * @throws This property can throw when used.
      */
     readonly 'size': number;
     /**
-     * @remarks
      * Adds an item to the specified container. Item will be placed
      * in the first available empty slot. (use .setItem if you wish
      * to set items in a particular slot.)
      * @param itemStack
      * The stack of items to add.
-     * @throws This function can throw errors.
      */
     addItem(itemStack: ItemStack): void;
     /**
-     * @remarks
      * Gets the item stack for the set of items at the specified
      * slot. If the slot is empty, returns undefined. This method
      * does not change or clear the contents of the specified slot.
      * @param slot
      * Zero-based index of the slot to retrieve items from.
-     * @throws This function can throw errors.
      * @example getItem.js
      * ```typescript
      *        const rightInventoryComp = rightChestCart.getComponent("inventory");
@@ -2116,17 +1986,14 @@ export class Container {
      */
     getItem(slot: number): ItemStack;
     /**
-     * @remarks
      * Sets an item stack within a particular slot.
      * @param slot
      * Zero-based index of the slot to set an item at.
      * @param itemStack
      * Stack of items to place within the specified slot.
-     * @throws This function can throw errors.
      */
     setItem(slot: number, itemStack: ItemStack): void;
     /**
-     * @remarks
      * Swaps items between two different slots within containers.
      * @param slot
      * Zero-based index of the slot to swap from this container.
@@ -2135,7 +2002,6 @@ export class Container {
      * @param otherContainer
      * Target container to swap with. Note this can be the same
      * container as this source.
-     * @throws This function can throw errors.
      * @example swapItems.js
      * ```typescript
      *        rightChestContainer.swapItems(1, 0, leftChestContainer); // swap the cake and emerald
@@ -2144,7 +2010,6 @@ export class Container {
      */
     swapItems(slot: number, otherSlot: number, otherContainer: Container): boolean;
     /**
-     * @remarks
      * Moves an item from one slot to another, potentially across
      * containers.
      * @param fromSlot
@@ -2153,7 +2018,6 @@ export class Container {
      * @param toContainer
      * Target container to transfer to. Note this can be the same
      * container as the source.
-     * @throws This function can throw errors.
      * @example transferItem.js
      * ```typescript
      *        rightChestContainer.transferItem(0, 4, chestCartContainer); // transfer the apple from the right chest to a chest cart
@@ -2191,22 +2055,16 @@ export class DataDrivenEntityTriggerEvent {
  */
 export class DataDrivenEntityTriggerEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called after a data driven
      * entity event is triggered.
-     * @param callback
-     * @param options
      */
     subscribe(
         callback: (arg: DataDrivenEntityTriggerEvent) => void,
         options?: EntityDataDrivenTriggerEventOptions,
     ): (arg: DataDrivenEntityTriggerEvent) => void;
     /**
-     * @remarks
      * Removes a callback that will be called after a data driven
      * entity event is triggered.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: DataDrivenEntityTriggerEvent) => void): void;
     protected constructor();
@@ -2258,11 +2116,9 @@ export class DefinitionModifier {
 export class Dimension {
     /**
      * Identifier of the dimension.
-     * @throws This property can throw when used.
      */
     readonly 'id': string;
     /**
-     * @remarks
      * Creates an explosion at the specified location.
      * @param location
      * The location of the explosion.
@@ -2270,7 +2126,6 @@ export class Dimension {
      * Radius, in blocks, of the explosion to create.
      * @param explosionOptions
      * Additional configurable options for the explosion.
-     * @throws This function can throw errors.
      * @example createExplosion.ts
      * ```typescript
      *          overworld.createExplosion(targetLocation, 10, new mc.ExplosionOptions());
@@ -2312,36 +2167,30 @@ export class Dimension {
      */
     createExplosion(location: Location, radius: number, explosionOptions: ExplosionOptions): void;
     /**
-     * @remarks
      * Returns a block instance at the given location. This method
      * was introduced as of version 1.17.10.21.
      * @param location
      * The location at which to return a block.
      * @returns
      * Block at the specified location.
-     * @throws This function can throw errors.
      */
     getBlock(location: Vector3): Block;
     /**
-     * @remarks
      * Gets the first block that intersects with a vector emanating
      * from a location.
      * @param location
      * @param direction
      * @param options
      * Additional options for processing this raycast query.
-     * @throws This function can throw errors.
      */
     getBlockFromRay(location: Location, direction: Vector, options?: BlockRaycastOptions): Block;
     /**
-     * @remarks
      * Returns a set of entities based on a set of conditions
      * defined via the EntityQueryOptions set of filter criteria.
      * @param getEntities
      * @returns
      * An entity iterator that can be used to loop over the
      * returned entities.
-     * @throws This function can throw errors.
      * @example testThatEntityIsFeatherItem.ts
      * ```typescript
      *        const query = {
@@ -2364,7 +2213,6 @@ export class Dimension {
      */
     getEntities(getEntities?: EntityQueryOptions): EntityIterator;
     /**
-     * @remarks
      * Returns a set of entities at a particular location.
      * @param location
      * The location at which to return entities.
@@ -2373,29 +2221,23 @@ export class Dimension {
      */
     getEntitiesAtBlockLocation(location: Vector3): Entity[];
     /**
-     * @remarks
      * Gets entities that intersect with a specified vector
      * emanating from a location.
      * @param location
      * @param direction
      * @param options
      * Additional options for processing this raycast query.
-     * @throws This function can throw errors.
      */
     getEntitiesFromRay(location: Location, direction: Vector, options?: EntityRaycastOptions): Entity[];
     /**
-     * @remarks
      * Returns a set of players based on a set of conditions
      * defined via the EntityQueryOptions set of filter criteria.
-     * @param getPlayers
      * @returns
      * An entity iterator that can be used to loop over the
      * returned players.
-     * @throws This function can throw errors.
      */
     getPlayers(getPlayers?: EntityQueryOptions): PlayerIterator;
     /**
-     * @remarks
      * Runs a particular command asynchronously from the context of
      * the broader dimension. Where possible - and especially for
      * long-running operations - you should use runCommandAsync
@@ -2406,11 +2248,9 @@ export class Dimension {
      * @returns
      * For commands that return data, returns a CommandResult with
      * an indicator of command results.
-     * @throws This function can throw errors.
      */
     runCommandAsync(commandString: string): Promise<CommandResult>;
     /**
-     * @remarks
      * Creates a new entity (e.g., a mob) at the specified
      * location.
      * @param identifier
@@ -2420,7 +2260,6 @@ export class Dimension {
      * The location at which to create the entity.
      * @returns
      * Newly created entity at the specified location.
-     * @throws This function can throw errors.
      * @example createOldHorse.ts
      * ```typescript
      *          // create a horse and trigger the 'ageable_grow_up' event, ensuring the horse is created as an adult
@@ -2446,7 +2285,6 @@ export class Dimension {
      */
     spawnEntity(identifier: string, location: Vector3 | Location): Entity;
     /**
-     * @remarks
      * Creates a new item stack as an entity at the specified
      * location.
      * @param item
@@ -2454,7 +2292,6 @@ export class Dimension {
      * The location at which to create the item stack.
      * @returns
      * Newly created item stack entity at the specified location.
-     * @throws This function can throw errors.
      * @example itemStacks.ts
      * ```typescript
      *          const oneItemLoc = {x: 3, y: 2, z: 1};
@@ -2479,7 +2316,6 @@ export class Dimension {
      */
     spawnItem(item: ItemStack, location: Vector3 | Location): Entity;
     /**
-     * @remarks
      * Creates a new particle emitter at a specified location in
      * the world.
      * @param effectName
@@ -2512,25 +2348,15 @@ export class DirectionBlockProperty extends IBlockProperty {
  */
 export class DynamicPropertiesDefinition {
     /**
-     * @remarks
      * Defines a new boolean dynamic property.
-     * @param identifier
-     * @throws This function can throw errors.
      */
     defineBoolean(identifier: string): void;
     /**
-     * @remarks
      * Defines a new number dynamic property.
-     * @param identifier
-     * @throws This function can throw errors.
      */
     defineNumber(identifier: string): void;
     /**
-     * @remarks
      * Defines a new string dynamic property.
-     * @param identifier
-     * @param maxLength
-     * @throws This function can throw errors.
      */
     defineString(identifier: string, maxLength: number): void;
 }
@@ -2581,19 +2407,13 @@ export class EffectAddEvent {
  */
 export class EffectAddEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when an effect is added
      * to an entity.
-     * @param callback
-     * @param options
      */
     subscribe(callback: (arg: EffectAddEvent) => void, options?: EntityEventOptions): (arg: EffectAddEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an effect is added
      * to an entity.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: EffectAddEvent) => void): void;
     protected constructor();
@@ -2604,7 +2424,6 @@ export class EffectAddEventSignal {
  */
 export class EffectType {
     /**
-     * @remarks
      * Identifier name of this effect type.
      * @returns
      * Identifier of the effect type.
@@ -2638,40 +2457,30 @@ export class EnchantmentList implements Iterable<Enchantment> {
     readonly 'slot': number;
     [Symbol.iterator](): Iterator<Enchantment>;
     /**
-     * @remarks
      * Attempts to add the enchantment to this collection. Returns
      * true if successful.
-     * @param enchantment
      */
     addEnchantment(enchantment: Enchantment): boolean;
     /**
-     * @remarks
      * Returns whether or not the provided EnchantmentInstance can
      * be added to this collection.
-     * @param enchantment
      */
     canAddEnchantment(enchantment: Enchantment): boolean;
     constructor(enchantmentSlot: number);
     /**
-     * @remarks
      * Returns an enchantment associated with a type.
-     * @param enchantmentType
      */
     getEnchantment(enchantmentType: EnchantmentType): Enchantment;
     /**
-     * @remarks
      * If this collection has an EnchantmentInstance with type,
      * returns the level of the enchantment. Returns 0 if not
      * present.
-     * @param enchantmentType
      */
     hasEnchantment(enchantmentType: EnchantmentType): number;
     next(): IteratorResult<Enchantment>;
     /**
-     * @remarks
      * Removes an EnchantmentInstance with type from this
      * collection if present.
-     * @param enchantmentType
      */
     removeEnchantment(enchantmentType: EnchantmentType): void;
 }
@@ -2728,67 +2537,47 @@ export class EnchantmentType {
 export class Entity {
     /**
      * Dimension that the entity is currently within.
-     * @throws This property can throw when used.
      */
-    readonly 'dimension': Dimension;
+    readonly dimension: Dimension;
     /**
      * Location of the center of the head component of the entity.
-     * @throws This property can throw when used.
      */
-    readonly 'headLocation': Location;
+    readonly headLocation: Location;
     /**
      * Unique identifier of the entity. This identifier is intended to be
      * consistent across loads of a world instance. No meaning should be
      * inferred from the value and structure of this unique identifier - do
      * not parse or interpret it.
      */
-    readonly 'id': string;
+    readonly id: string;
     /**
      * Whether the entity is sneaking - that is, moving more slowly
      * and more quietly.
      */
-    'isSneaking': boolean;
+    isSneaking: boolean;
     /**
      * Current location of the entity.
-     * @throws This property can throw when used.
      */
-    readonly 'location': Location;
+    readonly location: Location;
     /**
      * Given name of the entity.
      */
-    'nameTag': string;
-    /**
-     * Main rotation of the entity.
-     * @throws This property can throw when used.
-     */
-    readonly 'rotation': XYRotation;
+    nameTag: string;
     /**
      * Returns a scoreboard identity that represents this entity.
-     * @throws This property can throw when used.
      */
-    readonly 'scoreboard': ScoreboardIdentity;
+    readonly scoreboard: ScoreboardIdentity;
     /**
      * Retrieves or sets an entity that is used as the target of
      * AI-related behaviors, like attacking.
      */
-    'target': Entity;
+    target: Entity;
     /**
      * Unique identifier of the type of the entity - for example,
      * 'minecraft:skeleton'.
      */
-    readonly 'typeId': string;
+    readonly typeId: string;
     /**
-     * Velocity of the entity.
-     * @throws This property can throw when used.
-     */
-    readonly 'velocity': Vector;
-    /**
-     * Vector of the current view of the entity.
-     * @throws This property can throw when used.
-     */
-    readonly 'viewVector': Vector;
-    /**
-     * @remarks
      * Adds an effect, like poison, to the entity.
      * @param effectType
      * Type of effect to add to the entity.
@@ -2797,7 +2586,6 @@ export class Entity {
      * @param amplifier
      * Optional amplification of the effect to apply.
      * @param showParticles
-     * @throws This function can throw errors.
      * @example addEffect.js
      * ```typescript
      *        const villagerId = "minecraft:villager_v2<minecraft:ageable_grow_up>";
@@ -2828,24 +2616,40 @@ export class Entity {
      */
     addEffect(effectType: EffectType, duration: number, amplifier?: number, showParticles?: boolean): void;
     /**
-     * @remarks
      * Adds a specified tag to an entity.
      * @param tag
      * Content of the tag to add.
-     * @throws This function can throw errors.
      */
     addTag(tag: string): boolean;
     /**
-     * @remarks
+     * Applies impulse vector to the current velocity of the entity.
+     */
+    applyImpulse(vector: Vector3): void;
+    /**
+     * Applies impulse vector to the current velocity of the entity.
+     * @param directionX
+     * X direction in horizontal plane.
+     * @param directionZ
+     * Z direction in horizontal plane.
+     * @param horizontalStrength
+     * Knockback strength for the horizontal vector.
+     * @param verticalStrength
+     * Knockback strength for the vertical vector.
+     */
+    applyKnockback(directionX: number, directionZ: number, horizontalStrength: number, verticalStrength: number): void;
+    /**
+     * Sets the current velocity of the Entity to zero. Note that this
+     * method may not have an impact on Players.
+     */
+    clearVelocity(): void;
+    /**
      * Gets the first block that intersects with the vector of the
      * view of this entity.
      * @param options
      * Additional options for processing this raycast query.
-     * @throws This function can throw errors.
      */
     getBlockFromViewVector(options?: BlockRaycastOptions): Block;
     /**
-     * @remarks
      * Gets a component (that represents additional capabilities)
      * for an entity.
      * @param componentId
@@ -2856,49 +2660,49 @@ export class Entity {
      */
     getComponent(componentId: string): IEntityComponent;
     /**
-     * @remarks
      * Returns all components that are both present on this entity
      * and supported by the API.
      */
     getComponents(): IEntityComponent[];
     /**
-     * @remarks
      * Returns a property value.
-     * @param identifier
      * @returns
      * Returns the value for the property, or undefined if the
      * property has not been set.
-     * @throws This function can throw errors.
      */
     getDynamicProperty(identifier: string): boolean | number | string | undefined;
     /**
-     * @remarks
      * Returns the effect for the specified EffectType on the
      * entity, or undefined if the effect is not present.
-     * @param effectType
      * @returns
      * Effect object for the specified effect, or undefined if the
      * effect is not present.
-     * @throws This function can throw errors.
      */
     getEffect(effectType: EffectType): Effect;
     /**
-     * @remarks
      * Gets the first entity that intersects with the vector of the
      * view of this entity.
      * @param options
      * Additional options for processing this raycast query.
-     * @throws This function can throw errors.
      */
     getEntitiesFromViewVector(options?: EntityRaycastOptions): Entity[];
     /**
-     * @remarks
+     * Returns the current rotation component of this entity.
+     */
+    getRotation(): XYRotation;
+    /**
      * Returns all tags associated with an entity.
-     * @throws This function can throw errors.
      */
     getTags(): string[];
     /**
-     * @remarks
+     * Returns the current velocity vector of the entity.
+     */
+    getVelocity(): Vector3;
+    /**
+     * Returns the current view direction of the entity.
+     */
+    getViewDirection(): Vector3;
+    /**
      * Returns true if the specified component is present on this
      * entity.
      * @param componentId
@@ -2908,36 +2712,30 @@ export class Entity {
      */
     hasComponent(componentId: string): boolean;
     /**
-     * @remarks
      * Tests whether an entity has a particular tag.
      * @param tag
      * Identifier of the tag to test for.
-     * @throws This function can throw errors.
      */
     hasTag(tag: string): boolean;
     /**
-     * @remarks
      * Kills this entity. The entity will drop loot as normal.
-     * @throws This function can throw errors.
      */
     kill(): void;
     /**
-     * @remarks
+     * Plays the specified animation for an entity.
+     */
+    playAnimation(animationName: string, options?: PlayAnimationOptions): void;
+    /**
      * Removes a specified property.
-     * @param identifier
-     * @throws This function can throw errors.
      */
     removeDynamicProperty(identifier: string): boolean;
     /**
-     * @remarks
      * Removes a specified tag from an entity.
      * @param tag
      * Content of the tag to remove.
-     * @throws This function can throw errors.
      */
     removeTag(tag: string): boolean;
     /**
-     * @remarks
      * Runs a particular command asynchronously from the context of
      * this entity. Where possible, running a command
      * asynchronously is recommended, especially for long running
@@ -2948,36 +2746,19 @@ export class Entity {
      * @returns
      * For commands that return data, returns a JSON structure with
      * command response values.
-     * @throws This function can throw errors.
      */
     runCommandAsync(commandString: string): Promise<CommandResult>;
     /**
-     * @remarks
      * Sets a specified property to a value.
-     * @param identifier
      * @param value
      * Data value of the property to set.
-     * @throws This function can throw errors.
      */
     setDynamicProperty(identifier: string, value: boolean | number | string): void;
     /**
-     * @remarks
      * Sets the main rotation of the entity.
-     * @param degreesX
-     * @param degreesY
-     * @throws This function can throw errors.
      */
     setRotation(degreesX: number, degreesY: number): void;
     /**
-     * @remarks
-     * Sets a velocity for the entity to move with.
-     * @param velocity
-     * X/Y/Z components of the velocity.
-     * @throws This function can throw errors.
-     */
-    setVelocity(velocity: Vector3): void;
-    /**
-     * @remarks
      * Teleports the selected entity to a new location
      * @param location
      * New location for the entity.
@@ -2988,7 +2769,6 @@ export class Entity {
      * @param yRotation
      * Y rotation of the entity after teleportation.
      * @param keepVelocity
-     * @throws This function can throw errors.
      */
     teleport(
         location: Vector3,
@@ -2998,7 +2778,6 @@ export class Entity {
         keepVelocity?: boolean,
     ): void;
     /**
-     * @remarks
      * Teleports the selected entity to a new location, and will
      * have the entity facing a specified location.
      * @param location
@@ -3008,11 +2787,9 @@ export class Entity {
      * @param facingLocation
      * Location that this entity will be facing.
      * @param keepVelocity
-     * @throws This function can throw errors.
      */
     teleportFacing(location: Vector3, dimension: Dimension, facingLocation: Vector3, keepVelocity?: boolean): void;
     /**
-     * @remarks
      * Triggers an entity type event. For every entity, a number of
      * events are defined in an entities' definition for key entity
      * behaviors; for example, creepers have a
@@ -3020,7 +2797,6 @@ export class Entity {
      * @param eventName
      * Name of the entity type event to trigger. If a namespace is
      * not specified, minecraft: is assumed.
-     * @throws This function can throw errors.
      */
     triggerEvent(eventName: string): void;
     protected constructor();
@@ -3033,13 +2809,11 @@ export class EntityAddRiderComponent extends IEntityComponent {
     /**
      * The type of entity that is added as a rider for this entity
      * when spawned under certain conditions.
-     * @throws This property can throw when used.
      */
     readonly 'entityType': string;
     /**
      * Optional spawn event to trigger on the rider when that rider
      * is spawned for this entity.
-     * @throws This property can throw when used.
      */
     readonly 'spawnEvent': string;
     /**
@@ -3057,25 +2831,21 @@ export class EntityAddRiderComponent extends IEntityComponent {
 export class EntityAgeableComponent extends IEntityComponent {
     /**
      * List of items that the entity drops when it grows up.
-     * @throws This property can throw when used.
      */
     readonly 'dropItems': string[];
     /**
      * Amount of time before the entity grows up, -1 for always a
      * baby.
-     * @throws This property can throw when used.
      */
     readonly 'duration': number;
     /**
      * List of items that can be fed to the entity. Includes 'item'
      * for the item name and 'growth' to define how much time it
      * grows up by.
-     * @throws This property can throw when used.
      */
     readonly 'feedItems': EntityDefinitionFeedItem[];
     /**
      * Event to run when this entity grows up.
-     * @throws This property can throw when used.
      */
     readonly 'growUp': Trigger;
     /**
@@ -3093,53 +2863,43 @@ export class EntityBreathableComponent extends IEntityComponent {
     /**
      * List of blocks this entity can breathe in, in addition to
      * the separate properties for classes of blocks.
-     * @throws This property can throw when used.
      */
     readonly 'breatheBlocks': BlockPermutation[];
     /**
      * If true, this entity can breathe in air.
-     * @throws This property can throw when used.
      */
     readonly 'breathesAir': boolean;
     /**
      * If true, this entity can breathe in lava.
-     * @throws This property can throw when used.
      */
     readonly 'breathesLava': boolean;
     /**
      * If true, this entity can breathe in solid blocks.
-     * @throws This property can throw when used.
      */
     readonly 'breathesSolids': boolean;
     /**
      * If true, this entity can breathe in water.
-     * @throws This property can throw when used.
      */
     readonly 'breathesWater': boolean;
     /**
      * If true, this entity will have visible bubbles while in
      * water.
-     * @throws This property can throw when used.
      */
     readonly 'generatesBubbles': boolean;
     /**
      * Time in seconds to recover breath to maximum.
-     * @throws This property can throw when used.
      */
     readonly 'inhaleTime': number;
     /**
      * List of blocks this entity can't breathe in.
-     * @throws This property can throw when used.
      */
     readonly 'nonBreatheBlocks': BlockPermutation[];
     /**
      * Time in seconds between suffocation damage.
-     * @throws This property can throw when used.
      */
     readonly 'suffocateTime': number;
     /**
      * Time in seconds the entity can hold its breath.
-     * @throws This property can throw when used.
      */
     readonly 'totalSupply': number;
     /**
@@ -3148,11 +2908,9 @@ export class EntityBreathableComponent extends IEntityComponent {
      */
     static readonly 'typeId' = 'minecraft:breathable';
     /**
-     * @remarks
      * Sets the current air supply of the entity.
      * @param value
      * New air supply for the entity.
-     * @throws This function can throw errors.
      */
     setAirSupply(value: number): void;
     protected constructor();
@@ -3230,10 +2988,8 @@ export class EntityCreateEvent {
  */
 export class EntityCreateEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a new entity is
      * created.
-     * @param callback
      * @example runEntityCreatedEvent.ts
      * ```typescript
      *          // register a new function that is called when a new entity is created.
@@ -3248,11 +3004,8 @@ export class EntityCreateEventSignal {
      */
     subscribe(callback: (arg: EntityCreateEvent) => void): (arg: EntityCreateEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when a new entity is
      * created.
-     * @param callback
-     * @throws This function can throw errors.
      * @example unsubscribeEntityCreatedEvent.ts
      * ```typescript
      *          if (entityCreatedCallbacks.length > 0) {
@@ -3417,18 +3170,15 @@ export class EntityGroundOffsetComponent extends IEntityComponent {
 export class EntityHealableComponent extends IEntityComponent {
     /**
      * A set of filters for when these Healable items would apply.
-     * @throws This property can throw when used.
      */
     readonly 'filters': FilterGroup;
     /**
      * Determines if an item can be used regardless of the entity
      * being at full health.
-     * @throws This property can throw when used.
      */
     readonly 'forceUse': boolean;
     /**
      * A set of items that can specifically heal this entity.
-     * @throws This property can throw when used.
      */
     readonly 'items': FeedItem[];
     /**
@@ -3445,12 +3195,10 @@ export class EntityHealthComponent extends IEntityComponent {
     /**
      * Read-only. Returns the current value of health for the
      * entity.
-     * @throws This property can throw when used.
      */
     readonly 'current': number;
     /**
      * Value for health as defined through entity components.
-     * @throws This property can throw when used.
      */
     readonly 'value': number;
     /**
@@ -3459,30 +3207,21 @@ export class EntityHealthComponent extends IEntityComponent {
      */
     static readonly 'typeId' = 'minecraft:health';
     /**
-     * @remarks
      * Resets the current health value of the entity to its default
      * value.
-     * @throws This function can throw errors.
      */
     resetToDefaultValue(): void;
     /**
-     * @remarks
      * Resets the current health of the entity to its maximum
      * value.
-     * @throws This function can throw errors.
      */
     resetToMaxValue(): void;
     /**
-     * @remarks
      * Resets the current health to the minimum value.
-     * @throws This function can throw errors.
      */
     resetToMinValue(): void;
     /**
-     * @remarks
      * Sets the current health of the entity.
-     * @param value
-     * @throws This function can throw errors.
      */
     setCurrent(value: number): void;
     protected constructor();
@@ -3518,19 +3257,13 @@ export class EntityHitEvent {
  */
 export class EntityHitEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when an entity hits
      * another entity.
-     * @param callback
-     * @param options
      */
     subscribe(callback: (arg: EntityHitEvent) => void, options?: EntityEventOptions): (arg: EntityHitEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an entity makes a
      * melee attack on another entity.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: EntityHitEvent) => void): void;
     protected constructor();
@@ -3582,17 +3315,11 @@ export class EntityHurtEvent {
  */
 export class EntityHurtEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when an entity is hurt.
-     * @param callback
-     * @param options
      */
     subscribe(callback: (arg: EntityHurtEvent) => void, options?: EntityEventOptions): (arg: EntityHurtEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an entity is hurt.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: EntityHurtEvent) => void): void;
     protected constructor();
@@ -3604,39 +3331,32 @@ export class EntityInventoryComponent extends IEntityComponent {
     /**
      * Number of slots that this entity can gain per extra
      * strength.
-     * @throws This property can throw when used.
      */
     readonly 'additionalSlotsPerStrength': number;
     /**
      * If true, the contents of this inventory can be removed by a
      * hopper.
-     * @throws This property can throw when used.
      */
     readonly 'canBeSiphonedFrom': boolean;
     /**
      * Defines the container for this entity.
-     * @throws This property can throw when used.
      */
     readonly 'container': InventoryComponentContainer;
     /**
      * Type of container this entity has.
-     * @throws This property can throw when used.
      */
     readonly 'containerType': string;
     /**
      * Number of slots the container has.
-     * @throws This property can throw when used.
      */
     readonly 'inventorySize': number;
     /**
      * If true, the entity will not drop it's inventory on death.
-     * @throws This property can throw when used.
      */
     readonly 'private': boolean;
     /**
      * If true, the entity's inventory can only be accessed by its
      * owner or itself.
-     * @throws This property can throw when used.
      */
     readonly 'restrictToOwner': boolean;
     /**
@@ -3824,7 +3544,6 @@ export class EntityIsTamedComponent extends IEntityComponent {
 export class EntityItemComponent extends IEntityComponent {
     /**
      * Item stack represented by this entity in the world.
-     * @throws This property can throw when used.
      */
     readonly 'itemStack': ItemStack;
     /**
@@ -3841,7 +3560,6 @@ export class EntityItemComponent extends IEntityComponent {
 export class EntityIterator implements Iterable<Entity> {
     [Symbol.iterator](): Iterator<Entity>;
     /**
-     * @remarks
      * Retrieves the next item in this iteration. The resulting
      * IteratorResult contains .done and .value properties which
      * can be used to see the next Entity in the iteration.
@@ -3856,13 +3574,11 @@ export class EntityLavaMovementComponent extends IEntityComponent {
     /**
      * Read-only. Returns the current value of movement speed on
      * lava for the entity.
-     * @throws This property can throw when used.
      */
     readonly 'current': number;
     /**
      * Value for movement speed on lava as defined through entity
      * components.
-     * @throws This property can throw when used.
      */
     readonly 'value': number;
     /**
@@ -3871,32 +3587,23 @@ export class EntityLavaMovementComponent extends IEntityComponent {
      */
     static readonly 'typeId' = 'minecraft:lava_movement';
     /**
-     * @remarks
      * Resets the current movement speed on lava for the entity to
      * its default value.
-     * @throws This function can throw errors.
      */
     resetToDefaultValue(): void;
     /**
-     * @remarks
      * Resets the movement speed on lava to the maximum value for
      * the entity.
-     * @throws This function can throw errors.
      */
     resetToMaxValue(): void;
     /**
-     * @remarks
      * Resets the movement speed on lava speed to the minimum
      * value.
-     * @throws This function can throw errors.
      */
     resetToMinValue(): void;
     /**
-     * @remarks
      * Sets the current value of movement speed on lava for the
      * entity.
-     * @param value
-     * @throws This function can throw errors.
      */
     setCurrent(value: number): void;
     protected constructor();
@@ -3910,7 +3617,6 @@ export class EntityLeashableComponent extends IEntityComponent {
      * Distance in blocks at which the 'spring' effect starts
      * acting to keep this entity close to the entity that leashed
      * it.
-     * @throws This property can throw when used.
      */
     readonly 'softDistance': number;
     /**
@@ -3919,17 +3625,13 @@ export class EntityLeashableComponent extends IEntityComponent {
      */
     static readonly 'typeId' = 'minecraft:leashable';
     /**
-     * @remarks
      * Leashes this entity to another entity.
      * @param leashHolder
      * The entity to leash this entity to.
-     * @throws This function can throw errors.
      */
     leash(leashHolder: Entity): void;
     /**
-     * @remarks
      * Unleashes this entity if it is leashed to another entity.
-     * @throws This function can throw errors.
      */
     unleash(): void;
     protected constructor();
@@ -3962,11 +3664,9 @@ export class EntityMountTamingComponent extends IEntityComponent {
      */
     static readonly 'typeId' = 'minecraft:tamemount';
     /**
-     * @remarks
      * Sets this rideable entity as tamed.
      * @param showParticles
      * Whether to show effect particles when this entity is tamed.
-     * @throws This function can throw errors.
      */
     setTamed(showParticles: boolean): void;
     protected constructor();
@@ -3978,7 +3678,6 @@ export class EntityMountTamingComponent extends IEntityComponent {
 export class EntityMovementAmphibiousComponent extends IEntityComponent {
     /**
      * The maximum number in degrees the mob can turn per tick.
-     * @throws This property can throw when used.
      */
     readonly 'maxTurn': number;
     /**
@@ -3994,7 +3693,6 @@ export class EntityMovementAmphibiousComponent extends IEntityComponent {
 export class EntityMovementBasicComponent extends IEntityComponent {
     /**
      * The maximum number in degrees the mob can turn per tick.
-     * @throws This property can throw when used.
      */
     readonly 'maxTurn': number;
     /**
@@ -4011,13 +3709,11 @@ export class EntityMovementComponent extends IEntityComponent {
     /**
      * Read-only. Returns the current value of default movement
      * speed for the entity.
-     * @throws This property can throw when used.
      */
     readonly 'current': number;
     /**
      * Value for default movement speed as defined through entity
      * components.
-     * @throws This property can throw when used.
      */
     readonly 'value': number;
     /**
@@ -4026,31 +3722,22 @@ export class EntityMovementComponent extends IEntityComponent {
      */
     static readonly 'typeId' = 'minecraft:movement';
     /**
-     * @remarks
      * Resets the current default movement speed value for the
      * entity to the default value.
-     * @throws This function can throw errors.
      */
     resetToDefaultValue(): void;
     /**
-     * @remarks
      * Resets the default movement speed to the maximum value for
      * the entity.
-     * @throws This function can throw errors.
      */
     resetToMaxValue(): void;
     /**
-     * @remarks
      * Resets the default movement speed to the minimum value.
-     * @throws This function can throw errors.
      */
     resetToMinValue(): void;
     /**
-     * @remarks
      * Sets the current value of default movement speed for the
      * entity.
-     * @param value
-     * @throws This function can throw errors.
      */
     setCurrent(value: number): void;
     protected constructor();
@@ -4061,7 +3748,6 @@ export class EntityMovementComponent extends IEntityComponent {
 export class EntityMovementFlyComponent extends IEntityComponent {
     /**
      * The maximum number in degrees the mob can turn per tick.
-     * @throws This property can throw when used.
      */
     readonly 'maxTurn': number;
     /**
@@ -4078,7 +3764,6 @@ export class EntityMovementFlyComponent extends IEntityComponent {
 export class EntityMovementGenericComponent extends IEntityComponent {
     /**
      * The maximum number in degrees the mob can turn per tick.
-     * @throws This property can throw when used.
      */
     readonly 'maxTurn': number;
     /**
@@ -4094,17 +3779,14 @@ export class EntityMovementGenericComponent extends IEntityComponent {
 export class EntityMovementGlideComponent extends IEntityComponent {
     /**
      * The maximum number in degrees the mob can turn per tick.
-     * @throws This property can throw when used.
      */
     readonly 'maxTurn': number;
     /**
      * Speed in effect when the entity is turning.
-     * @throws This property can throw when used.
      */
     readonly 'speedWhenTurning': number;
     /**
      * Start speed during a glide.
-     * @throws This property can throw when used.
      */
     readonly 'startSpeed': number;
     /**
@@ -4120,7 +3802,6 @@ export class EntityMovementGlideComponent extends IEntityComponent {
 export class EntityMovementHoverComponent extends IEntityComponent {
     /**
      * The maximum number in degrees the mob can turn per tick.
-     * @throws This property can throw when used.
      */
     readonly 'maxTurn': number;
     /**
@@ -4137,7 +3818,6 @@ export class EntityMovementHoverComponent extends IEntityComponent {
 export class EntityMovementJumpComponent extends IEntityComponent {
     /**
      * The maximum number in degrees the mob can turn per tick.
-     * @throws This property can throw when used.
      */
     readonly 'maxTurn': number;
     /**
@@ -4154,7 +3834,6 @@ export class EntityMovementJumpComponent extends IEntityComponent {
 export class EntityMovementSkipComponent extends IEntityComponent {
     /**
      * The maximum number in degrees the mob can turn per tick.
-     * @throws This property can throw when used.
      */
     readonly 'maxTurn': number;
     /**
@@ -4171,17 +3850,14 @@ export class EntityMovementSkipComponent extends IEntityComponent {
 export class EntityMovementSwayComponent extends IEntityComponent {
     /**
      * The maximum number in degrees the mob can turn per tick.
-     * @throws This property can throw when used.
      */
     readonly 'maxTurn': number;
     /**
      * Amplitude of the sway motion.
-     * @throws This property can throw when used.
      */
     readonly 'swayAmplitude': number;
     /**
      * Amount of sway frequency.
-     * @throws This property can throw when used.
      */
     readonly 'swayFrequency': number;
     /**
@@ -4199,111 +3875,92 @@ export class EntityNavigationClimbComponent extends IEntityComponent {
     /**
      * Tells the pathfinder to avoid blocks that cause damage when
      * finding a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidDamageBlocks': boolean;
     /**
      * Tells the pathfinder to avoid portals (like nether portals)
      * when finding a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidPortals': boolean;
     /**
      * Whether or not the pathfinder should avoid tiles that are
      * exposed to the sun when creating paths.
-     * @throws This property can throw when used.
      */
     readonly 'avoidSun': boolean;
     /**
      * Tells the pathfinder to avoid water when creating a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidWater': boolean;
     /**
      * Tells the pathfinder whether or not it can jump out of water
      * (like a dolphin).
-     * @throws This property can throw when used.
      */
     readonly 'canBreach': boolean;
     /**
      * Tells the pathfinder that it can path through a closed door
      * and break it.
-     * @throws This property can throw when used.
      */
     readonly 'canBreakDoors': boolean;
     /**
      * Tells the pathfinder whether or not it can float.
-     * @throws This property can throw when used.
      */
     readonly 'canFloat': boolean;
     /**
      * Tells the pathfinder whether or not it can jump up blocks.
-     * @throws This property can throw when used.
      */
     readonly 'canJump': boolean;
     /**
      * Tells the pathfinder that it can path through a closed door
      * assuming the AI will open the door.
-     * @throws This property can throw when used.
      */
     readonly 'canOpenDoors': boolean;
     /**
      * Tells the pathfinder that it can path through a closed iron
      * door assuming the AI will open the door.
-     * @throws This property can throw when used.
      */
     readonly 'canOpenIronDoors': boolean;
     /**
      * Whether a path can be created through a door.
-     * @throws This property can throw when used.
      */
     readonly 'canPassDoors': boolean;
     /**
      * Tells the pathfinder that it can start pathing when in the
      * air.
-     * @throws This property can throw when used.
      */
     readonly 'canPathFromAir': boolean;
     /**
      * Tells the pathfinder whether or not it can travel on the
      * surface of the lava.
-     * @throws This property can throw when used.
      */
     readonly 'canPathOverLava': boolean;
     /**
      * Tells the pathfinder whether or not it can travel on the
      * surface of the water.
-     * @throws This property can throw when used.
      */
     readonly 'canPathOverWater': boolean;
     /**
      * Tells the pathfinder whether or not it will be pulled down
      * by gravity while in water.
-     * @throws This property can throw when used.
      */
     readonly 'canSink': boolean;
     /**
      * Tells the pathfinder whether or not it can path anywhere
      * through water and plays swimming animation along that path.
-     * @throws This property can throw when used.
      */
     readonly 'canSwim': boolean;
     /**
      * Tells the pathfinder whether or not it can walk on the
      * ground outside water.
-     * @throws This property can throw when used.
      */
     readonly 'canWalk': boolean;
     /**
      * Tells the pathfinder whether or not it can travel in lava
      * like walking on ground.
-     * @throws This property can throw when used.
      */
     readonly 'canWalkInLava': boolean;
     /**
      * Tells the pathfinder whether or not it can walk on the
      * ground or go underwater.
-     * @throws This property can throw when used.
      */
     readonly 'isAmphibious': boolean;
     /**
@@ -4321,111 +3978,92 @@ export class EntityNavigationFloatComponent extends IEntityComponent {
     /**
      * Tells the pathfinder to avoid blocks that cause damage when
      * finding a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidDamageBlocks': boolean;
     /**
      * Tells the pathfinder to avoid portals (like nether portals)
      * when finding a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidPortals': boolean;
     /**
      * Whether or not the pathfinder should avoid tiles that are
      * exposed to the sun when creating paths.
-     * @throws This property can throw when used.
      */
     readonly 'avoidSun': boolean;
     /**
      * Tells the pathfinder to avoid water when creating a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidWater': boolean;
     /**
      * Tells the pathfinder whether or not it can jump out of water
      * (like a dolphin).
-     * @throws This property can throw when used.
      */
     readonly 'canBreach': boolean;
     /**
      * Tells the pathfinder that it can path through a closed door
      * and break it.
-     * @throws This property can throw when used.
      */
     readonly 'canBreakDoors': boolean;
     /**
      * Tells the pathfinder whether or not it can float.
-     * @throws This property can throw when used.
      */
     readonly 'canFloat': boolean;
     /**
      * Tells the pathfinder whether or not it can jump up blocks.
-     * @throws This property can throw when used.
      */
     readonly 'canJump': boolean;
     /**
      * Tells the pathfinder that it can path through a closed door
      * assuming the AI will open the door.
-     * @throws This property can throw when used.
      */
     readonly 'canOpenDoors': boolean;
     /**
      * Tells the pathfinder that it can path through a closed iron
      * door assuming the AI will open the door.
-     * @throws This property can throw when used.
      */
     readonly 'canOpenIronDoors': boolean;
     /**
      * Whether a path can be created through a door.
-     * @throws This property can throw when used.
      */
     readonly 'canPassDoors': boolean;
     /**
      * Tells the pathfinder that it can start pathing when in the
      * air.
-     * @throws This property can throw when used.
      */
     readonly 'canPathFromAir': boolean;
     /**
      * Tells the pathfinder whether or not it can travel on the
      * surface of the lava.
-     * @throws This property can throw when used.
      */
     readonly 'canPathOverLava': boolean;
     /**
      * Tells the pathfinder whether or not it can travel on the
      * surface of the water.
-     * @throws This property can throw when used.
      */
     readonly 'canPathOverWater': boolean;
     /**
      * Tells the pathfinder whether or not it will be pulled down
      * by gravity while in water.
-     * @throws This property can throw when used.
      */
     readonly 'canSink': boolean;
     /**
      * Tells the pathfinder whether or not it can path anywhere
      * through water and plays swimming animation along that path.
-     * @throws This property can throw when used.
      */
     readonly 'canSwim': boolean;
     /**
      * Tells the pathfinder whether or not it can walk on the
      * ground outside water.
-     * @throws This property can throw when used.
      */
     readonly 'canWalk': boolean;
     /**
      * Tells the pathfinder whether or not it can travel in lava
      * like walking on ground.
-     * @throws This property can throw when used.
      */
     readonly 'canWalkInLava': boolean;
     /**
      * Tells the pathfinder whether or not it can walk on the
      * ground or go underwater.
-     * @throws This property can throw when used.
      */
     readonly 'isAmphibious': boolean;
     /**
@@ -4443,111 +4081,92 @@ export class EntityNavigationFlyComponent extends IEntityComponent {
     /**
      * Tells the pathfinder to avoid blocks that cause damage when
      * finding a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidDamageBlocks': boolean;
     /**
      * Tells the pathfinder to avoid portals (like nether portals)
      * when finding a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidPortals': boolean;
     /**
      * Whether or not the pathfinder should avoid tiles that are
      * exposed to the sun when creating paths.
-     * @throws This property can throw when used.
      */
     readonly 'avoidSun': boolean;
     /**
      * Tells the pathfinder to avoid water when creating a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidWater': boolean;
     /**
      * Tells the pathfinder whether or not it can jump out of water
      * (like a dolphin).
-     * @throws This property can throw when used.
      */
     readonly 'canBreach': boolean;
     /**
      * Tells the pathfinder that it can path through a closed door
      * and break it.
-     * @throws This property can throw when used.
      */
     readonly 'canBreakDoors': boolean;
     /**
      * Tells the pathfinder whether or not it can float.
-     * @throws This property can throw when used.
      */
     readonly 'canFloat': boolean;
     /**
      * Tells the pathfinder whether or not it can jump up blocks.
-     * @throws This property can throw when used.
      */
     readonly 'canJump': boolean;
     /**
      * Tells the pathfinder that it can path through a closed door
      * assuming the AI will open the door.
-     * @throws This property can throw when used.
      */
     readonly 'canOpenDoors': boolean;
     /**
      * Tells the pathfinder that it can path through a closed iron
      * door assuming the AI will open the door.
-     * @throws This property can throw when used.
      */
     readonly 'canOpenIronDoors': boolean;
     /**
      * Whether a path can be created through a door.
-     * @throws This property can throw when used.
      */
     readonly 'canPassDoors': boolean;
     /**
      * Tells the pathfinder that it can start pathing when in the
      * air.
-     * @throws This property can throw when used.
      */
     readonly 'canPathFromAir': boolean;
     /**
      * Tells the pathfinder whether or not it can travel on the
      * surface of the lava.
-     * @throws This property can throw when used.
      */
     readonly 'canPathOverLava': boolean;
     /**
      * Tells the pathfinder whether or not it can travel on the
      * surface of the water.
-     * @throws This property can throw when used.
      */
     readonly 'canPathOverWater': boolean;
     /**
      * Tells the pathfinder whether or not it will be pulled down
      * by gravity while in water.
-     * @throws This property can throw when used.
      */
     readonly 'canSink': boolean;
     /**
      * Tells the pathfinder whether or not it can path anywhere
      * through water and plays swimming animation along that path.
-     * @throws This property can throw when used.
      */
     readonly 'canSwim': boolean;
     /**
      * Tells the pathfinder whether or not it can walk on the
      * ground outside water.
-     * @throws This property can throw when used.
      */
     readonly 'canWalk': boolean;
     /**
      * Tells the pathfinder whether or not it can travel in lava
      * like walking on ground.
-     * @throws This property can throw when used.
      */
     readonly 'canWalkInLava': boolean;
     /**
      * Tells the pathfinder whether or not it can walk on the
      * ground or go underwater.
-     * @throws This property can throw when used.
      */
     readonly 'isAmphibious': boolean;
     /**
@@ -4566,111 +4185,92 @@ export class EntityNavigationGenericComponent extends IEntityComponent {
     /**
      * Tells the pathfinder to avoid blocks that cause damage when
      * finding a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidDamageBlocks': boolean;
     /**
      * Tells the pathfinder to avoid portals (like nether portals)
      * when finding a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidPortals': boolean;
     /**
      * Whether or not the pathfinder should avoid tiles that are
      * exposed to the sun when creating paths.
-     * @throws This property can throw when used.
      */
     readonly 'avoidSun': boolean;
     /**
      * Tells the pathfinder to avoid water when creating a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidWater': boolean;
     /**
      * Tells the pathfinder whether or not it can jump out of water
      * (like a dolphin).
-     * @throws This property can throw when used.
      */
     readonly 'canBreach': boolean;
     /**
      * Tells the pathfinder that it can path through a closed door
      * and break it.
-     * @throws This property can throw when used.
      */
     readonly 'canBreakDoors': boolean;
     /**
      * Tells the pathfinder whether or not it can float.
-     * @throws This property can throw when used.
      */
     readonly 'canFloat': boolean;
     /**
      * Tells the pathfinder whether or not it can jump up blocks.
-     * @throws This property can throw when used.
      */
     readonly 'canJump': boolean;
     /**
      * Tells the pathfinder that it can path through a closed door
      * assuming the AI will open the door.
-     * @throws This property can throw when used.
      */
     readonly 'canOpenDoors': boolean;
     /**
      * Tells the pathfinder that it can path through a closed iron
      * door assuming the AI will open the door.
-     * @throws This property can throw when used.
      */
     readonly 'canOpenIronDoors': boolean;
     /**
      * Whether a path can be created through a door.
-     * @throws This property can throw when used.
      */
     readonly 'canPassDoors': boolean;
     /**
      * Tells the pathfinder that it can start pathing when in the
      * air.
-     * @throws This property can throw when used.
      */
     readonly 'canPathFromAir': boolean;
     /**
      * Tells the pathfinder whether or not it can travel on the
      * surface of the lava.
-     * @throws This property can throw when used.
      */
     readonly 'canPathOverLava': boolean;
     /**
      * Tells the pathfinder whether or not it can travel on the
      * surface of the water.
-     * @throws This property can throw when used.
      */
     readonly 'canPathOverWater': boolean;
     /**
      * Tells the pathfinder whether or not it will be pulled down
      * by gravity while in water.
-     * @throws This property can throw when used.
      */
     readonly 'canSink': boolean;
     /**
      * Tells the pathfinder whether or not it can path anywhere
      * through water and plays swimming animation along that path.
-     * @throws This property can throw when used.
      */
     readonly 'canSwim': boolean;
     /**
      * Tells the pathfinder whether or not it can walk on the
      * ground outside water.
-     * @throws This property can throw when used.
      */
     readonly 'canWalk': boolean;
     /**
      * Tells the pathfinder whether or not it can travel in lava
      * like walking on ground.
-     * @throws This property can throw when used.
      */
     readonly 'canWalkInLava': boolean;
     /**
      * Tells the pathfinder whether or not it can walk on the
      * ground or go underwater.
-     * @throws This property can throw when used.
      */
     readonly 'isAmphibious': boolean;
     /**
@@ -4689,111 +4289,92 @@ export class EntityNavigationHoverComponent extends IEntityComponent {
     /**
      * Tells the pathfinder to avoid blocks that cause damage when
      * finding a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidDamageBlocks': boolean;
     /**
      * Tells the pathfinder to avoid portals (like nether portals)
      * when finding a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidPortals': boolean;
     /**
      * Whether or not the pathfinder should avoid tiles that are
      * exposed to the sun when creating paths.
-     * @throws This property can throw when used.
      */
     readonly 'avoidSun': boolean;
     /**
      * Tells the pathfinder to avoid water when creating a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidWater': boolean;
     /**
      * Tells the pathfinder whether or not it can jump out of water
      * (like a dolphin).
-     * @throws This property can throw when used.
      */
     readonly 'canBreach': boolean;
     /**
      * Tells the pathfinder that it can path through a closed door
      * and break it.
-     * @throws This property can throw when used.
      */
     readonly 'canBreakDoors': boolean;
     /**
      * Tells the pathfinder whether or not it can float.
-     * @throws This property can throw when used.
      */
     readonly 'canFloat': boolean;
     /**
      * Tells the pathfinder whether or not it can jump up blocks.
-     * @throws This property can throw when used.
      */
     readonly 'canJump': boolean;
     /**
      * Tells the pathfinder that it can path through a closed door
      * assuming the AI will open the door.
-     * @throws This property can throw when used.
      */
     readonly 'canOpenDoors': boolean;
     /**
      * Tells the pathfinder that it can path through a closed iron
      * door assuming the AI will open the door.
-     * @throws This property can throw when used.
      */
     readonly 'canOpenIronDoors': boolean;
     /**
      * Whether a path can be created through a door.
-     * @throws This property can throw when used.
      */
     readonly 'canPassDoors': boolean;
     /**
      * Tells the pathfinder that it can start pathing when in the
      * air.
-     * @throws This property can throw when used.
      */
     readonly 'canPathFromAir': boolean;
     /**
      * Tells the pathfinder whether or not it can travel on the
      * surface of the lava.
-     * @throws This property can throw when used.
      */
     readonly 'canPathOverLava': boolean;
     /**
      * Tells the pathfinder whether or not it can travel on the
      * surface of the water.
-     * @throws This property can throw when used.
      */
     readonly 'canPathOverWater': boolean;
     /**
      * Tells the pathfinder whether or not it will be pulled down
      * by gravity while in water.
-     * @throws This property can throw when used.
      */
     readonly 'canSink': boolean;
     /**
      * Tells the pathfinder whether or not it can path anywhere
      * through water and plays swimming animation along that path.
-     * @throws This property can throw when used.
      */
     readonly 'canSwim': boolean;
     /**
      * Tells the pathfinder whether or not it can walk on the
      * ground outside water.
-     * @throws This property can throw when used.
      */
     readonly 'canWalk': boolean;
     /**
      * Tells the pathfinder whether or not it can travel in lava
      * like walking on ground.
-     * @throws This property can throw when used.
      */
     readonly 'canWalkInLava': boolean;
     /**
      * Tells the pathfinder whether or not it can walk on the
      * ground or go underwater.
-     * @throws This property can throw when used.
      */
     readonly 'isAmphibious': boolean;
     /**
@@ -4811,111 +4392,92 @@ export class EntityNavigationWalkComponent extends IEntityComponent {
     /**
      * Tells the pathfinder to avoid blocks that cause damage when
      * finding a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidDamageBlocks': boolean;
     /**
      * Tells the pathfinder to avoid portals (like nether portals)
      * when finding a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidPortals': boolean;
     /**
      * Whether or not the pathfinder should avoid tiles that are
      * exposed to the sun when creating paths.
-     * @throws This property can throw when used.
      */
     readonly 'avoidSun': boolean;
     /**
      * Tells the pathfinder to avoid water when creating a path.
-     * @throws This property can throw when used.
      */
     readonly 'avoidWater': boolean;
     /**
      * Tells the pathfinder whether or not it can jump out of water
      * (like a dolphin).
-     * @throws This property can throw when used.
      */
     readonly 'canBreach': boolean;
     /**
      * Tells the pathfinder that it can path through a closed door
      * and break it.
-     * @throws This property can throw when used.
      */
     readonly 'canBreakDoors': boolean;
     /**
      * Tells the pathfinder whether or not it can float.
-     * @throws This property can throw when used.
      */
     readonly 'canFloat': boolean;
     /**
      * Tells the pathfinder whether or not it can jump up blocks.
-     * @throws This property can throw when used.
      */
     readonly 'canJump': boolean;
     /**
      * Tells the pathfinder that it can path through a closed door
      * assuming the AI will open the door.
-     * @throws This property can throw when used.
      */
     readonly 'canOpenDoors': boolean;
     /**
      * Tells the pathfinder that it can path through a closed iron
      * door assuming the AI will open the door.
-     * @throws This property can throw when used.
      */
     readonly 'canOpenIronDoors': boolean;
     /**
      * Whether a path can be created through a door.
-     * @throws This property can throw when used.
      */
     readonly 'canPassDoors': boolean;
     /**
      * Tells the pathfinder that it can start pathing when in the
      * air.
-     * @throws This property can throw when used.
      */
     readonly 'canPathFromAir': boolean;
     /**
      * Tells the pathfinder whether or not it can travel on the
      * surface of the lava.
-     * @throws This property can throw when used.
      */
     readonly 'canPathOverLava': boolean;
     /**
      * Tells the pathfinder whether or not it can travel on the
      * surface of the water.
-     * @throws This property can throw when used.
      */
     readonly 'canPathOverWater': boolean;
     /**
      * Tells the pathfinder whether or not it will be pulled down
      * by gravity while in water.
-     * @throws This property can throw when used.
      */
     readonly 'canSink': boolean;
     /**
      * Tells the pathfinder whether or not it can path anywhere
      * through water and plays swimming animation along that path.
-     * @throws This property can throw when used.
      */
     readonly 'canSwim': boolean;
     /**
      * Tells the pathfinder whether or not it can walk on the
      * ground outside water.
-     * @throws This property can throw when used.
      */
     readonly 'canWalk': boolean;
     /**
      * Tells the pathfinder whether or not it can travel in lava
      * like walking on ground.
-     * @throws This property can throw when used.
      */
     readonly 'canWalkInLava': boolean;
     /**
      * Tells the pathfinder whether or not it can walk on the
      * ground or go underwater.
-     * @throws This property can throw when used.
      */
     readonly 'isAmphibious': boolean;
     /**
@@ -4982,49 +4544,41 @@ export class EntityRideableComponent extends IEntityComponent {
     /**
      * Zero-based index of the seat that can used to control this
      * entity.
-     * @throws This property can throw when used.
      */
     readonly 'controllingSeat': number;
     /**
      * Determines whether interactions are not supported if the
      * entity is crouching.
-     * @throws This property can throw when used.
      */
     readonly 'crouchingSkipInteract': boolean;
     /**
      * A string-list of entity types that this entity can support
      * as riders.
-     * @throws This property can throw when used.
      */
     readonly 'familyTypes': string[];
     /**
      * Set of text that should be displayed when a player is
      * looking to ride on this entity (commonly with touch-screen
      * controls).
-     * @throws This property can throw when used.
      */
     readonly 'interactText': string;
     /**
      * If true, this entity will pull in entities that are in the
      * correct family_types into any available seat.
-     * @throws This property can throw when used.
      */
     readonly 'pullInEntities': boolean;
     /**
      * If true, this entity will be picked when looked at by the
      * rider.
-     * @throws This property can throw when used.
      */
     readonly 'riderCanInteract': boolean;
     /**
      * Number of seats for riders defined for this entity.
-     * @throws This property can throw when used.
      */
     readonly 'seatCount': number;
     /**
      * The list of positions and number of riders for each position
      * for entities riding this entity.
-     * @throws This property can throw when used.
      */
     readonly 'seats': Seat[];
     /**
@@ -5033,27 +4587,21 @@ export class EntityRideableComponent extends IEntityComponent {
      */
     static readonly 'typeId' = 'minecraft:rideable';
     /**
-     * @remarks
      * Adds an entity to this entity as a rider.
      * @param rider
      * Entity that will become the rider of this entity.
      * @returns
      * True if the rider entity was successfully added.
-     * @throws This function can throw errors.
      */
     addRider(rider: Entity): boolean;
     /**
-     * @remarks
      * Ejects the specified rider of this entity.
      * @param rider
      * Entity that should be ejected from this entity.
-     * @throws This function can throw errors.
      */
     ejectRider(rider: Entity): void;
     /**
-     * @remarks
      * Ejects all riders of this entity.
-     * @throws This function can throw errors.
      */
     ejectRiders(): void;
     protected constructor();
@@ -5099,13 +4647,11 @@ export class EntityStrengthComponent extends IEntityComponent {
     /**
      * Maximum strength of this entity, as defined in the entity
      * type definition.
-     * @throws This property can throw when used.
      */
     readonly 'max': number;
     /**
      * Current strength value of this entity, after any effects or
      * component updates are applied.
-     * @throws This property can throw when used.
      */
     readonly 'value': number;
     /**
@@ -5122,17 +4668,14 @@ export class EntityTameableComponent extends IEntityComponent {
     /**
      * The chance of taming the entity with each item use between
      * 0.0 and 1.0, where 1.0 is 100%
-     * @throws This property can throw when used.
      */
     readonly 'probability': number;
     /**
      * Event to run when this entity becomes tamed.
-     * @throws This property can throw when used.
      */
     readonly 'tameEvent': Trigger;
     /**
      * The list of items that can be used to tame this entity.
-     * @throws This property can throw when used.
      */
     readonly 'tameItems': string[];
     /**
@@ -5141,11 +4684,9 @@ export class EntityTameableComponent extends IEntityComponent {
      */
     static readonly 'typeId' = 'minecraft:tameable';
     /**
-     * @remarks
      * Tames this entity.
      * @returns
      * Returns true if the entity was tamed.
-     * @throws This function can throw errors.
      */
     tame(): boolean;
     protected constructor();
@@ -5173,13 +4714,10 @@ export class EntityTypeIterator implements Iterable<EntityType> {
 // tslint:disable-next-line:no-unnecessary-class
 export class EntityTypes {
     /**
-     * @remarks
      * Retrieves an entity type using a string-based identifier.
-     * @param identifier
      */
     static get(identifier: string): EntityType;
     /**
-     * @remarks
      * Retrieves an iterator of all entity types within this world.
      */
     static getAll(): EntityTypeIterator;
@@ -5193,13 +4731,11 @@ export class EntityUnderwaterMovementComponent extends IEntityComponent {
     /**
      * Read-only. Returns the current value of movement speed
      * underwater for the entity.
-     * @throws This property can throw when used.
      */
     readonly 'current': number;
     /**
      * Value for movement speed underwater as defined through
      * entity components.
-     * @throws This property can throw when used.
      */
     readonly 'value': number;
     /**
@@ -5208,34 +4744,25 @@ export class EntityUnderwaterMovementComponent extends IEntityComponent {
      */
     static readonly 'typeId' = 'minecraft:underwater_movement';
     /**
-     * @remarks
      * Resets the current movement speed underwater for the entity
      * to the default value implied by the current component state
      * of the entity.
-     * @throws This function can throw errors.
      */
     resetToDefaultValue(): void;
     /**
-     * @remarks
      * Resets the movement speed underwater to the maximum value
      * for the entity, as determined by the set of components that
      * are on the entity.
-     * @throws This function can throw errors.
      */
     resetToMaxValue(): void;
     /**
-     * @remarks
      * Resets the movement speed underwater to the minimum value as
      * defined by the component state of this entity.
-     * @throws This function can throw errors.
      */
     resetToMinValue(): void;
     /**
-     * @remarks
      * Sets the current value of movement speed underwater for the
      * entity.
-     * @param value
-     * @throws This function can throw errors.
      */
     setCurrent(value: number): void;
     protected constructor();
@@ -5248,7 +4775,6 @@ export class EntityVariantComponent extends IEntityComponent {
     /**
      * The identifier of the variant. By convention, 0 is the
      * identifier of the base entity.
-     * @throws This property can throw when used.
      */
     readonly 'value': number;
     /**
@@ -5479,18 +5005,13 @@ export class ExplosionEvent {
  */
 export class ExplosionEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when an explosion
      * occurs.
-     * @param callback
      */
     subscribe(callback: (arg: ExplosionEvent) => void): (arg: ExplosionEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an explosion
      * occurs.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ExplosionEvent) => void): void;
     protected constructor();
@@ -5645,35 +5166,29 @@ export class IntBlockProperty extends IBlockProperty {
 export class InventoryComponentContainer extends Container {
     /**
      * The number of empty slots in the container.
-     * @throws This property can throw when used.
      */
     readonly 'emptySlotsCount': number;
     /**
      * Represents the size of the container. For example, a
      * standard single-block chest has a size of 27, for the 27
      * slots in their inventory.
-     * @throws This property can throw when used.
      */
     readonly 'size': number;
     /**
-     * @remarks
      * Adds an item to the specified container. Items will be
      * placed in the first available empty slot. (Use
      * {@link @minecraft/server.InventoryComponentContainer.setItem} if you
      * wish to set items in a particular slot.)
      * @param itemStack
      * The stack of items to add.
-     * @throws This function can throw errors.
      */
     addItem(itemStack: ItemStack): void;
     /**
-     * @remarks
      * Gets the item stack for the set of items at the specified
      * slot. If the slot is empty, returns undefined. This method
      * does not change or clear the contents of the specified slot.
      * @param slot
      * Zero-based index of the slot to retrieve items from.
-     * @throws This function can throw errors.
      * @example getItem.js
      * ```typescript
      *        const itemStack = rightChestContainer.getItem(0);
@@ -5683,17 +5198,14 @@ export class InventoryComponentContainer extends Container {
      */
     getItem(slot: number): ItemStack;
     /**
-     * @remarks
      * Sets an item stack within a particular slot.
      * @param slot
      * Zero-based index of the slot to set an item at.
      * @param itemStack
      * Stack of items to place within the specified slot.
-     * @throws This function can throw errors.
      */
     setItem(slot: number, itemStack: ItemStack): void;
     /**
-     * @remarks
      * Swaps items between two different slots within containers.
      * @param slot
      * Zero-based index of the slot to swap from this container.
@@ -5702,7 +5214,6 @@ export class InventoryComponentContainer extends Container {
      * @param otherContainer
      * Target container to swap with. Note this can be the same
      * container as this source.
-     * @throws This function can throw errors.
      * @example swapItems.js
      * ```typescript
      *        rightChestContainer.swapItems(1, 0, leftChestContainer); // swap the cake and emerald
@@ -5711,7 +5222,6 @@ export class InventoryComponentContainer extends Container {
      */
     swapItems(slot: number, otherSlot: number, otherContainer: Container): boolean;
     /**
-     * @remarks
      * Moves an item from one slot to another, potentially across
      * containers.
      * @param fromSlot
@@ -5720,7 +5230,6 @@ export class InventoryComponentContainer extends Container {
      * @param toContainer
      * Target container to transfer to. Note this can be the same
      * container as the source.
-     * @throws This function can throw errors.
      * @example transferItem.js
      * ```typescript
      *        rightChestContainer.transferItem(0, 4, chestCartContainer); // transfer the apple from the right chest to a chest cart
@@ -5756,18 +5265,13 @@ export class ItemCompleteChargeEvent {
  */
 export class ItemCompleteChargeEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a chargeable item
      * completes charging.
-     * @param callback
      */
     subscribe(callback: (arg: ItemCompleteChargeEvent) => void): (arg: ItemCompleteChargeEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when a chargeable item
      * completes charging.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemCompleteChargeEvent) => void): void;
     protected constructor();
@@ -5780,13 +5284,11 @@ export class ItemCooldownComponent {
     /**
      * Represents the cooldown category that this item is
      * associated with.
-     * @throws This property can throw when used.
      */
     readonly 'cooldownCategory': string;
     /**
      * Amount of time, in ticks, that remain for this item
      * cooldown.
-     * @throws This property can throw when used.
      */
     readonly 'cooldownTicks': number;
     /**
@@ -5795,10 +5297,7 @@ export class ItemCooldownComponent {
      */
     static readonly 'typeId' = 'minecraft:cooldown';
     /**
-     * @remarks
      * Starts a new cooldown period for this item.
-     * @param player
-     * @throws This function can throw errors.
      */
     startCooldown(player: Player): void;
     protected constructor();
@@ -5809,18 +5308,13 @@ export class ItemCooldownComponent {
  */
 export class ItemDefinitionEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when an item's
      * definition and components change.
-     * @param callback
      */
     subscribe(callback: (arg: ItemDefinitionTriggeredEvent) => void): (arg: ItemDefinitionTriggeredEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an item's
      * definition and components change.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemDefinitionTriggeredEvent) => void): void;
     protected constructor();
@@ -5858,13 +5352,11 @@ export class ItemDurabilityComponent {
     /**
      * A range of numbers that describes the chance of the item
      * losing durability.
-     * @throws This property can throw when used.
      */
     readonly 'damageRange': NumberRange;
     /**
      * Represents the amount of damage that this item can take
      * before breaking.
-     * @throws This property can throw when used.
      */
     readonly 'maxDurability': number;
     /**
@@ -5873,14 +5365,12 @@ export class ItemDurabilityComponent {
      */
     static readonly 'typeId' = 'minecraft:durability';
     /**
-     * @remarks
      * Returns the maximum chance that this item would be damaged
      * using the damageRange property, given an unbreaking level.
      * @param unbreaking
      * Unbreaking factor to consider in factoring the damage
      * chance. Incoming unbreaking parameter must be greater than
      * 0.
-     * @throws This function can throw errors.
      */
     getDamageChance(unbreaking?: number): number;
     protected constructor();
@@ -5901,9 +5391,7 @@ export class ItemEnchantsComponent {
      */
     static readonly 'typeId' = 'minecraft:enchantments';
     /**
-     * @remarks
      * Removes all enchantments applied to this item stack.
-     * @throws This function can throw errors.
      */
     removeAllEnchantments(): void;
     protected constructor();
@@ -5917,26 +5405,22 @@ export class ItemFoodComponent {
     /**
      * If true, the player can always eat this item (even when not
      * hungry).
-     * @throws This property can throw when used.
      */
     readonly 'canAlwaysEat': boolean;
     /**
      * Represents how much nutrition this food item will give an
      * entity when eaten.
-     * @throws This property can throw when used.
      */
     readonly 'nutrition': number;
     /**
      * When an item is eaten, this value is used according to this
      * formula (nutrition * saturation_modifier * 2) to apply a
      * saturation buff.
-     * @throws This property can throw when used.
      */
     readonly 'saturationModifier': number;
     /**
      * When specified, converts the active item to the one
      * specified by this property.
-     * @throws This property can throw when used.
      */
     readonly 'usingConvertsTo': string;
     /**
@@ -5973,18 +5457,13 @@ export class ItemReleaseChargeEvent {
  */
 export class ItemReleaseChargeEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a chargeable item
      * is released from charging.
-     * @param callback
      */
     subscribe(callback: (arg: ItemReleaseChargeEvent) => void): (arg: ItemReleaseChargeEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when a chargeable item
      * is released from charging.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemReleaseChargeEvent) => void): void;
     protected constructor();
@@ -5996,7 +5475,6 @@ export class ItemReleaseChargeEventSignal {
 // tslint:disable-next-line:no-unnecessary-class
 export class Items {
     /**
-     * @remarks
      * Returns an item type given an item type identifier.
      * @param itemId
      * Type of the item to return.
@@ -6028,7 +5506,6 @@ export class ItemStack {
      */
     'nameTag'?: string;
     /**
-     * @remarks
      * Creates a new instance of a stack of items for use in the
      * world.
      * @param itemType
@@ -6044,7 +5521,6 @@ export class ItemStack {
      */
     constructor(itemType: ItemType, amount?: number, data?: number);
     /**
-     * @remarks
      * Gets a component (that represents additional capabilities)
      * for an item stack.
      * @param componentId
@@ -6055,19 +5531,16 @@ export class ItemStack {
      */
     getComponent(componentId: string): any;
     /**
-     * @remarks
      * Returns all components that are both present on this item
      * stack and supported by the API.
      */
     getComponents(): any[];
     /**
-     * @remarks
      * Returns the lore value - a secondary display string - for an
      * ItemStack.
      */
     getLore(): string[];
     /**
-     * @remarks
      * Returns true if the specified component is present on this
      * item stack.
      * @param componentId
@@ -6077,14 +5550,11 @@ export class ItemStack {
      */
     hasComponent(componentId: string): boolean;
     /**
-     * @remarks
      * Sets the lore value - a secondary display string - for an
      * ItemStack.
-     * @param loreList
      */
     setLore(loreList: string[]): void;
     /**
-     * @remarks
      * Triggers an item type event. For custom items, a number of
      * events are defined in an items' definition for key item
      * behaviors.
@@ -6120,18 +5590,13 @@ export class ItemStartChargeEvent {
  */
 export class ItemStartChargeEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a chargeable item
      * starts charging.
-     * @param callback
      */
     subscribe(callback: (arg: ItemStartChargeEvent) => void): (arg: ItemStartChargeEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when a chargeable item
      * starts charging.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemStartChargeEvent) => void): void;
     protected constructor();
@@ -6170,18 +5635,13 @@ export class ItemStartUseOnEvent {
  */
 export class ItemStartUseOnEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when an item is used on
      * a block.
-     * @param callback
      */
     subscribe(callback: (arg: ItemStartUseOnEvent) => void): (arg: ItemStartUseOnEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an item is used on
      * a block.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemStartUseOnEvent) => void): void;
     protected constructor();
@@ -6214,18 +5674,13 @@ export class ItemStopChargeEvent {
  */
 export class ItemStopChargeEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a chargeable item
      * stops charging.
-     * @param callback
      */
     subscribe(callback: (arg: ItemStopChargeEvent) => void): (arg: ItemStopChargeEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when a chargeable item
      * stops charging.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemStopChargeEvent) => void): void;
     protected constructor();
@@ -6255,18 +5710,13 @@ export class ItemStopUseOnEvent {
  */
 export class ItemStopUseOnEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when an item stops being
      * used on a block.
-     * @param callback
      */
     subscribe(callback: (arg: ItemStopUseOnEvent) => void): (arg: ItemStopUseOnEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an item is used on
      * a block.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemStopUseOnEvent) => void): void;
     protected constructor();
@@ -6301,16 +5751,11 @@ export class ItemUseEvent {
  */
 export class ItemUseEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when an item is used.
-     * @param callback
      */
     subscribe(callback: (arg: ItemUseEvent) => void): (arg: ItemUseEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an item is used.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemUseEvent) => void): void;
     protected constructor();
@@ -6354,18 +5799,13 @@ export class ItemUseOnEvent {
  */
 export class ItemUseOnEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when an item is used on
      * a block.
-     * @param callback
      */
     subscribe(callback: (arg: ItemUseOnEvent) => void): (arg: ItemUseOnEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when an item is used on
      * a block.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ItemUseOnEvent) => void): void;
     protected constructor();
@@ -6401,18 +5841,13 @@ export class LeverActionEvent extends BlockEvent {
  */
 export class LeverActionEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a lever is moved
      * (activates or deactivates).
-     * @param callback
      */
     subscribe(callback: (arg: LeverActionEvent) => void): (arg: LeverActionEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when a lever is moved
      * (activates or deactivates).
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: LeverActionEvent) => void): void;
     protected constructor();
@@ -9462,7 +8897,6 @@ export class MinecraftBlockTypes {
     static readonly 'yellowGlazedTerracotta': BlockType;
     static get(typeName: string): BlockType;
     /**
-     * @remarks
      * Returns an array of all block types within Minecraft.
      */
     static getAllBlockTypes(): BlockType[];
@@ -13529,36 +12963,23 @@ export class MinecraftItemTypes {
  */
 export class MolangVariableMap {
     /**
-     * @remarks
      * Sets a Molang rendering/animation variable with the value of
      * a Red/Green/Blue color.
-     * @param variableName
-     * @param color
      */
     setColorRGB(variableName: string, color: Color): MolangVariableMap;
     /**
-     * @remarks
      * Sets a Molang rendering/animation variable with the value of
      * a Red/Green/Blue color + Alpha (transparency) value.
-     * @param variableName
-     * @param color
      */
     setColorRGBA(variableName: string, color: Color): MolangVariableMap;
     /**
-     * @remarks
      * Sets the speed and direction for a Molang (rendering and
      * animation) variable.
-     * @param variableName
-     * @param speed
-     * @param direction
      */
     setSpeedAndDirection(variableName: string, speed: number, direction: Vector): MolangVariableMap;
     /**
-     * @remarks
      * Sets a vector value for a Molang (rendering and animation)
      * variable.
-     * @param variableName
-     * @param vector
      */
     setVector3(variableName: string, vector: Vector): MolangVariableMap;
 }
@@ -13612,7 +13033,6 @@ export class NumberRange {
      */
     'min': number;
     /**
-     * @remarks
      * Returns a random number between the minimum and maximum of
      * the range.
      */
@@ -13648,10 +13068,8 @@ export class PistonActivateEvent extends BlockEvent {
  */
 export class PistonActivateEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a piston expands or
      * retracts.
-     * @param callback
      * @example pistonEvent.ts
      * ```typescript
      *          let canceled = false;
@@ -13673,11 +13091,8 @@ export class PistonActivateEventSignal {
      */
     subscribe(callback: (arg: PistonActivateEvent) => void): (arg: PistonActivateEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when a piston expands
      * or retracts.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: PistonActivateEvent) => void): void;
     protected constructor();
@@ -13687,251 +13102,48 @@ export class PistonActivateEventSignal {
  */
 export class Player extends Entity {
     /**
-     * Dimension that the entity is currently within.
-     * @throws This property can throw when used.
-     */
-    readonly 'dimension': Dimension;
-    /**
-     * Location of the center of the head component of the player.
-     * @throws This property can throw when used.
-     */
-    readonly 'headLocation': Location;
-    /**
-     * Identifier for the player.
-     * @throws This property can throw when used.
-     */
-    readonly 'id': string;
-    /**
-     * True if the player is currently using a sneaking movement.
-     */
-    'isSneaking': boolean;
-    /**
-     * Current location of the player.
-     * @throws This property can throw when used.
-     */
-    readonly 'location': Location;
-    /**
      * Name of the player.
-     * @throws This property can throw when used.
      */
-    readonly 'name': string;
-    /**
-     * Optional name tag of the player.
-     */
-    'nameTag': string;
+    readonly name: string;
     /**
      * Contains methods for manipulating the on-screen display of a
      * Player.
      */
-    readonly 'onScreenDisplay': ScreenDisplay;
-    /**
-     * Main rotation of the entity.
-     * @throws This property can throw when used.
-     */
-    readonly 'rotation': XYRotation;
-    /**
-     * Returns a scoreboard identity that represents this entity.
-     * @throws This property can throw when used.
-     */
-    readonly 'scoreboard': ScoreboardIdentity;
+    readonly onScreenDisplay: ScreenDisplay;
     /**
      * Manages the selected slot in the player's hotbar.
      */
-    'selectedSlot': number;
+    selectedSlot: number;
     /**
      * If this player has an individual spawn point set, returns the
      * dimension that their spawn point is within.
      */
     readonly spawnDimension?: Dimension;
     /**
-     * Retrieves or sets an entity that is used as the target of
-     * AI-related behaviors, like attacking. For players, which
-     * don't use any AI semantics, this property does not do
-     * anything.
-     */
-    'target': Entity;
-    /**
-     * Current speed of the player across X, Y, and Z dimensions.
-     * @throws This property can throw when used.
-     */
-    readonly 'velocity': Vector;
-    /**
-     * Vector of the current view of the player.
-     * @throws This property can throw when used.
-     */
-    readonly 'viewVector': Vector;
-    /**
-     * @remarks
-     * Adds an effect, like poison, to the entity.
-     * @param effectType
-     * Type of effect to add to the entity.
-     * @param duration
-     * Amount of time, in ticks, for the effect to apply.
-     * @param amplifier
-     * Optional amplification of the effect to apply.
-     * @param showParticles
-     * @throws This function can throw errors.
-     */
-    addEffect(effectType: EffectType, duration: number, amplifier?: number, showParticles?: boolean): void;
-    /**
-     * @remarks
-     * Adds a specified tag to an entity.
-     * @param tag
-     * Content of the tag to add.
-     * @throws This function can throw errors.
-     */
-    addTag(tag: string): boolean;
-    /**
-     * @remarks
      * Clears the spawn point that has been individually set for a player.
-     * @throws
-     * This function can throw errors.
      */
     clearSpawn(): void;
     /**
-     * @remarks
-     * Gets the first block that intersects with the vector of the
-     * view of this entity.
-     * @param options
-     * Additional options for processing this raycast query.
-     * @throws This function can throw errors.
-     */
-    getBlockFromViewVector(options?: BlockRaycastOptions): Block;
-    /**
-     * @remarks
-     * Gets a component (that represents additional capabilities)
-     * for an entity.
-     * @param componentId
-     * The identifier of the component (e.g., 'minecraft:rideable')
-     * to retrieve. If no namespace prefix is specified,
-     * 'minecraft:' is assumed. If the component is not present on
-     * the entity, undefined is returned.
-     */
-    getComponent(componentId: string): IEntityComponent;
-    /**
-     * @remarks
-     * Returns all components that are both present on this entity
-     * and supported by the API.
-     */
-    getComponents(): IEntityComponent[];
-    /**
-     * @remarks
-     * Returns a property value.
-     * @param identifier
-     * @returns
-     * Returns the value for the property, or undefined if the
-     * property has not been set.
-     * @throws This function can throw errors.
-     */
-    getDynamicProperty(identifier: string): boolean | number | string | undefined;
-    /**
-     * @remarks
-     * Returns the effect for the specified EffectType on the
-     * entity, or undefined if the effect is not present.
-     * @param effectType
-     * @returns
-     * Effect object for the specified effect, or undefined if the
-     * effect is not present.
-     * @throws This function can throw errors.
-     */
-    getEffect(effectType: EffectType): Effect;
-    /**
-     * @remarks
-     * Gets the first entity that intersects with the vector of the
-     * view of this entity.
-     * @param options
-     * Additional options for processing this raycast query.
-     * @throws This function can throw errors.
-     */
-    getEntitiesFromViewVector(options?: EntityRaycastOptions): Entity[];
-    /**
-     * @remarks
      * Gets the current item cooldown time for a particular
      * cooldown category.
      * @param itemCategory
      * Specifies the cooldown category to retrieve the current
      * cooldown for.
-     * @throws This function can throw errors.
      */
     getItemCooldown(itemCategory: string): number;
     /**
-     * @remarks
      * Returns an individualized spawn position, if set, for a player.
-     * @throws This function can throw errors.
      */
     getSpawnPosition(): Vector3 | undefined;
     /**
-     * @remarks
-     * Returns all tags associated with an entity.
-     * @throws This function can throw errors.
-     */
-    getTags(): string[];
-    /**
-     * @remarks
-     * Returns true if the specified component is present on this
-     * entity.
-     * @param componentId
-     * The identifier of the component (e.g., 'minecraft:rideable')
-     * to retrieve. If no namespace prefix is specified,
-     * 'minecraft:' is assumed.
-     */
-    hasComponent(componentId: string): boolean;
-    /**
-     * @remarks
-     * Tests whether an entity has a particular tag.
-     * @param tag
-     * Identifier of the tag to test for.
-     * @throws This function can throw errors.
-     */
-    hasTag(tag: string): boolean;
-    /**
-     * @remarks
-     * Kills this entity. The entity will drop loot as normal.
-     * @throws This function can throw errors.
-     */
-    kill(): void;
-    /**
-     * @remarks
      * Plays a sound that only this particular player can hear.
      * @param soundID
      * Identifier of the sound to play.
      * @param soundOptions
      * Additional optional options for the sound.
-     * @throws This function can throw errors.
      */
     playSound(soundID: string, soundOptions?: SoundOptions): void;
     /**
-     * @remarks
-     * Removes a specified property.
-     * @param identifier
-     * @throws This function can throw errors.
-     */
-    removeDynamicProperty(identifier: string): boolean;
-    /**
-     * @remarks
-     * Removes a specified tag from an entity.
-     * @param tag
-     * Content of the tag to remove.
-     * @throws This function can throw errors.
-     */
-    removeTag(tag: string): boolean;
-    /**
-     * @remarks
-     * Runs a particular command asynchronously from the context of
-     * this entity. Where possible, running a command
-     * asynchronously is recommended, especially for long running
-     * operations.
-     * @param commandString
-     * Command to run. Note that command strings should not start
-     * with slash.
-     * @returns
-     * For commands that return data, returns a JSON structure with
-     * command response values.
-     * @throws This function can throw errors.
-     */
-    runCommandAsync(commandString: string): Promise<CommandResult>;
-    /**
-     * @remarks
      * Sends a message to the player.
      * @param message
      * The message to be displayed.
@@ -13968,43 +13180,14 @@ export class Player extends Entity {
      */
     sendMessage(message: (RawMessage | string)[] | RawMessage | string): void;
     /**
-     * @remarks
-     * Sets a specified property to a value.
-     * @param identifier
-     * @param value
-     * Data value of the property to set.
-     * @throws This function can throw errors.
-     */
-    setDynamicProperty(identifier: string, value: boolean | number | string): void;
-    /**
-     * @remarks
-     * Sets the main rotation of the entity.
-     * @param degreesX
-     * @param degreesY
-     * @throws This function can throw errors.
-     */
-    setRotation(degreesX: number, degreesY: number): void;
-    /**
-     * @remarks
      * Sets the individual spawn point of this player.
      * @param spawnPosition
      * Location of the spawn point.
      * @param spawnDimension
      * Dimension to place the player's individualized spawn point within.
-     * @throws
-     * This function can throw errors.
      */
     setSpawn(spawnPosition: Vector3, spawnDimension: Dimension): void;
     /**
-     * @remarks
-     * Sets a velocity for the entity to move with.
-     * @param velocity
-     * X/Y/Z components of the velocity.
-     * @throws This function can throw errors.
-     */
-    setVelocity(velocity: Vector3): void;
-    /**
-     * @remarks
      * Sets the item cooldown time for a particular cooldown
      * category.
      * @param itemCategory
@@ -14012,56 +13195,8 @@ export class Player extends Entity {
      * cooldown for.
      * @param tickDuration
      * Duration in ticks of the item cooldown.
-     * @throws This function can throw errors.
      */
     startItemCooldown(itemCategory: string, tickDuration: number): void;
-    /**
-     * @remarks
-     * Teleports the selected player to a new location
-     * @param location
-     * New location for the player.
-     * @param dimension
-     * Dimension to move the selected player to.
-     * @param xRotation
-     * X rotation of the player after teleportation.
-     * @param yRotation
-     * Y rotation of the player after teleportation.
-     * @param keepVelocity
-     * @throws This function can throw errors.
-     */
-    teleport(
-        location: Vector3,
-        dimension: Dimension,
-        xRotation: number,
-        yRotation: number,
-        keepVelocity?: boolean,
-    ): void;
-    /**
-     * @remarks
-     * Teleports the selected player to a new location, and will
-     * have the player facing a specified location.
-     * @param location
-     * New location for the player.
-     * @param dimension
-     * Dimension to move the selected player to.
-     * @param facingLocation
-     * Location that this player will be facing.
-     * @param keepVelocity
-     * @throws This function can throw errors.
-     */
-    teleportFacing(location: Vector3, dimension: Dimension, facingLocation: Vector3, keepVelocity?: boolean): void;
-    /**
-     * @remarks
-     * Triggers an entity type event. For every entity, a number of
-     * events are defined in an entities' definition for key entity
-     * behaviors; for example, creepers have a
-     * minecraft:start_exploding type event.
-     * @param eventName
-     * Name of the entity type event to trigger. If a namespace is
-     * not specified, minecraft: is assumed.
-     * @throws This function can throw errors.
-     */
-    triggerEvent(eventName: string): void;
     protected constructor();
 }
 /**
@@ -14072,47 +13207,38 @@ export class PlayerInventoryComponentContainer extends InventoryComponentContain
     /**
      * Contains a count of the slots in the container that are
      * empty.
-     * @throws This property can throw when used.
      */
     readonly 'emptySlotsCount': number;
     /**
      * Returns the size capacity of the inventory container on this
      * block.
-     * @throws This property can throw when used.
      */
     readonly 'size': number;
     /**
-     * @remarks
      * Adds an item to the specified container. Item will be placed
      * in the first available empty slot. (use .setItem if you wish
      * to set items in a particular slot.)
      * @param itemStack
      * The stack of items to add.
-     * @throws This function can throw errors.
      */
     addItem(itemStack: ItemStack): void;
     /**
-     * @remarks
      * Gets the item stack for the set of items at the specified
      * slot. If the slot is empty, returns undefined. This method
      * does not change or clear the contents of the specified slot.
      * @param slot
      * Zero-based index of the slot to retrieve items from.
-     * @throws This function can throw errors.
      */
     getItem(slot: number): ItemStack;
     /**
-     * @remarks
      * Sets an item stack within a particular slot.
      * @param slot
      * Zero-based index of the slot to set an item at.
      * @param itemStack
      * Stack of items to place within the specified slot.
-     * @throws This function can throw errors.
      */
     setItem(slot: number, itemStack: ItemStack): void;
     /**
-     * @remarks
      * Swaps items between two different slots within containers.
      * @param slot
      * Zero-based index of the slot to swap from this container.
@@ -14121,11 +13247,9 @@ export class PlayerInventoryComponentContainer extends InventoryComponentContain
      * @param otherContainer
      * Target container to swap with. Note this can be the same
      * container as this source.
-     * @throws This function can throw errors.
      */
     swapItems(slot: number, otherSlot: number, otherContainer: Container): boolean;
     /**
-     * @remarks
      * Moves an item from one slot to another, potentially across
      * containers.
      * @param fromSlot
@@ -14134,7 +13258,6 @@ export class PlayerInventoryComponentContainer extends InventoryComponentContain
      * @param toContainer
      * Target container to transfer to. Note this can be the same
      * container as the source.
-     * @throws This function can throw errors.
      */
     transferItem(fromSlot: number, toSlot: number, toContainer: Container): boolean;
     protected constructor();
@@ -14147,7 +13270,6 @@ export class PlayerInventoryComponentContainer extends InventoryComponentContain
 export class PlayerIterator implements Iterable<Player> {
     [Symbol.iterator](): Iterator<Player>;
     /**
-     * @remarks
      * Retrieves the next item in this iteration. The resulting
      * IteratorResult contains .done and .value properties which
      * can be used to see the next Player in the iteration.
@@ -14178,18 +13300,13 @@ export class PlayerJoinEvent {
  */
 export class PlayerJoinEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a player joins the
      * world.
-     * @param callback
      */
     subscribe(callback: (arg: PlayerJoinEvent) => void): (arg: PlayerJoinEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when a player joins the
      * world.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: PlayerJoinEvent) => void): void;
     protected constructor();
@@ -14235,18 +13352,13 @@ export class PlayerLeaveEvent {
  */
 export class PlayerLeaveEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a player leaves the
      * world.
-     * @param callback
      */
     subscribe(callback: (arg: PlayerLeaveEvent) => void): (arg: PlayerLeaveEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when a player leaves
      * the world.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: PlayerLeaveEvent) => void): void;
     protected constructor();
@@ -14294,18 +13406,13 @@ export class ProjectileHitEvent {
  */
 export class ProjectileHitEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when a projectile hits
      * an entity or block.
-     * @param callback
      */
     subscribe(callback: (arg: ProjectileHitEvent) => void): (arg: ProjectileHitEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when a projectile hits
      * an entity or block.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: ProjectileHitEvent) => void): void;
     protected constructor();
@@ -14317,22 +13424,15 @@ export class ProjectileHitEventSignal {
  */
 export class PropertyRegistry {
     /**
-     * @remarks
      * Registers a dynamic property for a particular entity type
      * (e.g., a minecraft:skeleton.).
-     * @param propertiesDefinition
-     * @param entityType
-     * @throws This function can throw errors.
      */
     registerEntityTypeDynamicProperties(
         propertiesDefinition: DynamicPropertiesDefinition,
         entityType: EntityType,
     ): void;
     /**
-     * @remarks
      * Registers a globally available dynamic property for a world.
-     * @param propertiesDefinition
-     * @throws This function can throw errors.
      */
     registerWorldDynamicProperties(propertiesDefinition: DynamicPropertiesDefinition): void;
     protected constructor();
@@ -14342,61 +13442,37 @@ export class PropertyRegistry {
  */
 export class Scoreboard {
     /**
-     * @remarks
      * Adds a new objective to the scoreboard.
-     * @param objectiveId
-     * @param displayName
-     * @throws This function can throw errors.
      */
     addObjective(objectiveId: string, displayName: string): ScoreboardObjective;
     /**
-     * @remarks
      * Clears the objective that occupies a display slot.
-     * @param displaySlotId
-     * @throws This function can throw errors.
      */
     clearObjectiveAtDisplaySlot(displaySlotId: string): ScoreboardObjective;
     /**
-     * @remarks
      * Returns a specific objective (by id).
-     * @param objectiveId
-     * @throws This function can throw errors.
      */
     getObjective(objectiveId: string): ScoreboardObjective;
     /**
-     * @remarks
      * Returns an objective that occupies the specified display
      * slot.
-     * @param displaySlotId
-     * @throws This function can throw errors.
      */
     getObjectiveAtDisplaySlot(displaySlotId: string): ScoreboardObjectiveDisplayOptions;
     /**
-     * @remarks
      * Returns all defined objectives.
-     * @throws This function can throw errors.
      */
     getObjectives(): ScoreboardObjective[];
     /**
-     * @remarks
      * Returns all defined scoreboard identities.
-     * @throws This function can throw errors.
      */
     getParticipants(): ScoreboardIdentity[];
     /**
-     * @remarks
      * Removes an objective from the scoreboard.
-     * @param objectiveId
-     * @throws This function can throw errors.
      */
     removeObjective(objectiveId: ScoreboardObjective | string): boolean;
     /**
-     * @remarks
      * Sets an objective into a display slot with specified
      * additional display settings.
-     * @param displaySlotId
-     * @param objectiveDisplaySetting
-     * @throws This function can throw errors.
      */
     setObjectiveAtDisplaySlot(
         displaySlotId: string,
@@ -14421,10 +13497,8 @@ export class ScoreboardIdentity {
      */
     readonly 'type': ScoreboardIdentityType;
     /**
-     * @remarks
      * If the scoreboard identity is an entity or player, returns
      * the entity that this scoreboard item corresponds to.
-     * @throws This function can throw errors.
      */
     getEntity(): Entity;
     protected constructor();
@@ -14436,32 +13510,23 @@ export class ScoreboardObjective {
     /**
      * Returns the player-visible name of this scoreboard
      * objective.
-     * @throws This property can throw when used.
      */
     readonly 'displayName': string;
     /**
      * Identifier of the scoreboard objective.
-     * @throws This property can throw when used.
      */
     readonly 'id': string;
     /**
-     * @remarks
      * Returns all objective participant identities.
-     * @throws This function can throw errors.
      */
     getParticipants(): ScoreboardIdentity[];
     /**
-     * @remarks
      * Returns a specific score for a participant.
-     * @param participant
-     * @throws This function can throw errors.
      */
     getScore(participant: ScoreboardIdentity): number;
     /**
-     * @remarks
      * Returns specific scores for this objective for all
      * participants.
-     * @throws This function can throw errors.
      */
     getScores(): ScoreboardScoreInfo[];
     protected constructor();
@@ -14502,35 +13567,23 @@ export class ScoreboardScoreInfo {
  */
 export class ScreenDisplay {
     /**
-     * @remarks
      * Clears the title and subtitle, if currently displayed.
-     * @throws This function can throw errors.
      */
     clearTitle(): void;
     /**
-     * @remarks
      * Set the action bar text - a piece of text that displays
      * beneath the title and above the hot-bar.
-     * @param text
-     * @throws This function can throw errors.
      */
     setActionBar(text: string): void;
     /**
-     * @remarks
      * Will cause a title to show up on the player's on screen
      * display. You can optionally specify an additional subtitle
      * as well as fade in, stay and fade out times.
-     * @param title
-     * @param options
-     * @throws This function can throw errors.
      */
     setTitle(title: string, options?: TitleDisplayOptions): void;
     /**
-     * @remarks
      * Updates the subtitle if the subtitle was previously
      * displayed via the setTitle method.
-     * @param subtitle
-     * @throws This function can throw errors.
      */
     updateSubtitle(subtitle: string): void;
     protected constructor();
@@ -14759,46 +13812,26 @@ export class Vector {
      */
     static readonly 'zero': Vector;
     /**
-     * @remarks
      * Returns the addition of these vectors.
-     * @param a
-     * @param b
      */
     static add(a: Vector, b: Vector): Vector;
     /**
-     * @remarks
      * Creates a new instance of an abstract vector.
-     * @param x
-     * X component of the vector.
-     * @param y
-     * Y component of the vector.
-     * @param z
-     * Z component of the vector.
      */
     constructor(x: number, y: number, z: number);
     /**
-     * @remarks
      * Returns the cross product of these two vectors.
-     * @param a
-     * @param b
      */
     static cross(a: Vector, b: Vector): Vector;
     /**
-     * @remarks
      * Returns the distance between two vectors.
-     * @param a
-     * @param b
      */
     static distance(a: Vector, b: Vector): number;
     /**
-     * @remarks
      * Returns the component-wise division of these vectors.
-     * @param a
-     * @param b
      */
     static divide(a: Vector, b: number | Vector): Vector;
     /**
-     * @remarks
      * Compares this vector and another vector to one another.
      * @param other
      * Other vector to compare this vector to.
@@ -14807,66 +13840,43 @@ export class Vector {
      */
     equals(other: Vector): boolean;
     /**
-     * @remarks
      * Returns the length of this vector.
      */
     length(): number;
     /**
-     * @remarks
      * Returns the squared length of this vector.
      */
     lengthSquared(): number;
     /**
-     * @remarks
      * Returns the linear interpolation between a and b using t as
      * the control.
-     * @param a
-     * @param b
-     * @param t
      */
     static lerp(a: Vector, b: Vector, t: number): Vector;
     /**
-     * @remarks
      * Returns a vector that is made from the largest components of
      * two vectors.
-     * @param a
-     * @param b
      */
     static max(a: Vector, b: Vector): Vector;
     /**
-     * @remarks
      * Returns a vector that is made from the smallest components
      * of two vectors.
-     * @param a
-     * @param b
      */
     static min(a: Vector, b: Vector): Vector;
     /**
-     * @remarks
      * Returns the component-wise product of these vectors.
-     * @param a
-     * @param b
      */
     static multiply(a: Vector, b: number | Vector): Vector;
     /**
-     * @remarks
      * Returns this vector as a normalized vector.
      */
     normalized(): Vector;
     /**
-     * @remarks
      * Returns the spherical linear interpolation between a and b
      * using s as the control.
-     * @param a
-     * @param b
-     * @param s
      */
     static slerp(a: Vector, b: Vector, s: number): Vector;
     /**
-     * @remarks
      * Returns the subtraction of these vectors.
-     * @param a
-     * @param b
      */
     static subtract(a: Vector, b: Vector): Vector;
 }
@@ -14894,16 +13904,11 @@ export class WeatherChangeEvent {
  */
 export class WeatherChangeEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when weather changes.
-     * @param callback
      */
     subscribe(callback: (arg: WeatherChangeEvent) => void): (arg: WeatherChangeEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called when weather changes.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: WeatherChangeEvent) => void): void;
     protected constructor();
@@ -14938,7 +13943,6 @@ export class World {
      */
     getDefaultSpawnPosition(): Vector3;
     /**
-     * @param dimensionId
      * @returns
      * The requested dimension
      * @throws
@@ -14946,51 +13950,33 @@ export class World {
      */
     getDimension(dimensionId: string): Dimension;
     /**
-     * @remarks
      * Returns a property value.
-     * @param identifier
      * @returns
      * Returns the value for the property, or undefined if the
      * property has not been set.
-     * @throws This function can throw errors.
      */
     getDynamicProperty(identifier: string): boolean | number | string | undefined;
     /**
-     * @remarks
      * Returns all players currently in the world.
-     * @param options
      * @returns
      * All players currently in the world.
-     * @throws This function can throw errors.
      */
     getPlayers(options?: EntityQueryOptions): PlayerIterator;
     /**
-     * @remarks
      * Plays a particular music track for all players.
-     * @param trackID
-     * @param musicOptions
      */
     playMusic(trackID: string, musicOptions?: MusicOptions): void;
     /**
-     * @remarks
      * Plays a sound for all players.
-     * @param soundID
-     * @param soundOptions
      */
     playSound(soundID: string, soundOptions?: SoundOptions): void;
     /**
-     * @remarks
      * Queues an additional music track for players. If a track is
      * not playing, a music track will play.
-     * @param trackID
-     * @param musicOptions
      */
     queueMusic(trackID: string, musicOptions?: MusicOptions): void;
     /**
-     * @remarks
      * Removes a specified property.
-     * @param identifier
-     * @throws This function can throw errors.
      */
     removeDynamicProperty(identifier: string): boolean;
     /**
@@ -15036,21 +14022,15 @@ export class World {
      * dimension.
      * @param spawnPosition
      * Location within the overworld where a player will spawn.
-     * @throws
-     * This function can throw errors.
      */
     setDefaultSpawn(spawnPosition: Vector3): void;
     /**
-     * @remarks
      * Sets a specified property to a value.
-     * @param identifier
      * @param value
      * Data value of the property to set.
-     * @throws This function can throw errors.
      */
     setDynamicProperty(identifier: string, value: boolean | number | string): void;
     /**
-     * @remarks
      * Stops any music tracks from playing.
      */
     stopMusic(): void;
@@ -15094,18 +14074,13 @@ export class WorldInitializeEvent {
  */
 export class WorldInitializeEventSignal {
     /**
-     * @remarks
      * Adds a callback that will be called when the scripting
      * environment is initialized for a World.
-     * @param callback
      */
     subscribe(callback: (arg: WorldInitializeEvent) => void): (arg: WorldInitializeEvent) => void;
     /**
-     * @remarks
      * Removes a callback from being called the scripting
      * environment is initialized for a World.
-     * @param callback
-     * @throws This function can throw errors.
      */
     unsubscribe(callback: (arg: WorldInitializeEvent) => void): void;
     protected constructor();
