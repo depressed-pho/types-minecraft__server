@@ -2656,6 +2656,7 @@ export class EntityCreateEventSignal {
 export class EntityDieEvent {
     readonly damageCause: EntityDamageCause;
     readonly deadEntity: Entity;
+    protected constructor();
 }
 export class EntityDieEventSignal {
     subscribe(callback: (arg: EntityDieEvent) => void, options?: EntityEventOptions): (arg: EntityDieEvent) => void;
