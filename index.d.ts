@@ -665,7 +665,8 @@ export class Block {
     getComponent(componentName: string): BlockComponent | undefined;
     /**
      * Creates a prototype item stack based on this block that can be used
-     * with Container/ContainerSlot APIs.
+     * with {@link @minecraft/server.Container}/{@link
+     * @minecraft/server.ContainerSlot} APIs.
      * @param amount
      * Number of instances of this block to place in the item stack.
      * @param withData
@@ -978,7 +979,8 @@ export class BlockPermutation {
     getAllProperties(): IBlockProperty[];
     /**
      * Retrieves a prototype item stack based on this block permutation
-     * that can be used with item Container/ContainerSlot APIs.
+     * that can be used with item {@link
+     * @minecraft/server.Container}/{@link @minecraft/ContainerSlot} APIs.
      * @param amount
      * Number of instances of this block to place in the prototype item stack.
      */
@@ -2055,28 +2057,44 @@ export class Container {
     /**
      * Contains a count of the slots in the container that are
      * empty.
+     * @throws
+     * Throws if the container is invalid.
      */
-    readonly 'emptySlotsCount': number;
+    readonly emptySlotsCount: number;
     /**
      * Represents the size of the container. For example, a
      * standard single-block chest has a size of 27, for the 27
      * slots in their inventory.
+     * @throws
+     * Throws if the container is invalid.
      */
-    readonly 'size': number;
+    readonly size: number;
     /**
      * Adds an item to the specified container. Item will be placed
      * in the first available empty slot. (use .setItem if you wish
      * to set items in a particular slot.)
      * @param itemStack
      * The stack of items to add.
+     * @throws
+     * Throws if the container is invalid.
      */
     addItem(itemStack: ItemStack): void;
+    /**
+     * Clears all inventory items in the container.
+     * @throws
+     * Throws if the container is invalid.
+     */
+    clearAll(): void;
     /**
      * Gets the item stack for the set of items at the specified
      * slot. If the slot is empty, returns undefined. This method
      * does not change or clear the contents of the specified slot.
      * @param slot
      * Zero-based index of the slot to retrieve items from.
+     * @throws
+     * Throws if the container is invalid or if the `slot` index is out of
+     * bounds.
+     *
      * @example getItem.js
      * ```typescript
      *        const rightInventoryComp = rightChestCart.getComponent("inventory");
@@ -2088,15 +2106,52 @@ export class Container {
      *        test.assert(itemStack.amount === 10, "Expected 10 apples");
      * ```
      */
-    getItem(slot: number): ItemStack;
+    getItem(slot: number): ItemStack | undefined;
+    /**
+     * Returns a container slot. This acts as a reference to a slot at the
+     * given index for this container.
+     * @param slot
+     * The index of the slot to return. This index must be within the
+     * bounds of the container.
+     * @throws
+     * Throws if the container is invalid or if the `slot` index is out of
+     * bounds.
+     */
+    getSlot(slot: number): ContainerSlot;
+    /**
+     * Moves an item from one slot to another, potentially across
+     * containers.
+     * @param fromSlot
+     * Zero-based index of the slot to transfer an item from, on this
+     * container.
+     * @param toSlot
+     * Zero-based index of the slot to transfer an item to, on
+     * `toContainer`.
+     * @param toContainer
+     * Target container to transfer to. Note this can be the same container
+     * as the source.
+     * @throws
+     * Throws if either this container or `toContainer` are invalid or if the
+     * `fromSlot` or `toSlot` indices out of bounds.
+     *
+     * @example moveItem.ts
+     * ```typescript
+     * // Move an item from the first slot of fromPlayer's inventory to the fifth slot of toPlayer's inventory
+     * const fromInventory = fromPlayer.getComponent('inventory') as EntityInventoryComponent;
+     * const toInventory = toPlayer.getComponent('inventory') as EntityInventoryComponent;
+     * fromInventory.container.moveItem(0, 4, toInventory.container);
+     * ```
+     */
+    moveItem(fromSlot: number, toSlot: number, toContainer: Container): void;
     /**
      * Sets an item stack within a particular slot.
      * @param slot
      * Zero-based index of the slot to set an item at.
      * @param itemStack
-     * Stack of items to place within the specified slot.
+     * Stack of items to place within the specified slot. Setting itemStack
+     * to `undefined` will clear the slot.
      */
-    setItem(slot: number, itemStack: ItemStack): void;
+    setItem(slot: number, itemStack?: ItemStack): void;
     /**
      * Swaps items between two different slots within containers.
      * @param slot
@@ -2106,10 +2161,15 @@ export class Container {
      * @param otherContainer
      * Target container to swap with. Note this can be the same
      * container as this source.
-     * @example swapItems.js
-     * ```typescript
-     *        rightChestContainer.swapItems(1, 0, leftChestContainer); // swap the cake and emerald
+     * @throws
+     * Throws if either this container or `otherContainer` are invalid or if
+     * the `slot` or `otherSlot` are out of bounds.
      *
+     * @example swapItems.ts
+     * ```typescript
+     * // Swaps an item between slots 0 and 4 in the player's inventory
+     * const inventory = fromPlayer.getComponent('inventory') as EntityInventoryComponent;
+     * inventory.container.swapItems(0, 4, inventory);
      * ```
      */
     swapItems(slot: number, otherSlot: number, otherContainer: Container): boolean;
@@ -2122,10 +2182,13 @@ export class Container {
      * @param toContainer
      * Target container to transfer to. Note this can be the same
      * container as the source.
-     * @example transferItem.js
-     * ```typescript
-     *        rightChestContainer.transferItem(0, 4, chestCartContainer); // transfer the apple from the right chest to a chest cart
      *
+     * @example transferItem.ts
+     * ```typescript
+     * // Transfer an item from the first slot of fromPlayer's inventory to toPlayer's inventory
+     * const fromInventory = fromPlayer.getComponent('inventory') as EntityInventoryComponent;
+     * const toInventory = toPlayer.getComponent('inventory') as EntityInventoryComponent;
+     * fromInventory.container.transferItem(0, toInventory.container);
      * ```
      */
     transferItem(fromSlot: number, toSlot: number, toContainer: Container): boolean;
