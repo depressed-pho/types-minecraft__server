@@ -1776,7 +1776,7 @@ export class Dimension {
      * @returns
      * Block at the specified location.
      */
-    getBlock(location: Vector3): Block;
+    getBlock(location: Vector3): Block|undefined;
     /**
      * Gets the first block that intersects with a vector emanating
      * from a location.
