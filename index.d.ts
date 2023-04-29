@@ -4671,22 +4671,22 @@ export class ExplosionOptions {
  */
 export class FeedItem {
     /**
-     * As part of the Healable component, an optional collection of
-     * side effects that can occur from being fed an item.
-     */
-    readonly 'effects': FeedItemEffect[];
-    /**
      * The amount of health this entity gains when fed this item.
      * This number is an integer starting at 0. Sample values can
      * go as high as 40.
      */
-    readonly 'healAmount': number;
+    readonly healAmount: number;
     /**
      * Identifier of type of item that can be fed. If a namespace
      * is not specified, 'minecraft:' is assumed. Example values
      * include 'wheat' or 'golden_apple'.
      */
-    readonly 'item': string;
+    readonly item: string;
+    /**
+     * As part of the Healable component, an optional collection of side
+     * effects that can occur from being fed an item.
+     */
+    getEffects(): FeedItemEffect[];
     protected constructor();
 }
 /**
