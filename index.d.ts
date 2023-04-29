@@ -12565,21 +12565,15 @@ export class NavigationResult {
  * Represents a min/max structure for expressing a potential
  * range of numbers.
  */
-export class NumberRange {
+export interface NumberRange {
     /**
      * Maximum value within a range.
      */
-    'max': number;
+    max: number;
     /**
      * Minimum value within a range.
      */
-    'min': number;
-    /**
-     * Returns a random number between the minimum and maximum of
-     * the range.
-     */
-    next(): number;
-    protected constructor();
+    min: number;
 }
 /**
  * Contains information related to changes to a piston
