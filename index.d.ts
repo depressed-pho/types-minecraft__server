@@ -15,10 +15,9 @@
  * ```json
  * {
  *   "module_name": "@minecraft/server",
- *   "version": "1.0.0"
+ *   "version": "1.2.0"
  * }
  * ```
- *
  */
 /**
  * Represents a direction for expressing relative position or
@@ -76,6 +75,24 @@ export enum DisplaySlotId {
      */
     sidebar = 'sidebar',
 }
+export enum DyeColor {
+    black     = "black",
+    blue      = "blue",
+    brown     = "brown",
+    cyan      = "cyan",
+    gray      = "gray",
+    green     = "green",
+    lightBlue = "lightBlue",
+    lime      = "lime",
+    magenta   = "magenta",
+    orange    = "orange",
+    pink      = "pink",
+    purple    = "purple",
+    red       = "red",
+    silver    = "silver",
+    white     = "white",
+    yellow    = "yellow",
+}
 export enum EntityDamageCause {
     anvil = 'anvil',
     blockExplosion = 'blockExplosion',
@@ -108,6 +125,14 @@ export enum EntityDamageCause {
     thorns = 'thorns',
     void = 'void',
     wither = 'wither',
+}
+export enum EquipmentSlot {
+    chest    = "chest",
+    feet     = "feet",
+    head     = "head",
+    legs     = "legs",
+    mainhand = "mainhand",
+    offhand  = "offhand",
 }
 /**
  * Represents the type of fluid for use within a fluid
@@ -159,6 +184,11 @@ export enum GameMode {
      */
     survival = 'survival',
 }
+export enum ItemLockMode {
+    inventory = "inventory",
+    none      = "none",
+    slot      = "slot",
+}
 /**
  * Used for specifying a sort order for how to display an
  * objective and its list of participants.
@@ -193,6 +223,19 @@ export enum ScoreboardIdentityType {
      * This scoreboard participant is tied to a player.
      */
     player = 'player',
+}
+/**
+ * Represents a side of a sign.
+ */
+export enum SignSide {
+    /**
+     * The back of the sign.
+     */
+    back = "back",
+    /**
+     * The front of the sign.
+     */
+    front = "front",
 }
 /**
  * An enumeration with the reason that a watchdog is deciding
@@ -729,8 +772,9 @@ export class BlockBreakEventSignal {
 /**
  * Base type for components associated with blocks.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class BlockComponent {
+export class BlockComponent extends Component {
+    /** Block instance that this component pertains to. */
+    readonly block: Block;
     protected constructor();
 }
 /**
@@ -810,114 +854,54 @@ export interface BlockHitInformation {
 /**
  * Represents the inventory of a block in the world. Used with
  * blocks like chests.
+ *
+ * @example place_items_in_chest.js
+ * ```javascript
+ * import { world, MinecraftBlockTypes, Items, ItemStack } from "@minecraft/server";
+ * // Fetch block
+ * const block = world.getDimension("overworld").getBlock({ x: 1, y: 2, z: 3 });
+ * // Make it a chest
+ * block.setType(MinecraftBlockTypes.chest);
+ * // Get the inventory
+ * const inventoryComponent = block.getComponent("inventory");
+ * const inventoryContainer = inventoryComponent.container;
+ * // Set slot 0 to a stack of 10 apples
+ * inventoryContainer.setItem(0, new ItemStack(Items.apple, 10, 0));
+ * ```
  */
 export class BlockInventoryComponent extends BlockComponent {
     /**
      * The container which holds an {@link @minecraft/server.ItemStack}.
      */
-    readonly 'container': BlockInventoryComponentContainer;
+    readonly container: Container;
     /**
-     * Coordinates of the specified block.
+     * Identifier of this component. Should always be
+     * `minecraft:inventory`.
      */
-    readonly 'location': Vector3;
-    static readonly 'typeId' = 'inventory';
-    protected constructor();
-}
-/**
- * Represents the inventory of a {@link @minecraft/server.Block} in the
- * world. Used with blocks like chests.
- */
-export class BlockInventoryComponentContainer extends Container {
-    /**
-     * Contains a count of the slots in the container that are
-     * empty.
-     */
-    readonly 'emptySlotsCount': number;
-    /**
-     * Returns the size capacity of the inventory container on this
-     * block.
-     */
-    readonly 'size': number;
-    /**
-     * Adds an item to the specified container. Item will be placed
-     * in the first available empty slot. (use .setItem if you wish
-     * to set items in a particular slot.)
-     * @param itemStack
-     * The stack of items to add.
-     */
-    addItem(itemStack: ItemStack): void;
-    /**
-     * Gets the item stack for the set of items at the specified
-     * slot. If the slot is empty, returns undefined. This method
-     * does not change or clear the contents of the specified slot.
-     * @param slot
-     * Zero-based index of the slot to retrieve items from.
-     * @example getItem.js
-     * ```typescript
-     *        const itemStack = rightChestContainer.getItem(0);
-     *        test.assert(itemStack.id === "apple", "Expected apple");
-     *        test.assert(itemStack.amount === 10, "Expected 10 apples");
-     * ```
-     */
-    getItem(slot: number): ItemStack;
-    /**
-     * Sets an item stack within a particular slot.
-     * @param slot
-     * Zero-based index of the slot to set an item at.
-     * @param itemStack
-     * Stack of items to place within the specified slot.
-     */
-    setItem(slot: number, itemStack: ItemStack): void;
-    /**
-     * Swaps items between two different slots within containers.
-     * @param slot
-     * Zero-based index of the slot to swap from this container.
-     * @param otherSlot
-     * Zero-based index of the slot to swap with.
-     * @param otherContainer
-     * Target container to swap with. Note this can be the same
-     * container as this source.
-     * @example swapItems.js
-     * ```typescript
-     *        rightChestContainer.swapItems(1, 0, leftChestContainer); // swap item in slot 1 of rightChestContainer with item in slot 0 of leftChestContainer
-     *
-     * ```
-     */
-    swapItems(slot: number, otherSlot: number, otherContainer: Container): boolean;
-    /**
-     * Moves an item from one slot to another, potentially across
-     * containers.
-     * @param fromSlot
-     * @param toSlot
-     * Zero-based index of the slot to move to.
-     * @param toContainer
-     * Target container to transfer to. Note this can be the same
-     * container as the source.
-     * @example transferItem.js
-     * ```typescript
-     *        rightChestContainer.transferItem(0, 4, chestCartContainer); // transfer the apple from the right chest to a chest cart
-     *
-     * ```
-     */
-    transferItem(fromSlot: number, toSlot: number, toContainer: Container): boolean;
+    static readonly componentId = "minecraft:inventory";
     protected constructor();
 }
 /**
  * Represents a fluid container block that currently contains
  * lava.
  */
-export class BlockLavaContainerComponent extends BlockComponent {
+export class BlockLavaContainerComponent extends BlockLiquidContainerComponent {
     /**
-     * Relative level of lava within this block. Valid values are
-     * between FluidContainer.minFillLevel (0) and
-     * FluidContainer.maxFillLevel (6).
+     * Identifier of this component. Should always be
+     * `minecraft:lavaContainer`.
      */
-    'fillLevel': number;
+    static readonly componentId = "minecraft:lavaContainer";
+    protected constructor();
+}
+/**
+ * For blocks that can contain a liquid (e.g., a cauldron), this is a base
+ * component for liquid containers.
+ */
+export class BlockLiquidContainerComponent extends BlockComponent {
     /**
-     * Source location of the block.
+     * Relative fill level of the liquid container.
      */
-    readonly 'location': Vector3;
-    static readonly 'typeId' = 'lavaContainer';
+    fillLevel: number;
     protected constructor();
 }
 /**
@@ -988,29 +972,28 @@ export class BlockPistonComponent extends BlockComponent {
     /**
      * Whether the piston is fully expanded.
      */
-    readonly 'isExpanded': boolean;
+    readonly isExpanded: boolean;
     /**
      * Whether the piston is in the process of expanding.
      */
-    readonly 'isExpanding': boolean;
+    readonly isExpanding: boolean;
     /**
      * Whether the piston is in the process of expanding or
      * retracting.
      */
-    readonly 'isMoving': boolean;
+    readonly isMoving: boolean;
     /**
      * Whether the piston is fully retracted.
      */
-    readonly 'isRetracted': boolean;
+    readonly isRetracted: boolean;
     /**
      * Whether the piston is in the process of retracting.
      */
-    readonly 'isRetracting': boolean;
+    readonly isRetracting: boolean;
     /**
-     * Source location of the block.
+     * Identifier of this component.
      */
-    readonly 'location': Vector3;
-    static readonly 'typeId' = 'piston';
+    static readonly componentId = "minecraft:piston";
     protected constructor();
 }
 /**
@@ -1054,18 +1037,7 @@ export class BlockPlaceEventSignal {
  * Represents a fluid container block that currently contains a
  * potion.
  */
-export class BlockPotionContainerComponent extends BlockComponent {
-    /**
-     * Relative level of potion liquid within this block. Valid
-     * values are between FluidContainer.minFillLevel (0) and
-     * FluidContainer.maxFillLevel (6).
-     */
-    'fillLevel': number;
-    /**
-     * Source location of the block.
-     */
-    readonly 'location': Vector3;
-    static readonly 'typeId' = 'potionContainer';
+export class BlockPotionContainerComponent extends BlockLiquidContainerComponent {
     /**
      * Sets the potion type based on an item stack.
      * @param item
@@ -1073,6 +1045,11 @@ export class BlockPotionContainerComponent extends BlockComponent {
      * container.
      */
     setPotionType(item: ItemStack): void;
+    /**
+     * Identifier of this component. Should always be
+     * `minecraft:potionContainer`.
+     */
+    static readonly componentId = "minecraft:potionContainer";
     protected constructor();
 }
 // tslint:disable-next-line:no-unnecessary-class
@@ -1699,8 +1676,6 @@ export class BlockRaycastOptions {
  * Represents a block that can play a record.
  */
 export class BlockRecordPlayerComponent extends BlockComponent {
-    readonly 'location': Vector3;
-    static readonly 'typeId' = 'recordPlayer';
     /**
      * Clears the currently playing record of this record-playing
      * block.
@@ -1715,30 +1690,110 @@ export class BlockRecordPlayerComponent extends BlockComponent {
      * Sets and plays a record based on an item type.
      */
     setRecord(recordItemType: ItemType): void;
+    /**
+     * Identifier of this component. Should always be
+     * `minecraft:recordPlayer`.
+     */
+    static readonly componentId = "minecraft:recordPlayer";
     protected constructor();
 }
 export class BlockSignComponent extends BlockComponent {
-    readonly 'location': Vector3;
-    readonly 'text': string;
-    static readonly 'typeId' = 'sign';
+    /**
+     * Whether or not players can edit the sign. This happens if a sign has
+     * had a honeycomb used on it or `setWaxed` was called on the sign.
+     */
+    readonly isWaxed: boolean;
+    /**
+     * Returns the RawText of the sign if `setText` was called with a
+     * RawMessage or a RawText object, otherwise returns `undefined`.
+     * @param side
+     * The side of the sign to read the message from. If not provided, this
+     * will return the message from the front side of the sign.
+     */
+    getRawText(side?: SignSide): RawText | undefined;
+    /**
+     * Returns the text of the sign if `setText` was called with a string,
+     * otherwise returns `undefined`.
+     * @param side
+     * The side of the sign to read the message from. If not provided, this
+     * will return the message from the front side of the sign.
+     */
+    getText(side?: SignSide): string | undefined;
+    /**
+     * Gets the dye that is on the text or `undefined` if the sign has not
+     * been dyed.
+     * @param side
+     * The side of the sign to read the dye from. If not provided, this
+     * will return the dye on the front side of the sign.
+     */
+    getTextDyeColor(side?: SignSide): DyeColor | undefined;
+    /**
+     * Sets the text of the sign component.
+     * @param message
+     * The message to set on the sign. If set to a string, then call
+     * `getText` to read that string. If set to a RawMessage, then calling
+     * `getRawText` will return a RawText. If set to a RawText, then calling
+     * `getRawText` will return the same object that was passed in.
+     * @param side
+     * The side of the sign the message will be set on. If not provided,
+     * the message will be set on the front side of the sign.
+     *
+     * @example SetRawMessage.ts
+     * ```typescript
+     * const helloWorldMessage: RawMessage = { text: 'Hello World' };
+     * sign.setText(helloWorldMessage);
+     * // Sign text will be saved as a RawText
+     * const result: RawText = sign.getRawText();
+     * JSON.stringify(result); // { rawtext: [{ text: 'Hello World' }] };
+     * ```
+     *
+     * @example SetRawText.ts
+     * ```typescript
+     * const helloWorldText: RawText = { rawtext: [{ text: 'Hello World' }] };
+     * sign.setText(helloWorldText);
+     * // There will be no data transformation unlike calling setText with a RawMessage
+     * const result: RawText = sign.getRawText();
+     * JSON.stringify(result); // { rawtext: [{ text: 'Hello World' }] };
+     * ```
+     *
+     * @example SetString.ts
+     * ```typescript
+     * // Set sign to say 'Hello'
+     * sign.setText('Hello');
+     * sign.getText(); // 'Hello'
+     * ```
+     */
+    setText(message: RawMessage | RawText | string, side?: SignSide): void;
+    /**
+     * Sets the dye color of the text.
+     * @param color
+     * The dye color to apply to the sign or `undefined` to clear the dye on
+     * the sign.
+     * @param side
+     * The side of the sign the color will be set on. If not provided, the
+     * color will be set on the front side of the sign.
+     */
+    setTextDyeColor(color?: DyeColor, side?: SignSide): void;
+    /**
+     * Makes it so players cannot edit this sign.
+     */
+    setWaxed(): void;
+    /**
+     * Identifier of this component. Should always be `minecraft:sign`.
+     */
+    static readonly componentId = "minecraft:sign";
     protected constructor();
 }
 /**
  * Represents a fluid container block that currently contains
  * snow.
  */
-export class BlockSnowContainerComponent extends BlockComponent {
+export class BlockSnowContainerComponent extends BlockLiquidContainerComponent {
     /**
-     * Relative level of snow within this block. Valid values are
-     * between FluidContainer.minFillLevel (0) and
-     * FluidContainer.maxFillLevel (6).
+     * Identifier of this component. Should always be
+     * `minecraft:snowContainer`.
      */
-    'fillLevel': number;
-    /**
-     * Source location of the block.
-     */
-    readonly 'location': Vector3;
-    static readonly 'typeId' = 'snowContainer';
+    static readonly componentId = "minecraft:snowContainer";
     protected constructor();
 }
 /**
@@ -1769,26 +1824,20 @@ export class BlockType {
  * Represents a fluid container block that currently contains
  * water.
  */
-export class BlockWaterContainerComponent extends BlockComponent {
+export class BlockWaterContainerComponent extends BlockLiquidContainerComponent {
     /**
      * Represents a color facet of the water.
      */
-    'customColor': Color;
-    /**
-     * Relative level of water within this block. Valid values are
-     * between FluidContainer.minFillLevel (0) and
-     * FluidContainer.maxFillLevel (6).
-     */
-    'fillLevel': number;
-    /**
-     * Source location of the block.
-     */
-    readonly 'location': Vector3;
-    static readonly 'typeId' = 'waterContainer';
+    customColor: Color;
     /**
      * Adds an item and colors the water based on a dye item type.
      */
     addDye(itemType: ItemType): void;
+    /**
+     * Identifier of this component. Should always be
+     * `minecraft:waterContainer`.
+     */
+    static readonly componentId = "minecraft:waterContainer";
     protected constructor();
 }
 /**
@@ -1931,6 +1980,14 @@ export interface Color {
     red: number;
 }
 /**
+ * Base class for downstream Component implementations.
+ */
+export class Component {
+    /** Identifier of the component. */
+    readonly typeId: string;
+    protected constructor();
+}
+/**
  * Contains return data on the result of a command execution.
  */
 export class CommandResult {
@@ -2025,6 +2082,128 @@ export class Container {
      * ```
      */
     transferItem(fromSlot: number, toSlot: number, toContainer: Container): boolean;
+    protected constructor();
+}
+/**
+ * Represents a slot within a broader container (e.g., entity inventory.)
+ */
+export class ContainerSlot {
+    /**
+     * Number of the items in the stack. Valid values range between
+     * 1-255. The provided value will be clamped to the item's maximum
+     * stack size.
+     * @throws
+     * Throws if the value is outside the range of 1-255.
+     */
+    amount: number;
+    /**
+     * Returns whether the item is stackable. An item is considered
+     * stackable if the item's maximum stack size is greater than 1 and the
+     * item does not contain any custom data or properties.
+     * @throws
+     * Throws if the slot's container is invalid.
+     */
+    readonly isStackable: boolean;
+    readonly isValid: boolean;
+    /**
+     * Gets or sets whether the item is kept on death.
+     * @throws
+     * Throws if the slot's container is invalid.
+     */
+    keepOnDeath: boolean;
+    /**
+     * Gets or sets the item's lock mode. The default value is {@link
+     * @minecraft/server.ItemLockMode.none}.
+     * @throws
+     * Throws if the slot's container is invalid.
+     */
+    lockMode: ItemLockMode;
+    /**
+     * The maximum stack size. This value varies depending on the type of
+     * item. For example, torches have a maximum stack size of 64, while
+     * eggs have a maximum stack size of 16.
+     * @throws
+     * Throws if the slot's container is invalid.
+     */
+    readonly maxAmount: number;
+    /**
+     * Given name of this stack of items. The name tag is displayed when
+     * hovering over the item. Setting the name tag to an empty string or
+     * `undefined` will remove the name tag.
+     * @throws
+     * Throws if the slot's container is invalid. Also throws if the length
+     * exceeds 255 characters.
+     */
+    nameTag?: string;
+    /**
+     * The type of the item.
+     * @throws
+     * Throws if the slot's container is invalid.
+     */
+    readonly type: ItemType;
+    /**
+     * Identifier of the type of items for the stack. If a namespace is not
+     * specified, `minecraft:` is assumed. Examples include `wheat` or
+     * `apple`.
+     * @throws
+     * Throws if the slot's container is invalid.
+     */
+    readonly typeId?: string;
+    /**
+     * Creates an exact copy of the item stack, including any custom data
+     * or properties.
+     * @throws
+     * Throws if the slot's container is invalid.
+     */
+    clone(): ItemStack;
+    getItem(): ItemStack | undefined;
+    /**
+     * Returns the lore value - a secondary display string - for an
+     * ItemStack.
+     * @returns
+     * An array of lore strings. If the item does not have lore, returns an
+     * empty array.
+     * @throws
+     * Throws if the slot's container is invalid.
+     */
+    getLore(): string[];
+    getTags(): string[];
+    hasTag(tag: string): boolean;
+    /**
+     * Returns whether this item stack can be stacked with the given
+     * `itemStack`. This is determined by comparing the item type and any
+     * custom data and properties associated with the item stacks. The
+     * amount of each item stack is not taken into consideration.
+     * @throws
+     * Throws if the slot's container is invalid.
+     */
+    isStackableWith(itemStack: ItemStack): boolean;
+    /**
+     * The list of block types this item can break in Adventure mode. The
+     * block names are displayed in the item's tooltip. Setting the value
+     * to `undefined` will clear the list.
+     * @throws
+     * Throws if the slot's container is invalid. Also throws if any of the
+     * provided block identifiers are invalid.
+     */
+    setCanDestroy(blockIdentifiers?: string[]): void;
+    /**
+     * The list of block types this item can be placed on in Adventure
+     * mode. This is only applicable to block items. The block names are
+     * displayed in the item's tooltip. Setting the value to `undefined`
+     * will clear the list.
+     * @throws
+     * Throws if the slot's container is invalid. Also throws if any of the
+     * provided block identifiers are invalid.
+     */
+    setCanPlaceOn(blockIdentifiers?: string[]): void;
+    setItem(itemStack?: ItemStack): void;
+    /**
+     * Sets the lore value - a secondary display string - for an ItemStack.
+     * @throws
+     * Throws if the slot's container is invalid.
+     */
+    setLore(loreList?: string[]): void;
     protected constructor();
 }
 /**
@@ -2658,12 +2837,12 @@ export class Entity {
      * 'minecraft:' is assumed. If the component is not present on
      * the entity, undefined is returned.
      */
-    getComponent(componentId: string): IEntityComponent;
+    getComponent(componentId: string): EntityComponent;
     /**
      * Returns all components that are both present on this entity
      * and supported by the API.
      */
-    getComponents(): IEntityComponent[];
+    getComponents(): EntityComponent[];
     /**
      * Returns a property value.
      * @returns
@@ -2805,22 +2984,21 @@ export class Entity {
  * When added, this component makes the entity spawn with a
  * rider of the specified entityType.
  */
-export class EntityAddRiderComponent extends IEntityComponent {
+export class EntityAddRiderComponent extends EntityComponent {
     /**
      * The type of entity that is added as a rider for this entity
      * when spawned under certain conditions.
      */
-    readonly 'entityType': string;
+    readonly entityType: string;
     /**
      * Optional spawn event to trigger on the rider when that rider
      * is spawned for this entity.
      */
-    readonly 'spawnEvent': string;
+    readonly spawnEvent: string;
     /**
-     * Identifier of this component. Should always be
-     * minecraft:addrider.
+     * Identifier of this component. Should always be `minecraft:addrider`.
      */
-    static readonly 'typeId' = 'minecraft:addrider';
+    static readonly componentId = "minecraft:addrider";
     protected constructor();
 }
 /**
@@ -2828,104 +3006,137 @@ export class EntityAddRiderComponent extends IEntityComponent {
  * accelerated by giving the entity the items it likes as
  * defined by feedItems.
  */
-export class EntityAgeableComponent extends IEntityComponent {
-    /**
-     * List of items that the entity drops when it grows up.
-     */
-    readonly 'dropItems': string[];
+export class EntityAgeableComponent extends EntityComponent {
     /**
      * Amount of time before the entity grows up, -1 for always a
      * baby.
      */
     readonly 'duration': number;
     /**
-     * List of items that can be fed to the entity. Includes 'item'
-     * for the item name and 'growth' to define how much time it
-     * grows up by.
-     */
-    readonly 'feedItems': EntityDefinitionFeedItem[];
-    /**
      * Event to run when this entity grows up.
      */
     readonly 'growUp': Trigger;
     /**
-     * Identifier of this component. Should always be
-     * minecraft:ageable.
+     * List of items that the entity drops when it grows up.
      */
-    static readonly 'typeId' = 'minecraft:ageable';
+    getDropItems(): string[];
+    /**
+     * List of items that can be fed to the entity. Includes `item` for the
+     * item name and `growth` to define how much time it grows up by.
+     */
+    getFeedItems(): EntityDefinitionFeedItem[];
+    /**
+     * Identifier of this component. Should always be `minecraft:ageable`.
+     */
+    static readonly componentId = "minecraft:ageable";
+    protected constructor();
+}
+export class EntityAttributeComponent extends EntityComponent {
+    /**
+     * The current value of the attribute for the entity.
+     */
+    readonly current: number;
+    /**
+     * The value of the attribute as defined through entity components.
+     */
+    readonly value: number;
+    /**
+     * Resets the current value of the attribute to its default value.
+     */
+    resetToDefaultValue(): void;
+    /**
+     * Resets the current value of the attribute to the maximum.
+     */
+    resetToMaxValue(): void;
+    /**
+     * Resets the current value of the attribute to the minimum.
+     */
+    resetToMinValue(): void;
+    /**
+     * Sets the current value of the attribute for the entity.
+     */
+    setCurrent(value: number): boolean;
+    protected constructor();
+}
+/**
+ * Base class for a family of entity movement events.
+ */
+export class EntityBaseMovementComponent extends EntityComponent {
+    /**
+     * The maximum number in degrees the entity can turn per tick.
+     */
+    readonly maxTurn: number;
     protected constructor();
 }
 /**
  * Defines what blocks this entity can breathe in and gives
  * them the ability to suffocate.
  */
-export class EntityBreathableComponent extends IEntityComponent {
-    /**
-     * List of blocks this entity can breathe in, in addition to
-     * the separate properties for classes of blocks.
-     */
-    readonly 'breatheBlocks': BlockPermutation[];
+export class EntityBreathableComponent extends EntityComponent {
     /**
      * If true, this entity can breathe in air.
      */
-    readonly 'breathesAir': boolean;
+    readonly breathesAir: boolean;
     /**
      * If true, this entity can breathe in lava.
      */
-    readonly 'breathesLava': boolean;
+    readonly breathesLava: boolean;
     /**
      * If true, this entity can breathe in solid blocks.
      */
-    readonly 'breathesSolids': boolean;
+    readonly breathesSolids: boolean;
     /**
      * If true, this entity can breathe in water.
      */
-    readonly 'breathesWater': boolean;
+    readonly breathesWater: boolean;
     /**
      * If true, this entity will have visible bubbles while in
      * water.
      */
-    readonly 'generatesBubbles': boolean;
+    readonly generatesBubbles: boolean;
     /**
      * Time in seconds to recover breath to maximum.
      */
-    readonly 'inhaleTime': number;
-    /**
-     * List of blocks this entity can't breathe in.
-     */
-    readonly 'nonBreatheBlocks': BlockPermutation[];
+    readonly inhaleTime: number;
     /**
      * Time in seconds between suffocation damage.
      */
-    readonly 'suffocateTime': number;
+    readonly suffocateTime: number;
     /**
      * Time in seconds the entity can hold its breath.
      */
-    readonly 'totalSupply': number;
+    readonly totalSupply: number;
     /**
-     * Identifier of this component. Should always be
-     * minecraft:breathable.
+     * List of blocks this entity can breathe in, in addition to the
+     * separate properties for classes of blocks.
      */
-    static readonly 'typeId' = 'minecraft:breathable';
+    getBreatheBlocks(): BlockPermutation[];
+    /**
+     * List of blocks this entity can't breathe in.
+     */
+    getNonBreatheBlocks(): BlockPermutation[];
     /**
      * Sets the current air supply of the entity.
      * @param value
      * New air supply for the entity.
      */
     setAirSupply(value: number): void;
+    /**
+     * Identifier of this component. Should always be `minecraft:breathable`.
+     */
+    static readonly componentId = "minecraft:breathable";
     protected constructor();
 }
 /**
  * When added, this component signifies that the entity can
  * climb up ladders.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityCanClimbComponent extends IEntityComponent {
+export class EntityCanClimbComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:can_climb.
+     * `minecraft:can_climb`.
      */
-    static readonly 'typeId' = 'minecraft:can_climb';
+    static readonly componentId = "minecraft:can_climb";
     protected constructor();
 }
 /**
@@ -2933,43 +3144,48 @@ export class EntityCanClimbComponent extends IEntityComponent {
  * fly, and the pathfinder won't be restricted to paths where a
  * solid block is required underneath it.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityCanFlyComponent extends IEntityComponent {
+export class EntityCanFlyComponent extends EntityComponent {
     /**
-     * Identifier of this component. Should always be
-     * minecraft:can_fly.
+     * Identifier of this component. Should always be `minecraft:can_fly`.
      */
-    static readonly 'typeId' = 'minecraft:can_fly';
+    static readonly componentId = "minecraft:can_fly";
     protected constructor();
 }
 /**
  * When added, this component signifies that the entity can
  * power jump like the horse does within Minecraft.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityCanPowerJumpComponent extends IEntityComponent {
+export class EntityCanPowerJumpComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:can_power_jump.
+     * `minecraft:can_power_jump`.
      */
-    static readonly 'typeId' = 'minecraft:can_power_jump';
+    static readonly componentId = "minecraft:can_power_jump";
     protected constructor();
 }
 /**
  * Defines the entity's color. Only works on certain entities
  * that have predefined color values (sheep, llama, shulker).
  */
-export class EntityColorComponent extends IEntityComponent {
+export class EntityColorComponent extends EntityComponent {
     /**
      * The palette color value of the entity.
      */
     'value': number;
     /**
-     * Identifier of this component. Should always be
-     * minecraft:color.
+     * Identifier of this component. Should always be `minecraft:color`.
      */
-    static readonly 'typeId' = 'minecraft:color';
+    static readonly componentId = "minecraft:color";
     protected constructor();
+}
+/**
+ * Base class for downstream entity components.
+ */
+export class EntityComponent extends Component {
+    /**
+     * The entity that owns this component.
+     */
+    readonly entity: Entity;
 }
 /**
  * Contains information related to the creation of a new
@@ -3073,6 +3289,12 @@ export class EntityDefinitionFeedItem {
     readonly 'item': string;
     protected constructor();
 }
+export class EntityEquipmentInventoryComponent {
+    getEquipment(equipmentSlot: EquipmentSlot): ItemStack | undefined;
+    getEquipmentSlot(equipmentSlot: EquipmentSlot): ContainerSlot;
+    setEquipment(equipmentSlot: EquipmentSlot, itemStack?: ItemStack): void;
+    static readonly componentId = "minecraft:equipment_inventory";
+}
 /**
  * Contains optional parameters for registering an entity
  * event.
@@ -3093,137 +3315,106 @@ export class EntityEventOptions {
  * When added, this component signifies that this entity
  * doesn't take damage from fire.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityFireImmuneComponent extends IEntityComponent {
+export class EntityFireImmuneComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:fire_immune.
+     * `minecraft:fire_immune`.
      */
-    static readonly 'typeId' = 'minecraft:fire_immune';
+    static readonly componentId = "minecraft:fire_immune";
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity can
  * float in liquid blocks.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityFloatsInLiquidComponent extends IEntityComponent {
+export class EntityFloatsInLiquidComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:floats_in_liquid.
+     * `minecraft:floats_in_liquid`.
      */
-    static readonly 'typeId' = 'minecraft:floats_in_liquid';
+    static readonly componentId = "minecraft:floats_in_liquid";
     protected constructor();
 }
 /**
  * Represents the flying speed of an entity.
  */
-export class EntityFlyingSpeedComponent extends IEntityComponent {
+export class EntityFlyingSpeedComponent extends EntityComponent {
     /**
      * Speed while flying value of the entity.
      */
-    'value': number;
+    value: number;
     /**
-     * Identifier of this component. Should always be
-     * minecraft:flying_speed.
+     * Identifier of this component. Should always be `minecraft:flying_speed`.
      */
-    static readonly 'typeId' = 'minecraft:flying_speed';
+    static readonly componentId = "minecraft:flying_speed";
     protected constructor();
 }
 /**
  * Defines how much friction affects this entity.
  */
-export class EntityFrictionModifierComponent extends IEntityComponent {
+export class EntityFrictionModifierComponent extends EntityComponent {
     /**
      * The higher the number, the more the friction affects this
      * entity. A value of 1.0 means regular friction, while 2.0
      * means twice as much.
      */
-    'value': number;
+    value: number;
     /**
      * Identifier of this component. Should always be
-     * minecraft:friction_modifier.
+     * `minecraft:friction_modifier`.
      */
-    static readonly 'typeId' = 'minecraft:friction_modifier';
+    static readonly componentId = "minecraft:friction_modifier";
     protected constructor();
 }
 /**
  * Sets the offset from the ground that the entity is actually
  * at.
  */
-export class EntityGroundOffsetComponent extends IEntityComponent {
+export class EntityGroundOffsetComponent extends EntityComponent {
     /**
      * The value of the entity's offset from the terrain, in
      * blocks.
      */
-    'value': number;
+    value: number;
     /**
      * Identifier of this component. Should always be
-     * minecraft:ground_offset.
+     * `minecraft:ground_offset`.
      */
-    static readonly 'typeId' = 'minecraft:ground_offset';
+    static readonly componentId = "minecraft:ground_offset";
     protected constructor();
 }
 /**
  * Defines the interactions with this entity for healing it.
  */
-export class EntityHealableComponent extends IEntityComponent {
+export class EntityHealableComponent extends EntityComponent {
     /**
      * A set of filters for when these Healable items would apply.
      */
-    readonly 'filters': FilterGroup;
+    readonly filters: FilterGroup;
     /**
      * Determines if an item can be used regardless of the entity
      * being at full health.
      */
-    readonly 'forceUse': boolean;
+    readonly forceUse: boolean;
     /**
      * A set of items that can specifically heal this entity.
      */
-    readonly 'items': FeedItem[];
+    getFeedItems(): FeedItem[];
     /**
      * Identifier of this component. Should always be
-     * minecraft:healable.
+     * `minecraft:healable`.
      */
-    static readonly 'typeId' = 'minecraft:healable';
+    static readonly componentId = 'minecraft:healable';
     protected constructor();
 }
 /**
  * Defines the health properties of an entity.
  */
-export class EntityHealthComponent extends IEntityComponent {
+export class EntityHealthComponent extends EntityAttributeComponent {
     /**
-     * Read-only. Returns the current value of health for the
-     * entity.
+     * Identifier of this component. Should always be `minecraft:health`.
      */
-    readonly 'current': number;
-    /**
-     * Value for health as defined through entity components.
-     */
-    readonly 'value': number;
-    /**
-     * Identifier of this component. Should always be
-     * minecraft:health.
-     */
-    static readonly 'typeId' = 'minecraft:health';
-    /**
-     * Resets the current health value of the entity to its default
-     * value.
-     */
-    resetToDefaultValue(): void;
-    /**
-     * Resets the current health of the entity to its maximum
-     * value.
-     */
-    resetToMaxValue(): void;
-    /**
-     * Resets the current health to the minimum value.
-     */
-    resetToMinValue(): void;
-    /**
-     * Sets the current health of the entity.
-     */
-    setCurrent(value: number): void;
+    static readonly componentId = "minecraft:health";
     protected constructor();
 }
 /**
@@ -3327,229 +3518,214 @@ export class EntityHurtEventSignal {
 /**
  * Defines this entity's inventory properties.
  */
-export class EntityInventoryComponent extends IEntityComponent {
+export class EntityInventoryComponent extends EntityComponent {
     /**
      * Number of slots that this entity can gain per extra
      * strength.
      */
-    readonly 'additionalSlotsPerStrength': number;
+    readonly additionalSlotsPerStrength: number;
     /**
      * If true, the contents of this inventory can be removed by a
      * hopper.
      */
-    readonly 'canBeSiphonedFrom': boolean;
+    readonly canBeSiphonedFrom: boolean;
     /**
      * Defines the container for this entity.
      */
-    readonly 'container': InventoryComponentContainer;
+    readonly container: Container;
     /**
      * Type of container this entity has.
      */
-    readonly 'containerType': string;
+    readonly containerType: string;
     /**
      * Number of slots the container has.
      */
-    readonly 'inventorySize': number;
+    readonly inventorySize: number;
     /**
      * If true, the entity will not drop it's inventory on death.
      */
-    readonly 'private': boolean;
+    readonly private: boolean;
     /**
      * If true, the entity's inventory can only be accessed by its
      * owner or itself.
      */
-    readonly 'restrictToOwner': boolean;
+    readonly restrictToOwner: boolean;
     /**
-     * Identifier of this component. Should always be
-     * minecraft:inventory.
+     * Identifier of this component. Should always be `minecraft:inventory`.
      */
-    static readonly 'typeId' = 'minecraft:inventory';
+    static readonly componentId = 'minecraft:inventory';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity is a
  * baby.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsBabyComponent extends IEntityComponent {
+export class EntityIsBabyComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_baby.
+     * `minecraft:is_baby`.
      */
-    static readonly 'typeId' = 'minecraft:is_baby';
+    static readonly componentId = 'minecraft:is_baby';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity is
  * charged.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsChargedComponent extends IEntityComponent {
+export class EntityIsChargedComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_charged.
+     * `minecraft:is_charged`.
      */
-    static readonly 'typeId' = 'minecraft:is_charged';
+    static readonly componentId = 'minecraft:is_charged';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity is
  * currently carrying a chest.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsChestedComponent extends IEntityComponent {
+export class EntityIsChestedComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_chested.
+     * `minecraft:is_chested`.
      */
-    static readonly 'typeId' = 'minecraft:is_chested';
+    static readonly componentId = 'minecraft:is_chested';
     protected constructor();
 }
 /**
  * When added, this component signifies that dyes can be used
  * on this entity to change its color.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsDyableComponent extends IEntityComponent {
+export class EntityIsDyableComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_dyeable.
+     * `minecraft:is_dyeable`.
      */
-    static readonly 'typeId' = 'minecraft:is_dyeable';
+    static readonly componentId = 'minecraft:is_dyeable';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity can
  * hide from hostile mobs while invisible.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsHiddenWhenInvisibleComponent extends IEntityComponent {
+export class EntityIsHiddenWhenInvisibleComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_hidden_when_invisible.
+     * `minecraft:is_hidden_when_invisible`.
      */
-    static readonly 'typeId' = 'minecraft:is_hidden_when_invisible';
+    static readonly componentId = 'minecraft:is_hidden_when_invisible';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity this
  * currently on fire.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsIgnitedComponent extends IEntityComponent {
+export class EntityIsIgnitedComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_ignited.
+     * `minecraft:is_ignited`.
      */
-    static readonly 'typeId' = 'minecraft:is_ignited';
+    static readonly componentId = 'minecraft:is_ignited';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity is an
  * illager captain.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsIllagerCaptainComponent extends IEntityComponent {
+export class EntityIsIllagerCaptainComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_illager_captain.
+     * `minecraft:is_illager_captain`.
      */
-    static readonly 'typeId' = 'minecraft:is_illager_captain';
+    static readonly componentId = 'minecraft:is_illager_captain';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity is
  * currently saddled.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsSaddledComponent extends IEntityComponent {
+export class EntityIsSaddledComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_saddled.
+     * `minecraft:is_saddled`.
      */
-    static readonly 'typeId' = 'minecraft:is_saddled';
+    static readonly componentId = 'minecraft:is_saddled';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity is
  * currently shaking.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsShakingComponent extends IEntityComponent {
+export class EntityIsShakingComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_shaking.
+     * `minecraft:is_shaking`.
      */
-    static readonly 'typeId' = 'minecraft:is_shaking';
+    static readonly componentId = 'minecraft:is_shaking';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity is
  * currently sheared.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsShearedComponent extends IEntityComponent {
+export class EntityIsShearedComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_sheared.
+     * `minecraft:is_sheared`.
      */
-    static readonly 'typeId' = 'minecraft:is_sheared';
+    static readonly componentId = 'minecraft:is_sheared';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity can be
  * stacked.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsStackableComponent extends IEntityComponent {
+export class EntityIsStackableComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_stackable.
+     * `minecraft:is_stackable`.
      */
-    static readonly 'typeId' = 'minecraft:is_stackable';
+    static readonly componentId = 'minecraft:is_stackable';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity is
  * currently stunned.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsStunnedComponent extends IEntityComponent {
+export class EntityIsStunnedComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_stunned.
+     * `minecraft:is_stunned`.
      */
-    static readonly 'typeId' = 'minecraft:is_stunned';
+    static readonly componentId = 'minecraft:is_stunned';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity is
  * currently tamed.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityIsTamedComponent extends IEntityComponent {
+export class EntityIsTamedComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:is_tamed.
+     * `minecraft:is_tamed`.
      */
-    static readonly 'typeId' = 'minecraft:is_tamed';
+    static readonly componentId = 'minecraft:is_tamed';
     protected constructor();
 }
 /**
- * If added onto the entity, this indicates that the entity
- * represents a free-floating item in the world. Lets you
- * retrieve the actual item stack contents via the itemStack
- * property.
+ * If added onto the entity, this indicates that the entity represents a
+ * free-floating item in the world. Lets you retrieve the actual item stack
+ * contents via the `itemStack` property.
  */
-export class EntityItemComponent extends IEntityComponent {
+export class EntityItemComponent extends EntityComponent {
     /**
      * Item stack represented by this entity in the world.
      */
-    readonly 'itemStack': ItemStack;
+    readonly itemStack: ItemStack;
     /**
      * Identifier of this component.
      */
-    static readonly 'typeId' = 'minecraft:item';
+    static readonly componentId = 'minecraft:item';
     protected constructor();
 }
 /**
@@ -3570,60 +3746,25 @@ export class EntityIterator implements Iterable<Entity> {
 /**
  * Defines the base movement speed in lava of this entity.
  */
-export class EntityLavaMovementComponent extends IEntityComponent {
-    /**
-     * Read-only. Returns the current value of movement speed on
-     * lava for the entity.
-     */
-    readonly 'current': number;
-    /**
-     * Value for movement speed on lava as defined through entity
-     * components.
-     */
-    readonly 'value': number;
+export class EntityLavaMovementComponent extends EntityAttributeComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:lava_movement.
+     * `minecraft:lava_movement`.
      */
-    static readonly 'typeId' = 'minecraft:lava_movement';
-    /**
-     * Resets the current movement speed on lava for the entity to
-     * its default value.
-     */
-    resetToDefaultValue(): void;
-    /**
-     * Resets the movement speed on lava to the maximum value for
-     * the entity.
-     */
-    resetToMaxValue(): void;
-    /**
-     * Resets the movement speed on lava speed to the minimum
-     * value.
-     */
-    resetToMinValue(): void;
-    /**
-     * Sets the current value of movement speed on lava for the
-     * entity.
-     */
-    setCurrent(value: number): void;
+    static readonly componentId = "minecraft:lava_movement";
     protected constructor();
 }
 /**
  * Allows this entity to be leashed and defines the conditions
  * and events for this entity when is leashed.
  */
-export class EntityLeashableComponent extends IEntityComponent {
+export class EntityLeashableComponent extends EntityComponent {
     /**
-     * Distance in blocks at which the 'spring' effect starts
+     * Distance in blocks at which the "spring" effect starts
      * acting to keep this entity close to the entity that leashed
      * it.
      */
-    readonly 'softDistance': number;
-    /**
-     * Identifier of this component. Should always be
-     * minecraft:leashable.
-     */
-    static readonly 'typeId' = 'minecraft:leashable';
+    readonly softDistance: number;
     /**
      * Leashes this entity to another entity.
      * @param leashHolder
@@ -3634,546 +3775,314 @@ export class EntityLeashableComponent extends IEntityComponent {
      * Unleashes this entity if it is leashed to another entity.
      */
     unleash(): void;
+    /**
+     * Identifier of this component. Should always be
+     * `minecraft:leashable`.
+     */
+    static readonly componentId = 'minecraft:leashable';
     protected constructor();
 }
 /**
  * Additional variant value. Can be used to further
  * differentiate variants.
  */
-export class EntityMarkVariantComponent extends IEntityComponent {
+export class EntityMarkVariantComponent extends EntityComponent {
     /**
      * The identifier of the variant. By convention, 0 is the
      * identifier of the base entity.
      */
-    'value': number;
+    value: number;
     /**
      * Identifier of this component. Should always be
-     * minecraft:mark_variant.
+     * `minecraft:mark_variant`.
      */
-    static readonly 'typeId' = 'minecraft:mark_variant';
+    static readonly componentId = 'minecraft:mark_variant';
     protected constructor();
 }
 /**
  * Contains options for taming a rideable entity based on the
  * entity that mounts it.
  */
-export class EntityMountTamingComponent extends IEntityComponent {
-    /**
-     * Identifier of this component. Should always be
-     * minecraft:mount_taming.
-     */
-    static readonly 'typeId' = 'minecraft:tamemount';
+export class EntityMountTamingComponent extends EntityComponent {
     /**
      * Sets this rideable entity as tamed.
      * @param showParticles
      * Whether to show effect particles when this entity is tamed.
      */
     setTamed(showParticles: boolean): void;
+    /**
+     * Identifier of this component. Should always be
+     * `minecraft:mount_taming`.
+     */
+    static readonly componentId = 'minecraft:tamemount';
     protected constructor();
 }
 /**
  * When added, this movement control allows the mob to swim in
  * water and walk on land.
  */
-export class EntityMovementAmphibiousComponent extends IEntityComponent {
+export class EntityMovementAmphibiousComponent extends EntityComponent {
     /**
      * The maximum number in degrees the mob can turn per tick.
      */
-    readonly 'maxTurn': number;
+    readonly maxTurn: number;
     /**
      * Identifier of this component. Should always be
-     * minecraft:movement.amphibious.
+     * `minecraft:movement.amphibious`.
      */
-    static readonly 'typeId' = 'minecraft:movement.amphibious';
+    static readonly componentId = 'minecraft:movement.amphibious';
     protected constructor();
 }
 /**
  * This component accents the movement of an entity.
  */
-export class EntityMovementBasicComponent extends IEntityComponent {
+export class EntityMovementBasicComponent extends EntityComponent {
     /**
      * The maximum number in degrees the mob can turn per tick.
      */
-    readonly 'maxTurn': number;
+    readonly maxTurn: number;
     /**
      * Identifier of this component. Should always be
-     * minecraft:movement.basic.
+     * `minecraft:movement.basic`.
      */
-    static readonly 'typeId' = 'minecraft:movement.basic';
+    static readonly componentId = 'minecraft:movement.basic';
     protected constructor();
 }
 /**
  * Defines the general movement speed of this entity.
  */
-export class EntityMovementComponent extends IEntityComponent {
+export class EntityMovementComponent extends EntityAttributeComponent {
     /**
-     * Read-only. Returns the current value of default movement
-     * speed for the entity.
+     * Identifier of this component. Should always be `minecraft:movement`.
      */
-    readonly 'current': number;
-    /**
-     * Value for default movement speed as defined through entity
-     * components.
-     */
-    readonly 'value': number;
-    /**
-     * Identifier of this component. Should always be
-     * minecraft:movement.
-     */
-    static readonly 'typeId' = 'minecraft:movement';
-    /**
-     * Resets the current default movement speed value for the
-     * entity to the default value.
-     */
-    resetToDefaultValue(): void;
-    /**
-     * Resets the default movement speed to the maximum value for
-     * the entity.
-     */
-    resetToMaxValue(): void;
-    /**
-     * Resets the default movement speed to the minimum value.
-     */
-    resetToMinValue(): void;
-    /**
-     * Sets the current value of default movement speed for the
-     * entity.
-     */
-    setCurrent(value: number): void;
+    static readonly componentId = "minecraft:movement";
     protected constructor();
 }
 /**
  * When added, this move control causes the mob to fly.
  */
-export class EntityMovementFlyComponent extends IEntityComponent {
-    /**
-     * The maximum number in degrees the mob can turn per tick.
-     */
-    readonly 'maxTurn': number;
+export class EntityMovementFlyComponent extends EntityBaseMovementComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:movement.fly.
+     * `minecraft:movement.fly`.
      */
-    static readonly 'typeId' = 'minecraft:movement.fly';
+    static readonly componentId = "minecraft:movement.fly";
     protected constructor();
 }
 /**
  * When added, this move control allows a mob to fly, swim,
  * climb, etc.
  */
-export class EntityMovementGenericComponent extends IEntityComponent {
-    /**
-     * The maximum number in degrees the mob can turn per tick.
-     */
-    readonly 'maxTurn': number;
+export class EntityMovementGenericComponent extends EntityBaseMovementComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:movement.generic.
+     * `minecraft:movement.generic`.
      */
-    static readonly 'typeId' = 'minecraft:movement.generic';
+    static readonly componentId = "minecraft:movement.generic";
     protected constructor();
 }
 /**
  * When added, this movement control allows the mob to glide.
  */
-export class EntityMovementGlideComponent extends IEntityComponent {
-    /**
-     * The maximum number in degrees the mob can turn per tick.
-     */
-    readonly 'maxTurn': number;
+export class EntityMovementGlideComponent extends EntityBaseMovementComponent {
     /**
      * Speed in effect when the entity is turning.
      */
-    readonly 'speedWhenTurning': number;
+    readonly speedWhenTurning: number;
     /**
      * Start speed during a glide.
      */
-    readonly 'startSpeed': number;
+    readonly startSpeed: number;
     /**
      * Identifier of this component. Should always be
-     * minecraft:movement.glide.
+     * `minecraft:movement.glide`.
      */
-    static readonly 'typeId' = 'minecraft:movement.glide';
+    static readonly componentId = "minecraft:movement.glide";
     protected constructor();
 }
 /**
  * When added, this move control causes the mob to hover.
  */
-export class EntityMovementHoverComponent extends IEntityComponent {
-    /**
-     * The maximum number in degrees the mob can turn per tick.
-     */
-    readonly 'maxTurn': number;
+export class EntityMovementHoverComponent extends EntityBaseMovementComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:movement.hover.
+     * `minecraft:movement.hover`.
      */
-    static readonly 'typeId' = 'minecraft:movement.hover';
+    static readonly componentId = "minecraft:movement.hover";
     protected constructor();
 }
 /**
  * Move control that causes the mob to jump as it moves with a
  * specified delay between jumps.
  */
-export class EntityMovementJumpComponent extends IEntityComponent {
-    /**
-     * The maximum number in degrees the mob can turn per tick.
-     */
-    readonly 'maxTurn': number;
+export class EntityMovementJumpComponent extends EntityBaseMovementComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:movement.jump.
+     * `minecraft:movement.jump`.
      */
-    static readonly 'typeId' = 'minecraft:movement.jump';
+    static readonly componentId = "minecraft:movement.jump";
     protected constructor();
 }
 /**
  * When added, this move control causes the mob to hop as it
  * moves.
  */
-export class EntityMovementSkipComponent extends IEntityComponent {
-    /**
-     * The maximum number in degrees the mob can turn per tick.
-     */
-    readonly 'maxTurn': number;
+export class EntityMovementSkipComponent extends EntityBaseMovementComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:movement.skip.
+     * `minecraft:movement.skip`.
      */
-    static readonly 'typeId' = 'minecraft:movement.skip';
+    static readonly componentId = "minecraft:movement.skip";
     protected constructor();
 }
 /**
  * When added, this move control causes the mob to sway side to
  * side giving the impression it is swimming.
  */
-export class EntityMovementSwayComponent extends IEntityComponent {
-    /**
-     * The maximum number in degrees the mob can turn per tick.
-     */
-    readonly 'maxTurn': number;
+export class EntityMovementSwayComponent extends EntityBaseMovementComponent {
     /**
      * Amplitude of the sway motion.
      */
-    readonly 'swayAmplitude': number;
+    readonly swayAmplitude: number;
     /**
      * Amount of sway frequency.
      */
-    readonly 'swayFrequency': number;
+    readonly swayFrequency: number;
     /**
      * Identifier of this component. Should always be
-     * minecraft:movement.sway.
+     * `minecraft:movement.sway`.
      */
-    static readonly 'typeId' = 'minecraft:movement.sway';
+    static readonly componentId = "minecraft:movement.sway";
+    protected constructor();
+}
+export class EntityNavigationComponent extends EntityComponent {
+    /**
+     * Tells the pathfinder to avoid blocks that cause damage when
+     * finding a path.
+     */
+    readonly avoidDamageBlocks: boolean;
+    /**
+     * Tells the pathfinder to avoid portals (like nether portals)
+     * when finding a path.
+     */
+    readonly avoidPortals: boolean;
+    /**
+     * Whether or not the pathfinder should avoid tiles that are
+     * exposed to the sun when creating paths.
+     */
+    readonly avoidSun: boolean;
+    /**
+     * Tells the pathfinder to avoid water when creating a path.
+     */
+    readonly avoidWater: boolean;
+    /**
+     * Tells the pathfinder whether or not it can jump out of water
+     * (like a dolphin).
+     */
+    readonly canBreach: boolean;
+    /**
+     * Tells the pathfinder that it can path through a closed door
+     * and break it.
+     */
+    readonly canBreakDoors: boolean;
+    /**
+     * Tells the pathfinder whether or not it can float.
+     */
+    readonly canFloat: boolean;
+    /**
+     * Tells the pathfinder whether or not it can jump up blocks.
+     */
+    readonly canJump: boolean;
+    /**
+     * Tells the pathfinder that it can path through a closed door
+     * assuming the AI will open the door.
+     */
+    readonly canOpenDoors: boolean;
+    /**
+     * Tells the pathfinder that it can path through a closed iron
+     * door assuming the AI will open the door.
+     */
+    readonly canOpenIronDoors: boolean;
+    /**
+     * Whether a path can be created through a door.
+     */
+    readonly canPassDoors: boolean;
+    /**
+     * Tells the pathfinder that it can start pathing when in the
+     * air.
+     */
+    readonly canPathFromAir: boolean;
+    /**
+     * Tells the pathfinder whether or not it can travel on the
+     * surface of the lava.
+     */
+    readonly canPathOverLava: boolean;
+    /**
+     * Tells the pathfinder whether or not it can travel on the
+     * surface of the water.
+     */
+    readonly canPathOverWater: boolean;
+    /**
+     * Tells the pathfinder whether or not it will be pulled down
+     * by gravity while in water.
+     */
+    readonly canSink: boolean;
+    /**
+     * Tells the pathfinder whether or not it can path anywhere
+     * through water and plays swimming animation along that path.
+     */
+    readonly canSwim: boolean;
+    /**
+     * Tells the pathfinder whether or not it can walk on the
+     * ground outside water.
+     */
+    readonly canWalk: boolean;
+    /**
+     * Tells the pathfinder whether or not it can travel in lava
+     * like walking on ground.
+     */
+    readonly canWalkInLava: boolean;
+    /**
+     * Tells the pathfinder whether or not it can walk on the
+     * ground or go underwater.
+     */
+    readonly isAmphibious: boolean;
     protected constructor();
 }
 /**
  * Allows this entity to generate paths that include vertical
  * walls (for example, like Minecraft spiders do.)
  */
-export class EntityNavigationClimbComponent extends IEntityComponent {
-    /**
-     * Tells the pathfinder to avoid blocks that cause damage when
-     * finding a path.
-     */
-    readonly 'avoidDamageBlocks': boolean;
-    /**
-     * Tells the pathfinder to avoid portals (like nether portals)
-     * when finding a path.
-     */
-    readonly 'avoidPortals': boolean;
-    /**
-     * Whether or not the pathfinder should avoid tiles that are
-     * exposed to the sun when creating paths.
-     */
-    readonly 'avoidSun': boolean;
-    /**
-     * Tells the pathfinder to avoid water when creating a path.
-     */
-    readonly 'avoidWater': boolean;
-    /**
-     * Tells the pathfinder whether or not it can jump out of water
-     * (like a dolphin).
-     */
-    readonly 'canBreach': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed door
-     * and break it.
-     */
-    readonly 'canBreakDoors': boolean;
-    /**
-     * Tells the pathfinder whether or not it can float.
-     */
-    readonly 'canFloat': boolean;
-    /**
-     * Tells the pathfinder whether or not it can jump up blocks.
-     */
-    readonly 'canJump': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed door
-     * assuming the AI will open the door.
-     */
-    readonly 'canOpenDoors': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed iron
-     * door assuming the AI will open the door.
-     */
-    readonly 'canOpenIronDoors': boolean;
-    /**
-     * Whether a path can be created through a door.
-     */
-    readonly 'canPassDoors': boolean;
-    /**
-     * Tells the pathfinder that it can start pathing when in the
-     * air.
-     */
-    readonly 'canPathFromAir': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel on the
-     * surface of the lava.
-     */
-    readonly 'canPathOverLava': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel on the
-     * surface of the water.
-     */
-    readonly 'canPathOverWater': boolean;
-    /**
-     * Tells the pathfinder whether or not it will be pulled down
-     * by gravity while in water.
-     */
-    readonly 'canSink': boolean;
-    /**
-     * Tells the pathfinder whether or not it can path anywhere
-     * through water and plays swimming animation along that path.
-     */
-    readonly 'canSwim': boolean;
-    /**
-     * Tells the pathfinder whether or not it can walk on the
-     * ground outside water.
-     */
-    readonly 'canWalk': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel in lava
-     * like walking on ground.
-     */
-    readonly 'canWalkInLava': boolean;
-    /**
-     * Tells the pathfinder whether or not it can walk on the
-     * ground or go underwater.
-     */
-    readonly 'isAmphibious': boolean;
+export class EntityNavigationClimbComponent extends EntityNavigationComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:navigation.climb.
+     * `minecraft:navigation.climb`.
      */
-    static readonly 'typeId' = 'minecraft:navigation.climb';
+    static readonly componentId = 'minecraft:navigation.climb';
     protected constructor();
 }
 /**
  * Allows this entity to generate paths by flying around the
  * air like the regular Ghast.
  */
-export class EntityNavigationFloatComponent extends IEntityComponent {
-    /**
-     * Tells the pathfinder to avoid blocks that cause damage when
-     * finding a path.
-     */
-    readonly 'avoidDamageBlocks': boolean;
-    /**
-     * Tells the pathfinder to avoid portals (like nether portals)
-     * when finding a path.
-     */
-    readonly 'avoidPortals': boolean;
-    /**
-     * Whether or not the pathfinder should avoid tiles that are
-     * exposed to the sun when creating paths.
-     */
-    readonly 'avoidSun': boolean;
-    /**
-     * Tells the pathfinder to avoid water when creating a path.
-     */
-    readonly 'avoidWater': boolean;
-    /**
-     * Tells the pathfinder whether or not it can jump out of water
-     * (like a dolphin).
-     */
-    readonly 'canBreach': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed door
-     * and break it.
-     */
-    readonly 'canBreakDoors': boolean;
-    /**
-     * Tells the pathfinder whether or not it can float.
-     */
-    readonly 'canFloat': boolean;
-    /**
-     * Tells the pathfinder whether or not it can jump up blocks.
-     */
-    readonly 'canJump': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed door
-     * assuming the AI will open the door.
-     */
-    readonly 'canOpenDoors': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed iron
-     * door assuming the AI will open the door.
-     */
-    readonly 'canOpenIronDoors': boolean;
-    /**
-     * Whether a path can be created through a door.
-     */
-    readonly 'canPassDoors': boolean;
-    /**
-     * Tells the pathfinder that it can start pathing when in the
-     * air.
-     */
-    readonly 'canPathFromAir': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel on the
-     * surface of the lava.
-     */
-    readonly 'canPathOverLava': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel on the
-     * surface of the water.
-     */
-    readonly 'canPathOverWater': boolean;
-    /**
-     * Tells the pathfinder whether or not it will be pulled down
-     * by gravity while in water.
-     */
-    readonly 'canSink': boolean;
-    /**
-     * Tells the pathfinder whether or not it can path anywhere
-     * through water and plays swimming animation along that path.
-     */
-    readonly 'canSwim': boolean;
-    /**
-     * Tells the pathfinder whether or not it can walk on the
-     * ground outside water.
-     */
-    readonly 'canWalk': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel in lava
-     * like walking on ground.
-     */
-    readonly 'canWalkInLava': boolean;
-    /**
-     * Tells the pathfinder whether or not it can walk on the
-     * ground or go underwater.
-     */
-    readonly 'isAmphibious': boolean;
+export class EntityNavigationFloatComponent extends EntityNavigationComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:navigation.float.
+     * `minecraft:navigation.float`.
      */
-    static readonly 'typeId' = 'minecraft:navigation.float';
+    static readonly componentId = 'minecraft:navigation.float';
     protected constructor();
 }
 /**
  * Allows this entity to generate paths in the air (for
  * example, like Minecraft parrots do.)
  */
-export class EntityNavigationFlyComponent extends IEntityComponent {
-    /**
-     * Tells the pathfinder to avoid blocks that cause damage when
-     * finding a path.
-     */
-    readonly 'avoidDamageBlocks': boolean;
-    /**
-     * Tells the pathfinder to avoid portals (like nether portals)
-     * when finding a path.
-     */
-    readonly 'avoidPortals': boolean;
-    /**
-     * Whether or not the pathfinder should avoid tiles that are
-     * exposed to the sun when creating paths.
-     */
-    readonly 'avoidSun': boolean;
-    /**
-     * Tells the pathfinder to avoid water when creating a path.
-     */
-    readonly 'avoidWater': boolean;
-    /**
-     * Tells the pathfinder whether or not it can jump out of water
-     * (like a dolphin).
-     */
-    readonly 'canBreach': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed door
-     * and break it.
-     */
-    readonly 'canBreakDoors': boolean;
-    /**
-     * Tells the pathfinder whether or not it can float.
-     */
-    readonly 'canFloat': boolean;
-    /**
-     * Tells the pathfinder whether or not it can jump up blocks.
-     */
-    readonly 'canJump': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed door
-     * assuming the AI will open the door.
-     */
-    readonly 'canOpenDoors': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed iron
-     * door assuming the AI will open the door.
-     */
-    readonly 'canOpenIronDoors': boolean;
-    /**
-     * Whether a path can be created through a door.
-     */
-    readonly 'canPassDoors': boolean;
-    /**
-     * Tells the pathfinder that it can start pathing when in the
-     * air.
-     */
-    readonly 'canPathFromAir': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel on the
-     * surface of the lava.
-     */
-    readonly 'canPathOverLava': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel on the
-     * surface of the water.
-     */
-    readonly 'canPathOverWater': boolean;
-    /**
-     * Tells the pathfinder whether or not it will be pulled down
-     * by gravity while in water.
-     */
-    readonly 'canSink': boolean;
-    /**
-     * Tells the pathfinder whether or not it can path anywhere
-     * through water and plays swimming animation along that path.
-     */
-    readonly 'canSwim': boolean;
-    /**
-     * Tells the pathfinder whether or not it can walk on the
-     * ground outside water.
-     */
-    readonly 'canWalk': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel in lava
-     * like walking on ground.
-     */
-    readonly 'canWalkInLava': boolean;
-    /**
-     * Tells the pathfinder whether or not it can walk on the
-     * ground or go underwater.
-     */
-    readonly 'isAmphibious': boolean;
+export class EntityNavigationFlyComponent extends EntityNavigationComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:navigation.fly.
+     * `minecraft:navigation.fly`.
      */
-    static readonly 'typeId' = 'minecraft:navigation.fly';
+    static readonly componentId = 'minecraft:navigation.fly';
     protected constructor();
 }
 /**
@@ -4181,103 +4090,12 @@ export class EntityNavigationFlyComponent extends IEntityComponent {
  * flying and/or climbing around and jumping up and down a
  * block.
  */
-export class EntityNavigationGenericComponent extends IEntityComponent {
-    /**
-     * Tells the pathfinder to avoid blocks that cause damage when
-     * finding a path.
-     */
-    readonly 'avoidDamageBlocks': boolean;
-    /**
-     * Tells the pathfinder to avoid portals (like nether portals)
-     * when finding a path.
-     */
-    readonly 'avoidPortals': boolean;
-    /**
-     * Whether or not the pathfinder should avoid tiles that are
-     * exposed to the sun when creating paths.
-     */
-    readonly 'avoidSun': boolean;
-    /**
-     * Tells the pathfinder to avoid water when creating a path.
-     */
-    readonly 'avoidWater': boolean;
-    /**
-     * Tells the pathfinder whether or not it can jump out of water
-     * (like a dolphin).
-     */
-    readonly 'canBreach': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed door
-     * and break it.
-     */
-    readonly 'canBreakDoors': boolean;
-    /**
-     * Tells the pathfinder whether or not it can float.
-     */
-    readonly 'canFloat': boolean;
-    /**
-     * Tells the pathfinder whether or not it can jump up blocks.
-     */
-    readonly 'canJump': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed door
-     * assuming the AI will open the door.
-     */
-    readonly 'canOpenDoors': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed iron
-     * door assuming the AI will open the door.
-     */
-    readonly 'canOpenIronDoors': boolean;
-    /**
-     * Whether a path can be created through a door.
-     */
-    readonly 'canPassDoors': boolean;
-    /**
-     * Tells the pathfinder that it can start pathing when in the
-     * air.
-     */
-    readonly 'canPathFromAir': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel on the
-     * surface of the lava.
-     */
-    readonly 'canPathOverLava': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel on the
-     * surface of the water.
-     */
-    readonly 'canPathOverWater': boolean;
-    /**
-     * Tells the pathfinder whether or not it will be pulled down
-     * by gravity while in water.
-     */
-    readonly 'canSink': boolean;
-    /**
-     * Tells the pathfinder whether or not it can path anywhere
-     * through water and plays swimming animation along that path.
-     */
-    readonly 'canSwim': boolean;
-    /**
-     * Tells the pathfinder whether or not it can walk on the
-     * ground outside water.
-     */
-    readonly 'canWalk': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel in lava
-     * like walking on ground.
-     */
-    readonly 'canWalkInLava': boolean;
-    /**
-     * Tells the pathfinder whether or not it can walk on the
-     * ground or go underwater.
-     */
-    readonly 'isAmphibious': boolean;
+export class EntityNavigationGenericComponent extends EntityNavigationComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:navigation.generic.
+     * `minecraft:navigation.generic`.
      */
-    static readonly 'typeId' = 'minecraft:navigation.generic';
+    static readonly componentId = 'minecraft:navigation.generic';
     protected constructor();
 }
 /**
@@ -4285,221 +4103,50 @@ export class EntityNavigationGenericComponent extends IEntityComponent {
  * example, like the Minecraft Bees do.) Keeps them from
  * falling out of the skies and doing predictive movement.
  */
-export class EntityNavigationHoverComponent extends IEntityComponent {
-    /**
-     * Tells the pathfinder to avoid blocks that cause damage when
-     * finding a path.
-     */
-    readonly 'avoidDamageBlocks': boolean;
-    /**
-     * Tells the pathfinder to avoid portals (like nether portals)
-     * when finding a path.
-     */
-    readonly 'avoidPortals': boolean;
-    /**
-     * Whether or not the pathfinder should avoid tiles that are
-     * exposed to the sun when creating paths.
-     */
-    readonly 'avoidSun': boolean;
-    /**
-     * Tells the pathfinder to avoid water when creating a path.
-     */
-    readonly 'avoidWater': boolean;
-    /**
-     * Tells the pathfinder whether or not it can jump out of water
-     * (like a dolphin).
-     */
-    readonly 'canBreach': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed door
-     * and break it.
-     */
-    readonly 'canBreakDoors': boolean;
-    /**
-     * Tells the pathfinder whether or not it can float.
-     */
-    readonly 'canFloat': boolean;
-    /**
-     * Tells the pathfinder whether or not it can jump up blocks.
-     */
-    readonly 'canJump': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed door
-     * assuming the AI will open the door.
-     */
-    readonly 'canOpenDoors': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed iron
-     * door assuming the AI will open the door.
-     */
-    readonly 'canOpenIronDoors': boolean;
-    /**
-     * Whether a path can be created through a door.
-     */
-    readonly 'canPassDoors': boolean;
-    /**
-     * Tells the pathfinder that it can start pathing when in the
-     * air.
-     */
-    readonly 'canPathFromAir': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel on the
-     * surface of the lava.
-     */
-    readonly 'canPathOverLava': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel on the
-     * surface of the water.
-     */
-    readonly 'canPathOverWater': boolean;
-    /**
-     * Tells the pathfinder whether or not it will be pulled down
-     * by gravity while in water.
-     */
-    readonly 'canSink': boolean;
-    /**
-     * Tells the pathfinder whether or not it can path anywhere
-     * through water and plays swimming animation along that path.
-     */
-    readonly 'canSwim': boolean;
-    /**
-     * Tells the pathfinder whether or not it can walk on the
-     * ground outside water.
-     */
-    readonly 'canWalk': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel in lava
-     * like walking on ground.
-     */
-    readonly 'canWalkInLava': boolean;
-    /**
-     * Tells the pathfinder whether or not it can walk on the
-     * ground or go underwater.
-     */
-    readonly 'isAmphibious': boolean;
+export class EntityNavigationHoverComponent extends EntityNavigationComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:navigation.hover.
+     * `minecraft:navigation.hover`.
      */
-    static readonly 'typeId' = 'minecraft:navigation.hover';
+    static readonly componentId = 'minecraft:navigation.hover';
     protected constructor();
 }
 /**
  * Allows this entity to generate paths by walking around and
  * jumping up and down a block like regular mobs.
  */
-export class EntityNavigationWalkComponent extends IEntityComponent {
-    /**
-     * Tells the pathfinder to avoid blocks that cause damage when
-     * finding a path.
-     */
-    readonly 'avoidDamageBlocks': boolean;
-    /**
-     * Tells the pathfinder to avoid portals (like nether portals)
-     * when finding a path.
-     */
-    readonly 'avoidPortals': boolean;
-    /**
-     * Whether or not the pathfinder should avoid tiles that are
-     * exposed to the sun when creating paths.
-     */
-    readonly 'avoidSun': boolean;
-    /**
-     * Tells the pathfinder to avoid water when creating a path.
-     */
-    readonly 'avoidWater': boolean;
-    /**
-     * Tells the pathfinder whether or not it can jump out of water
-     * (like a dolphin).
-     */
-    readonly 'canBreach': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed door
-     * and break it.
-     */
-    readonly 'canBreakDoors': boolean;
-    /**
-     * Tells the pathfinder whether or not it can float.
-     */
-    readonly 'canFloat': boolean;
-    /**
-     * Tells the pathfinder whether or not it can jump up blocks.
-     */
-    readonly 'canJump': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed door
-     * assuming the AI will open the door.
-     */
-    readonly 'canOpenDoors': boolean;
-    /**
-     * Tells the pathfinder that it can path through a closed iron
-     * door assuming the AI will open the door.
-     */
-    readonly 'canOpenIronDoors': boolean;
-    /**
-     * Whether a path can be created through a door.
-     */
-    readonly 'canPassDoors': boolean;
-    /**
-     * Tells the pathfinder that it can start pathing when in the
-     * air.
-     */
-    readonly 'canPathFromAir': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel on the
-     * surface of the lava.
-     */
-    readonly 'canPathOverLava': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel on the
-     * surface of the water.
-     */
-    readonly 'canPathOverWater': boolean;
-    /**
-     * Tells the pathfinder whether or not it will be pulled down
-     * by gravity while in water.
-     */
-    readonly 'canSink': boolean;
-    /**
-     * Tells the pathfinder whether or not it can path anywhere
-     * through water and plays swimming animation along that path.
-     */
-    readonly 'canSwim': boolean;
-    /**
-     * Tells the pathfinder whether or not it can walk on the
-     * ground outside water.
-     */
-    readonly 'canWalk': boolean;
-    /**
-     * Tells the pathfinder whether or not it can travel in lava
-     * like walking on ground.
-     */
-    readonly 'canWalkInLava': boolean;
-    /**
-     * Tells the pathfinder whether or not it can walk on the
-     * ground or go underwater.
-     */
-    readonly 'isAmphibious': boolean;
+export class EntityNavigationWalkComponent extends EntityNavigationComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:navigation.swim.
+     * `minecraft:navigation.swim`.
      */
-    static readonly 'typeId' = 'minecraft:navigation.walk';
+    static readonly componentId = 'minecraft:navigation.walk';
+    protected constructor();
+}
+/**
+ * When present on an entity, this entity is on fire.
+ */
+export class EntityOnFireComponent extends EntityComponent {
+    /**
+     * The number of ticks remaining before the fire goes out.
+     */
+    readonly onFireTicksRemaining: number;
+    static readonly componentId = "minecraft:onfire";
     protected constructor();
 }
 /**
  * Sets the distance through which the entity can push through.
  */
-export class EntityPushThroughComponent extends IEntityComponent {
+export class EntityPushThroughComponent extends EntityComponent {
     /**
      * The value of the entity's push-through, in blocks.
      */
-    'value': number;
+    value: number;
     /**
      * Identifier of this component. Should always be
-     * minecraft:push_through.
+     * `minecraft:push_through`.
      */
-    static readonly 'typeId' = 'minecraft:push_through';
+    static readonly componentId = 'minecraft:push_through';
     protected constructor();
 }
 /**
@@ -4540,52 +4187,37 @@ export class EntityRaycastOptions {
  * When added, this component adds the capability that an
  * entity can be ridden by another entity.
  */
-export class EntityRideableComponent extends IEntityComponent {
+export class EntityRideableComponent extends EntityComponent {
     /**
      * Zero-based index of the seat that can used to control this
      * entity.
      */
-    readonly 'controllingSeat': number;
+    readonly controllingSeat: number;
     /**
      * Determines whether interactions are not supported if the
      * entity is crouching.
      */
-    readonly 'crouchingSkipInteract': boolean;
-    /**
-     * A string-list of entity types that this entity can support
-     * as riders.
-     */
-    readonly 'familyTypes': string[];
+    readonly crouchingSkipInteract: boolean;
     /**
      * Set of text that should be displayed when a player is
      * looking to ride on this entity (commonly with touch-screen
      * controls).
      */
-    readonly 'interactText': string;
+    readonly interactText: string;
     /**
      * If true, this entity will pull in entities that are in the
-     * correct family_types into any available seat.
+     * correct family types into any available seat.
      */
-    readonly 'pullInEntities': boolean;
+    readonly pullInEntities: boolean;
     /**
      * If true, this entity will be picked when looked at by the
      * rider.
      */
-    readonly 'riderCanInteract': boolean;
+    readonly riderCanInteract: boolean;
     /**
      * Number of seats for riders defined for this entity.
      */
-    readonly 'seatCount': number;
-    /**
-     * The list of positions and number of riders for each position
-     * for entities riding this entity.
-     */
-    readonly 'seats': Seat[];
-    /**
-     * Identifier of this component. Should always be
-     * minecraft:rideable.
-     */
-    static readonly 'typeId' = 'minecraft:rideable';
+    readonly seatCount: number;
     /**
      * Adds an entity to this entity as a rider.
      * @param rider
@@ -4604,91 +4236,118 @@ export class EntityRideableComponent extends IEntityComponent {
      * Ejects all riders of this entity.
      */
     ejectRiders(): void;
+    /**
+     * A string-list of entity types that this entity can support as
+     * riders.
+     */
+    getFamilyTypes(): string[];
+    /**
+     * Gets a list of the all the entities currently riding this entity.
+     */
+    getRiders(): Entity[];
+    /**
+     * Gets a list of positions and number of riders for each position for
+     * entities riding this entity.
+     */
+    getSeats(): Seat[];
+    /**
+     * Identifier of this component. Should always be `minecraft:rideable`.
+     */
+    static readonly componentId = "minecraft:rideable";
     protected constructor();
+}
+/**
+ * This component is added to any entity when it is riding another entity.
+ */
+export class EntityRidingComponent extends EntityComponent {
+    /**
+     * The entity this entity is currently riding on.
+     */
+    readonly entityRidingOn: Entity;
+    /**
+     * Identifier of this component. Should always be `minecraft:riding`.
+     */
+    static readonly componentId = "minecraft:riding";
 }
 /**
  * Sets the entity's visual size.
  */
-export class EntityScaleComponent extends IEntityComponent {
+export class EntityScaleComponent extends EntityComponent {
     /**
      * The value of the scale. 1.0 means the entity will appear at
      * the scale they are defined in their model. Higher numbers
      * make the entity bigger.
      */
-    'value': number;
+    value: number;
     /**
      * Identifier of this component. Should always be
-     * minecraft:scale.
+     * `minecraft:scale`.
      */
-    static readonly 'typeId' = 'minecraft:scale';
+    static readonly componentId = 'minecraft:scale';
     protected constructor();
 }
 /**
  * Skin Id value. Can be used to differentiate skins, such as
  * base skins for villagers.
  */
-export class EntitySkinIdComponent extends IEntityComponent {
+export class EntitySkinIdComponent extends EntityComponent {
     /**
      * The identifier of the skin. By convention, 0 is the
      * identifier of the base skin.
      */
-    'value': number;
+    value: number;
     /**
      * Identifier of this component. Should always be
-     * minecraft:skin_id.
+     * `minecraft:skin_id`.
      */
-    static readonly 'typeId' = 'minecraft:skin_id';
+    static readonly componentId = 'minecraft:skin_id';
     protected constructor();
 }
 /**
  * Defines the entity's strength to carry items.
  */
-export class EntityStrengthComponent extends IEntityComponent {
+export class EntityStrengthComponent extends EntityComponent {
     /**
      * Maximum strength of this entity, as defined in the entity
      * type definition.
      */
-    readonly 'max': number;
+    readonly max: number;
     /**
      * Current strength value of this entity, after any effects or
      * component updates are applied.
      */
-    readonly 'value': number;
+    readonly value: number;
     /**
      * Identifier of this component. Should always be
-     * minecraft:strength.
+     * `minecraft:strength`.
      */
-    static readonly 'typeId' = 'minecraft:strength';
+    static readonly componentId = 'minecraft:strength';
     protected constructor();
 }
 /**
  * Defines the rules for a mob to be tamed by the player.
  */
-export class EntityTameableComponent extends IEntityComponent {
+export class EntityTameableComponent extends EntityComponent {
     /**
      * The chance of taming the entity with each item use between
      * 0.0 and 1.0, where 1.0 is 100%
      */
-    readonly 'probability': number;
+    readonly probability: number;
     /**
-     * Event to run when this entity becomes tamed.
+     * Returns a set of items that can be used to tame this entity.
      */
-    readonly 'tameEvent': Trigger;
-    /**
-     * The list of items that can be used to tame this entity.
-     */
-    readonly 'tameItems': string[];
-    /**
-     * Identifier of this component. Should always be
-     * minecraft:tameable.
-     */
-    static readonly 'typeId' = 'minecraft:tameable';
+    getTameItems(): string[];
     /**
      * Tames this entity.
      * @returns
      * Returns true if the entity was tamed.
      */
     tame(): boolean;
+    /**
+     * Identifier of this component. Should always be
+     * `minecraft:tameable`.
+     */
+    static readonly componentId = 'minecraft:tameable';
     protected constructor();
 }
 /**
@@ -4727,74 +4386,41 @@ export class EntityTypes {
  * Defines the general movement speed underwater of this
  * entity.
  */
-export class EntityUnderwaterMovementComponent extends IEntityComponent {
-    /**
-     * Read-only. Returns the current value of movement speed
-     * underwater for the entity.
-     */
-    readonly 'current': number;
-    /**
-     * Value for movement speed underwater as defined through
-     * entity components.
-     */
-    readonly 'value': number;
+export class EntityUnderwaterMovementComponent extends EntityAttributeComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:underwater_movement.
+     * `minecraft:underwater_movement`.
      */
-    static readonly 'typeId' = 'minecraft:underwater_movement';
-    /**
-     * Resets the current movement speed underwater for the entity
-     * to the default value implied by the current component state
-     * of the entity.
-     */
-    resetToDefaultValue(): void;
-    /**
-     * Resets the movement speed underwater to the maximum value
-     * for the entity, as determined by the set of components that
-     * are on the entity.
-     */
-    resetToMaxValue(): void;
-    /**
-     * Resets the movement speed underwater to the minimum value as
-     * defined by the component state of this entity.
-     */
-    resetToMinValue(): void;
-    /**
-     * Sets the current value of movement speed underwater for the
-     * entity.
-     */
-    setCurrent(value: number): void;
+    static readonly componentId = "minecraft:underwater_movement";
     protected constructor();
 }
 /**
  * Used to differentiate the component group of a variant of an
  * entity from others. (e.g. ocelot, villager).
  */
-export class EntityVariantComponent extends IEntityComponent {
+export class EntityVariantComponent extends EntityComponent {
     /**
      * The identifier of the variant. By convention, 0 is the
      * identifier of the base entity.
      */
-    readonly 'value': number;
+    readonly value: number;
     /**
      * Identifier of this component. Should always be
-     * minecraft:variant.
+     * `minecraft:variant`.
      */
-    static readonly 'typeId' = 'minecraft:variant';
+    static readonly componentId = 'minecraft:variant';
     protected constructor();
 }
 /**
  * When added, this component signifies that this entity wants
  * to become a jockey.
  */
-// tslint:disable-next-line:no-unnecessary-class
-export class EntityWantsJockeyComponent extends IEntityComponent {
+export class EntityWantsJockeyComponent extends EntityComponent {
     /**
      * Identifier of this component. Should always be
-     * minecraft:wants_jockey.
+     * `minecraft:wants_jockey`.
      */
-    static readonly 'typeId' = 'minecraft:wants_jockey';
+    static readonly componentId = 'minecraft:wants_jockey';
     protected constructor();
 }
 /**
@@ -5127,14 +4753,6 @@ export class IBlockProperty {
     protected constructor();
 }
 /**
- * Base interface that defines components associated with an
- * entity.
- */
-// tslint:disable-next-line:no-unnecessary-class
-export class IEntityComponent {
-    protected constructor();
-}
-/**
  * Contains the state of an integer-based property for a
  * {@link @minecraft/server.BlockPermutation}.
  */
@@ -5156,87 +4774,6 @@ export class IntBlockProperty extends IBlockProperty {
      * allowed values.
      */
     'value': number;
-    protected constructor();
-}
-/**
- * Represents a container that can hold stacks of items. Used
- * for entities like players, chest minecarts, llamas, and
- * more.
- */
-export class InventoryComponentContainer extends Container {
-    /**
-     * The number of empty slots in the container.
-     */
-    readonly 'emptySlotsCount': number;
-    /**
-     * Represents the size of the container. For example, a
-     * standard single-block chest has a size of 27, for the 27
-     * slots in their inventory.
-     */
-    readonly 'size': number;
-    /**
-     * Adds an item to the specified container. Items will be
-     * placed in the first available empty slot. (Use
-     * {@link @minecraft/server.InventoryComponentContainer.setItem} if you
-     * wish to set items in a particular slot.)
-     * @param itemStack
-     * The stack of items to add.
-     */
-    addItem(itemStack: ItemStack): void;
-    /**
-     * Gets the item stack for the set of items at the specified
-     * slot. If the slot is empty, returns undefined. This method
-     * does not change or clear the contents of the specified slot.
-     * @param slot
-     * Zero-based index of the slot to retrieve items from.
-     * @example getItem.js
-     * ```typescript
-     *        const itemStack = rightChestContainer.getItem(0);
-     *        test.assert(itemStack.id === "apple", "Expected apple");
-     *        test.assert(itemStack.amount === 10, "Expected 10 apples");
-     * ```
-     */
-    getItem(slot: number): ItemStack;
-    /**
-     * Sets an item stack within a particular slot.
-     * @param slot
-     * Zero-based index of the slot to set an item at.
-     * @param itemStack
-     * Stack of items to place within the specified slot.
-     */
-    setItem(slot: number, itemStack: ItemStack): void;
-    /**
-     * Swaps items between two different slots within containers.
-     * @param slot
-     * Zero-based index of the slot to swap from this container.
-     * @param otherSlot
-     * Zero-based index of the slot to swap with.
-     * @param otherContainer
-     * Target container to swap with. Note this can be the same
-     * container as this source.
-     * @example swapItems.js
-     * ```typescript
-     *        rightChestContainer.swapItems(1, 0, leftChestContainer); // swap the cake and emerald
-     *
-     * ```
-     */
-    swapItems(slot: number, otherSlot: number, otherContainer: Container): boolean;
-    /**
-     * Moves an item from one slot to another, potentially across
-     * containers.
-     * @param fromSlot
-     * @param toSlot
-     * Zero-based index of the slot to move to.
-     * @param toContainer
-     * Target container to transfer to. Note this can be the same
-     * container as the source.
-     * @example transferItem.js
-     * ```typescript
-     *        rightChestContainer.transferItem(0, 4, chestCartContainer); // transfer the apple from the right chest to a chest cart
-     *
-     * ```
-     */
-    transferItem(fromSlot: number, toSlot: number, toContainer: Container): boolean;
     protected constructor();
 }
 /**
@@ -5277,29 +4814,35 @@ export class ItemCompleteChargeEventSignal {
     protected constructor();
 }
 /**
+ * Base class for item components.
+ */
+export class ItemComponent extends Component {
+    protected constructor();
+}
+/**
  * When present on an item, this item has a cooldown effect
  * when used by entities.
  */
-export class ItemCooldownComponent {
+export class ItemCooldownComponent extends ItemComponent {
     /**
      * Represents the cooldown category that this item is
      * associated with.
      */
-    readonly 'cooldownCategory': string;
+    readonly cooldownCategory: string;
     /**
      * Amount of time, in ticks, that remain for this item
      * cooldown.
      */
-    readonly 'cooldownTicks': number;
-    /**
-     * Identifier of this component. Should always be
-     * 'minecraft:cooldown'.
-     */
-    static readonly 'typeId' = 'minecraft:cooldown';
+    readonly cooldownTicks: number;
     /**
      * Starts a new cooldown period for this item.
      */
     startCooldown(player: Player): void;
+    /**
+     * Identifier of this component. Should always be
+     * `minecraft:cooldown`.
+     */
+    static readonly componentId = 'minecraft:cooldown';
     protected constructor();
 }
 /**
@@ -5344,26 +4887,16 @@ export class ItemDefinitionTriggeredEvent {
  * process of being used. Note that this component only applies
  * to data-driven items.
  */
-export class ItemDurabilityComponent {
+export class ItemDurabilityComponent extends ItemComponent {
     /**
      * Returns the current damage level of this particular item.
      */
-    'damage': number;
-    /**
-     * A range of numbers that describes the chance of the item
-     * losing durability.
-     */
-    readonly 'damageRange': NumberRange;
+    damage: number;
     /**
      * Represents the amount of damage that this item can take
      * before breaking.
      */
-    readonly 'maxDurability': number;
-    /**
-     * Identifier of this component. Should always be
-     * 'minecraft:durability'.
-     */
-    static readonly 'typeId' = 'minecraft:durability';
+    readonly maxDurability: number;
     /**
      * Returns the maximum chance that this item would be damaged
      * using the damageRange property, given an unbreaking level.
@@ -5373,6 +4906,16 @@ export class ItemDurabilityComponent {
      * 0.
      */
     getDamageChance(unbreaking?: number): number;
+    /**
+     * A range of numbers that describes the chance of the item losing
+     * durability.
+     */
+    getDamageRange(): NumberRange;
+    /**
+     * Identifier of this component. Should always be
+     * `minecraft:durability`.
+     */
+    static readonly componentId = 'minecraft:durability';
     protected constructor();
 }
 /**
@@ -5380,20 +4923,20 @@ export class ItemDurabilityComponent {
  * effects. Note that this component only applies to
  * data-driven items.
  */
-export class ItemEnchantsComponent {
+export class ItemEnchantsComponent extends ItemComponent {
     /**
      * Returns a collection of the enchantments applied to this
      * item stack.
      */
-    'enchantments': EnchantmentList;
-    /**
-     * Identifier of this component.
-     */
-    static readonly 'typeId' = 'minecraft:enchantments';
+    enchantments: EnchantmentList;
     /**
      * Removes all enchantments applied to this item stack.
      */
     removeAllEnchantments(): void;
+    /**
+     * Identifier of this component.
+     */
+    static readonly componentId = 'minecraft:enchantments';
     protected constructor();
 }
 /**
@@ -5401,33 +4944,33 @@ export class ItemEnchantsComponent {
  * entities. Note that this component only applies to
  * data-driven items.
  */
-export class ItemFoodComponent {
+export class ItemFoodComponent extends ItemComponent {
     /**
      * If true, the player can always eat this item (even when not
      * hungry).
      */
-    readonly 'canAlwaysEat': boolean;
+    readonly canAlwaysEat: boolean;
     /**
      * Represents how much nutrition this food item will give an
      * entity when eaten.
      */
-    readonly 'nutrition': number;
+    readonly nutrition: number;
     /**
      * When an item is eaten, this value is used according to this
      * formula (nutrition * saturation_modifier * 2) to apply a
      * saturation buff.
      */
-    readonly 'saturationModifier': number;
+    readonly saturationModifier: number;
     /**
      * When specified, converts the active item to the one
      * specified by this property.
      */
-    readonly 'usingConvertsTo': string;
+    readonly usingConvertsTo: string;
     /**
      * Identifier of this component. Should always be
-     * 'minecraft:food'.
+     * `minecraft:food`.
      */
-    static readonly 'typeId' = 'minecraft:food';
+    static readonly componentId = 'minecraft:food';
     protected constructor();
 }
 /**
@@ -13200,69 +12743,6 @@ export class Player extends Entity {
     protected constructor();
 }
 /**
- * Represents the inventory of a {@link @minecraft/server.Player} in
- * the world.
- */
-export class PlayerInventoryComponentContainer extends InventoryComponentContainer {
-    /**
-     * Contains a count of the slots in the container that are
-     * empty.
-     */
-    readonly 'emptySlotsCount': number;
-    /**
-     * Returns the size capacity of the inventory container on this
-     * block.
-     */
-    readonly 'size': number;
-    /**
-     * Adds an item to the specified container. Item will be placed
-     * in the first available empty slot. (use .setItem if you wish
-     * to set items in a particular slot.)
-     * @param itemStack
-     * The stack of items to add.
-     */
-    addItem(itemStack: ItemStack): void;
-    /**
-     * Gets the item stack for the set of items at the specified
-     * slot. If the slot is empty, returns undefined. This method
-     * does not change or clear the contents of the specified slot.
-     * @param slot
-     * Zero-based index of the slot to retrieve items from.
-     */
-    getItem(slot: number): ItemStack;
-    /**
-     * Sets an item stack within a particular slot.
-     * @param slot
-     * Zero-based index of the slot to set an item at.
-     * @param itemStack
-     * Stack of items to place within the specified slot.
-     */
-    setItem(slot: number, itemStack: ItemStack): void;
-    /**
-     * Swaps items between two different slots within containers.
-     * @param slot
-     * Zero-based index of the slot to swap from this container.
-     * @param otherSlot
-     * Zero-based index of the slot to swap with.
-     * @param otherContainer
-     * Target container to swap with. Note this can be the same
-     * container as this source.
-     */
-    swapItems(slot: number, otherSlot: number, otherContainer: Container): boolean;
-    /**
-     * Moves an item from one slot to another, potentially across
-     * containers.
-     * @param fromSlot
-     * @param toSlot
-     * Zero-based index of the slot to move to.
-     * @param toContainer
-     * Target container to transfer to. Note this can be the same
-     * container as the source.
-     */
-    transferItem(fromSlot: number, toSlot: number, toContainer: Container): boolean;
-    protected constructor();
-}
-/**
  * This type is usable for iterating over a set of players.
  * This means it can be used in statements like for...of
  * statements, Array.from(iterator), and more.
@@ -14247,6 +13727,16 @@ export interface RawMessage {
      * not present.
      */
     with?: RawMessage | string[];
+}
+/**
+ * A `RawMessage` with only the `rawtext` property. When a `RawMessage` is
+ * serialized the contents are put into a rawtext property, so this is
+ * useful when reading saved RawMessages. See {@link
+ * @minecraft/server.BlockSignComponent.setText} and {@link
+ * @minecraft/server.BlockSignComponent.getRawText} for examples.
+ */
+export interface RawText {
+    rawtext?: RawMessage[];
 }
 /**
  * Contains a description of a vector.
