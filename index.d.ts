@@ -2516,7 +2516,7 @@ export class DirectionBlockProperty extends IBlockProperty {
     /**
      * Gets all valid direction enum values for the DirectionBlockProperty.
      */
-    getValidValues(): boolean[];
+    getValidValues(): Direction[];
     protected constructor();
 }
 /**
@@ -4761,10 +4761,6 @@ export class IntBlockProperty extends IBlockProperty {
      */
     readonly 'name': string;
     /**
-     * A list of valid values for this particular property.
-     */
-    readonly 'validValues': number[];
-    /**
      * The current value of this property.
      * @throws
      * Setting this property can throw if the value passed is not
@@ -4773,6 +4769,10 @@ export class IntBlockProperty extends IBlockProperty {
      * allowed values.
      */
     'value': number;
+    /**
+     * Gets all valid boolean values for the IntBlockProperty.
+     */
+    getValidValues(): number[];
     protected constructor();
 }
 /**
