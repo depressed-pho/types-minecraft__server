@@ -597,61 +597,87 @@ export class BeforeWatchdogTerminateEventSignal {
     protected constructor();
 }
 /**
- * Represents a block in a dimension. A block represents a
- * unique X, Y, and Z within a dimension and get/sets the state
- * of the block at that location. This type was significantly
- * updated in version 1.17.10.21.
+ * Represents a block in a dimension. A block represents a unique X, Y, and
+ * Z within a dimension and get/sets the state of the block at that
+ * location.
  */
 export class Block {
     /**
      * Returns the dimension that the block is within.
      */
-    readonly 'dimension': Dimension;
-    /**
-     * Identifier of the type of block for this block.
-     */
-    readonly 'typeId': string;
+    readonly dimension: Dimension;
     /**
      * Returns or sets whether this block has a liquid on it.
      */
-    'isWaterlogged': boolean;
+    isWaterlogged: boolean;
     /**
      * Coordinates of the specified block.
      */
-    readonly 'location': Vector3;
+    readonly location: Vector3;
     /**
      * Additional block configuration data that describes the
      * block.
      */
-    readonly 'permutation': BlockPermutation;
+    readonly permutation: BlockPermutation;
     /**
      * Gets the type of block.
      */
-    readonly 'type': BlockType;
+    readonly type: BlockType;
+    /**
+     * Identifier of the type of block for this block.
+     */
+    readonly typeId: string;
     /**
      * X coordinate of the block.
      */
-    readonly 'x': number;
+    readonly x: number;
     /**
      * Y coordinate of the block.
      */
-    readonly 'y': number;
+    readonly y: number;
     /**
      * Z coordinate of the block.
      */
-    readonly 'z': number;
+    readonly z: number;
+    /**
+     * Checks to see whether it is valid to place the specified block type
+     * or block permutation, on a specified face on this block.
+     * @param blockToPlace
+     * Block type or block permutation to check placement for.
+     * @param faceToPlaceOn
+     * Optional specific face of this block to check placement against.
+     * @return
+     * Returns `true` if the block type or permutation can be placed on
+     * this block, else `false`.
+     */
+    canPlace(blockToPlace: BlockPermutation | BlockType, faceToPlaceOn?: Direction): boolean;
     /**
      * Gets additional configuration properties (a component) for
      * specific capabilities of particular blocks - for example, an
      * inventory component of a chest block.
      * @param componentName
      * Identifier of the component. If a namespace is not
-     * specified, minecraft: is assumed.
+     * specified, `minecraft:` is assumed.
      * @returns
      * Returns the component object if it is present on the
      * particular block.
      */
-    getComponent(componentName: string): any;
+    getComponent(componentName: string): BlockComponent | undefined;
+    /**
+     * Creates a prototype item stack based on this block that can be used
+     * with Container/ContainerSlot APIs.
+     * @param amount
+     * Number of instances of this block to place in the item stack.
+     * @param withData
+     * Whether additional data facets of the item stack are included.
+     */
+    getItemStack(amount?: number, withData?: boolean): ItemStack;
+    /**
+     * Returns the net redstone power of this block.
+     * @returns
+     * `undefined` if redstone power is not applicable to this block.
+     */
+    getRedstonePower(): number | undefined;
     /**
      * @returns
      * The list of tags that the block has.
@@ -680,6 +706,22 @@ export class Block {
      */
     hasTag(tag: string): boolean;
     /**
+     * Returns true if this block is an air block (i.e., empty space).
+     */
+    isAir(): boolean;
+    /**
+     * Returns true if this block is a liquid block - (e.g., a water block
+     * and a lava black are liquid, while an air block and a stone block
+     * are not).
+     */
+    isLiquid(): boolean;
+    /**
+     * Returns true if this block is solid and impassible - (e.g., a
+     * cobblestone block and a diamond block are solid, while a ladder
+     * block and a fence block are not).
+     */
+    isSolid(): boolean;
+    /**
      * Sets the block in the dimension to the state of the
      * permutation.
      * @param permutation
@@ -691,9 +733,19 @@ export class Block {
      * Sets the type of block.
      * @param blockType
      * Identifier of the type of block to apply - for example,
-     * minecraft:powered_repeater.
+     * `minecraft:powered_repeater`.
      */
     setType(blockType: BlockType): void;
+    /**
+     * Tries to set the block in the dimension to the state of the
+     * permutation by first checking if the placement is valid.
+     * @param permutation
+     * Permutation that contains a set of property states for the Block.
+     * @returns
+     * `true` if the block permutation data was successfully set, else
+     * `false`.
+     */
+    trySetPermutation(permutation: BlockPermutation): boolean;
     protected constructor();
 }
 /**
@@ -905,21 +957,17 @@ export class BlockLiquidContainerComponent extends BlockComponent {
     protected constructor();
 }
 /**
- * Contains the combination of type {@link @minecraft/server.BlockType}
- * and properties (also sometimes called block state) which
- * describe a block (but does not belong to a specific
- * {@link @minecraft/server.Block}). This type was introduced as of
- * version 1.17.10.21.
+ * Contains the combination of type {@link @minecraft/server.BlockType} and
+ * properties (also sometimes called block state) which describe a block
+ * (but does not belong to a specific {@link @minecraft/server.Block}).
  */
 export class BlockPermutation {
     /**
      * The {@link @minecraft/server.BlockType} that the permutation has.
      */
-    readonly 'type': BlockType;
+    readonly type: BlockType;
     /**
      * Creates a copy of this permutation.
-     * @returns
-     * A copy of the permutation.
      */
     clone(): BlockPermutation;
     /**
@@ -929,13 +977,20 @@ export class BlockPermutation {
      */
     getAllProperties(): IBlockProperty[];
     /**
+     * Retrieves a prototype item stack based on this block permutation
+     * that can be used with item Container/ContainerSlot APIs.
+     * @param amount
+     * Number of instances of this block to place in the prototype item stack.
+     */
+    getItemStack(amount?: number): ItemStack;
+    /**
      * Gets a property for the permutation.
      * @returns
      * Returns the property if the permutation has it, else `null`.
      */
     getProperty(propertyName: string): IBlockProperty;
     /**
-     * Creates a copy of the permutation.
+     * Returns all tags associated with the block.
      */
     getTags(): string[];
     /**
@@ -1797,27 +1852,19 @@ export class BlockSnowContainerComponent extends BlockLiquidContainerComponent {
     protected constructor();
 }
 /**
- * The type (or template) of a block. Does not contain
- * permutation data (state) other than the type of block it
- * represents. This type was introduced as of version
- * 1.17.10.21.
+ * The type (or template) of a block. Does not contain permutation data
+ * (state) other than the type of block it represents. This type was
+ * introduced as of version 1.17.10.21.
  */
 export class BlockType {
     /**
      * Represents whether this type of block can be waterlogged.
      */
-    readonly 'canBeWaterlogged': boolean;
+    readonly canBeWaterlogged: boolean;
     /**
      * Block type name - for example, `minecraft:acacia_stairs`.
      */
-    readonly 'id': string;
-    /**
-     * Creates the default {@link @minecraft/server.BlockPermutation} for
-     * this type which uses the default values for all properties.
-     * @returns
-     * Returns created permutation.
-     */
-    createDefaultBlockPermutation(): BlockPermutation;
+    readonly id: string;
     protected constructor();
 }
 /**
@@ -2344,7 +2391,7 @@ export class Dimension {
      *          overworld.createExplosion(explodeNoBlocksLoc, 15, explosionOptions);
      * ```
      */
-    createExplosion(location: Location, radius: number, explosionOptions: ExplosionOptions): void;
+    createExplosion(location: Vector3, radius: number, explosionOptions: ExplosionOptions): void;
     /**
      * Returns a block instance at the given location. This method
      * was introduced as of version 1.17.10.21.
@@ -2362,7 +2409,7 @@ export class Dimension {
      * @param options
      * Additional options for processing this raycast query.
      */
-    getBlockFromRay(location: Location, direction: Vector, options?: BlockRaycastOptions): Block;
+    getBlockFromRay(location: Vector3, direction: Vector, options?: BlockRaycastOptions): Block;
     /**
      * Returns a set of entities based on a set of conditions
      * defined via the EntityQueryOptions set of filter criteria.
@@ -2407,7 +2454,7 @@ export class Dimension {
      * @param options
      * Additional options for processing this raycast query.
      */
-    getEntitiesFromRay(location: Location, direction: Vector, options?: EntityRaycastOptions): Entity[];
+    getEntitiesFromRay(location: Vector3, direction: Vector, options?: EntityRaycastOptions): Entity[];
     /**
      * Returns a set of players based on a set of conditions
      * defined via the EntityQueryOptions set of filter criteria.
@@ -2462,7 +2509,7 @@ export class Dimension {
      *          log("Created a sneaking wolf.", 1);
      * ```
      */
-    spawnEntity(identifier: string, location: Vector3 | Location): Entity;
+    spawnEntity(identifier: string, location: Vector3): Entity;
     /**
      * Creates a new item stack as an entity at the specified
      * location.
@@ -2493,7 +2540,7 @@ export class Dimension {
      *          log("New feather created!");
      * ```
      */
-    spawnItem(item: ItemStack, location: Vector3 | Location): Entity;
+    spawnItem(item: ItemStack, location: Vector3): Entity;
     /**
      * Creates a new particle emitter at a specified location in
      * the world.
@@ -2507,7 +2554,7 @@ export class Dimension {
      * @returns
      * Newly created entity at the specified location.
      */
-    spawnParticle(effectName: string, location: Location, molangVariables: MolangVariableMap): void;
+    spawnParticle(effectName: string, location: Vector3, molangVariables: MolangVariableMap): void;
     protected constructor();
 }
 export class DirectionBlockProperty extends IBlockProperty {
@@ -2721,7 +2768,7 @@ export class Entity {
     /**
      * Location of the center of the head component of the entity.
      */
-    readonly headLocation: Location;
+    readonly headLocation: Vector3;
     /**
      * Unique identifier of the entity. This identifier is intended to be
      * consistent across loads of a world instance. No meaning should be
@@ -2737,7 +2784,7 @@ export class Entity {
     /**
      * Current location of the entity.
      */
-    readonly location: Location;
+    readonly location: Vector3;
     /**
      * Given name of the entity.
      */
@@ -2835,9 +2882,9 @@ export class Entity {
      * The identifier of the component (e.g., 'minecraft:rideable')
      * to retrieve. If no namespace prefix is specified,
      * 'minecraft:' is assumed. If the component is not present on
-     * the entity, undefined is returned.
+     * the entity, `undefined` is returned.
      */
-    getComponent(componentId: string): EntityComponent;
+    getComponent(componentId: string): EntityComponent | undefined;
     /**
      * Returns all components that are both present on this entity
      * and supported by the API.
@@ -2870,7 +2917,7 @@ export class Entity {
      */
     getRotation(): XYRotation;
     /**
-     * Returns all tags associated with an entity.
+     * Returns all tags associated with the entity.
      */
     getTags(): string[];
     /**
@@ -5026,27 +5073,74 @@ export class Items {
 }
 /**
  * Defines a collection of items.
+ *
+ * @example itemStacks.ts
+ * ```typescript
+ * const oneItemLoc: mc.Vector3 = { x: 3, y: 2, z: 1 };
+ * const fiveItemsLoc: mc.Vector3 = { x: 1, y: 2, z: 1 };
+ * const diamondPickaxeLoc: mc.Vector3 = { x: 2, y: 2, z: 4 };
+ * const oneEmerald = new mc.ItemStack(mc.MinecraftItemTypes.emerald, 1);
+ * const onePickaxe = new mc.ItemStack(mc.MinecraftItemTypes.diamondPickaxe, 1);
+ * const fiveEmeralds = new mc.ItemStack(mc.MinecraftItemTypes.emerald, 5);
+ * overworld.spawnItem(oneEmerald, oneItemLoc);
+ * overworld.spawnItem(fiveEmeralds, fiveItemsLoc);
+ * overworld.spawnItem(onePickaxe, diamondPickaxeLoc);
+ * ```
+ *
+ * @example spawnItems.ts
+ * ```typescript
+ * const featherItem = new mc.ItemStack(mc.MinecraftItemTypes.feather, 1);
+ * overworld.spawnItem(featherItem, targetLocation);
+ * log("New feather created!");
+ * ```
  */
 export class ItemStack {
     /**
      * Number of the items in the stack. Valid values range between
      * 0 and 64.
+     * @throws
+     * Throws if the value is outside the range of 1-255.
      */
-    'amount': number;
+    amount: number;
     /**
-     * A data value used to configure alternate states of the item.
+     * Returns whether the item is stackable. An item is considered
+     * stackable if the item's maximum stack size is greater than 1 and the
+     * item does not contain any custom data or properties.
      */
-    'data': number;
+    readonly isStackable: boolean;
+    /**
+     * Gets or sets whether the item is kept on death.
+     */
+    keepOnDeath: boolean;
+    /**
+     * Gets or sets the item's lock mode. The default value is {@link
+     * @minecraft/server.ItemLockMode.none}.
+     */
+    lockMode: ItemLockMode;
+    /**
+     * The maximum stack size. This value varies depending on the type of
+     * item. For example, torches have a maximum stack size of 64, while
+     * eggs have a maximum stack size of 16.
+     */
+    readonly maxAmount: number;
+    /**
+     * Given name of this stack of items. The name tag is displayed when
+     * hovering over the item. Setting the name tag to an empty string or
+     * `undefined` will remove the name tag.
+     * @throws
+     * Throws if the length exceeds 255 characters.
+     */
+    nameTag?: string;
+    /**
+     * The type of the item.
+     */
+    readonly type: ItemType;
     /**
      * Identifier of the type of items for the stack. If a
      * namespace is not specified, 'minecraft:' is assumed.
      * Examples include 'wheat' or 'apple'.
      */
-    readonly 'typeId': string;
-    /**
-     * Given name of this stack of items.
-     */
-    'nameTag'?: string;
+    readonly typeId: string;
     /**
      * Creates a new instance of a stack of items for use in the
      * world.
@@ -5055,54 +5149,124 @@ export class ItemStack {
      * {@link @minecraft/server.MinecraftItemTypes} enumeration for a list
      * of standard item types in Minecraft experiences.
      * @param amount
-     * Number of items to place in the stack, between 1 and 64.
-     * Note that certain items can only have one item in the stack.
-     * @param data
-     * Optional data value used for creating the item, or 0 if no
-     * data value is specified.
+     * Number of items to place in the stack, between 1-255. The provided
+     * value will be clamped to the item's maximum stack size. Note that
+     * certain items can only have one item in the stack.
+     * @throws
+     * Throws if itemType is invalid, or if amount is outside the range of
+     * 1-255.
      */
-    constructor(itemType: ItemType, amount?: number, data?: number);
+    constructor(itemType: ItemType | string, amount?: number);
+    /**
+     * Creates an exact copy of the item stack, including any custom data
+     * or properties.
+     */
+    clone(): ItemStack;
     /**
      * Gets a component (that represents additional capabilities)
      * for an item stack.
      * @param componentId
-     * The identifier of the component (e.g., 'minecraft:food') to
-     * retrieve. If no namespace prefix is specified, 'minecraft:'
+     * The identifier of the component (e.g., `minecraft:food`) to
+     * retrieve. If no namespace prefix is specified, `minecraft:`
      * is assumed. If the component is not present on the item
-     * stack, undefined is returned.
+     * stack, `undefined` is returned.
+     *
+     * @example durability.ts
+     * ```typescript
+     * // Get the maximum durability of a custom sword item
+     * const itemStack = new ItemStack("custom:sword");
+     * const durability = itemStack.getComponent("minecraft:durability") as ItemDurabilityComponent;
+     * const maxDurability = durability.maxDurability;
+     * ```
      */
-    getComponent(componentId: string): any;
+    getComponent(componentId: string): ItemComponent | undefined;
     /**
      * Returns all components that are both present on this item
      * stack and supported by the API.
      */
-    getComponents(): any[];
+    getComponents(): ItemComponent[];
     /**
      * Returns the lore value - a secondary display string - for an
      * ItemStack.
+     * @returns
+     * An array of lore strings. If the item does not have lore, returns an empty array.
      */
     getLore(): string[];
+    /**
+     * Returns a set of tags associated with this item stack.
+     */
+    getTags(): string[];
     /**
      * Returns true if the specified component is present on this
      * item stack.
      * @param componentId
-     * The identifier of the component (e.g., 'minecraft:food') to
-     * retrieve. If no namespace prefix is specified, 'minecraft:'
+     * The identifier of the component (e.g., `minecraft:food`) to
+     * retrieve. If no namespace prefix is specified, `minecraft:`
      * is assumed.
      */
     hasComponent(componentId: string): boolean;
     /**
+     * Checks whether this item stack has a particular tag associated with
+     * it.
+     */
+    hasTag(tag: string): boolean;
+    /**
+     * Returns whether this item stack can be stacked with the given
+     * `itemStack`. This is determined by comparing the item type and any
+     * custom data and properties associated with the item stacks. The
+     * amount of each item stack is not taken into consideration.
+     */
+    isStackableWith(itemStack: ItemStack): boolean;
+    /**
+     * The list of block types this item can break in Adventure mode. The
+     * block names are displayed in the item's tooltip. Setting the value
+     * to `undefined` will clear the list.
+     * @throws
+     * Throws if any of the provided block identifiers are invalid.
+     *
+     * @example example.ts
+     * ```typescript
+     * // Creates a diamond pickaxe that can destroy cobblestone and obsidian
+     * const specialPickaxe = new ItemStack("minecraft:diamond_pickaxe");
+     * specialPickaxe.setCanDestroy(["minecraft:cobblestone", "minecraft:obsidian"]);
+     * ```
+     */
+    setCanDestroy(blockIdentifiers?: string[]): void;
+    /**
+     * The list of block types this item can be placed on in Adventure
+     * mode. This is only applicable to block items. The block names are
+     * displayed in the item's tooltip. Setting the value to `undefined`
+     * will clear the list.
+     * @throws
+     * Throws if any of the provided block identifiers are invalid.
+     *
+     * @example example.ts
+     * ```typescript
+     * // Creates a gold block that can be placed on grass and dirt
+     * const specialGoldBlock = new ItemStack("minecraft:gold_block");
+     * specialPickaxe.setCanPlaceOn(["minecraft:grass", "minecraft:dirt"]);
+     * ```
+     */
+    setCanPlaceOn(blockIdentifiers?: string[]): void;
+    /**
      * Sets the lore value - a secondary display string - for an
      * ItemStack.
+     *
+     * @example multilineLore.ts
+     * ```typescript
+     * // Set the lore of an item to multiple lines of text
+     * const itemStack = new ItemStack("minecraft:diamond_sword");
+     * itemStack.setLore(["Line 1", "Line 2", "Line 3"]);
+     * ```
      */
-    setLore(loreList: string[]): void;
+    setLore(loreList?: string[]): void;
     /**
      * Triggers an item type event. For custom items, a number of
-     * events are defined in an items' definition for key item
+     * events are defined in an item's definition for key item
      * behaviors.
      * @param eventName
      * Name of the item type event to trigger. If a namespace is
-     * not specified, minecraft: is assumed.
+     * not specified, `minecraft:` is assumed.
      */
     triggerEvent(eventName: string): void;
 }
@@ -5269,9 +5433,9 @@ export class ItemStopUseOnEventSignal {
 export class ItemType {
     /**
      * Returns the identifier of the item type - for example,
-     * 'minecraft:apple'.
+     * `minecraft:apple`.
      */
-    readonly 'id': string;
+    readonly id: string;
     protected constructor();
 }
 /**
@@ -12842,35 +13006,34 @@ export class PlayerLeaveEventSignal {
  */
 export class ProjectileHitEvent {
     /**
-     * Contains additional information about the block that was hit
-     * by the projectile, or undefined if the projectile did not
-     * hit a block.
-     */
-    readonly 'blockHit'?: BlockHitInformation;
-    /**
      * Dimension where this projectile hit took place.
      */
-    readonly 'dimension': Dimension;
-    /**
-     * Contains additional information about a block that was hit.
-     */
-    readonly 'entityHit'?: EntityHitInformation;
+    readonly dimension: Dimension;
     /**
      * Direction vector of the projectile as it hit a block/entity.
      */
-    readonly 'hitVector': Vector;
+    readonly hitVector: Vector3;
     /**
      * Location where the projectile hit occurred.
      */
-    readonly 'location': Location;
+    readonly location: Vector3;
     /**
      * Entity for the projectile that hit a block/entity.
      */
-    readonly 'projectile': Entity;
+    readonly projectile: Entity;
     /**
      * Optional source entity that fired the projectile.
      */
-    readonly 'source': Entity;
+    readonly source: Entity;
+    /**
+     * Contains additional information about the block that was hit by the
+     * projectile, or `undefined` if the projectile did not hit a block.
+     */
+    getBlockHit(): BlockHitInformation | undefined;
+    /**
+     * Contains additional information about an entity that was hit.
+     */
+    getEntityHit(): EntityHitInformation | undefined;
     protected constructor();
 }
 /**
@@ -13084,7 +13247,7 @@ export class Seat {
      * Physical location of this seat, relative to the entity's
      * location.
      */
-    readonly 'position': Location;
+    readonly 'position': Vector3;
     protected constructor();
 }
 /**
@@ -13096,7 +13259,7 @@ export class SoundOptions {
     /**
      * Specifies a location of where to play a particular sound.
      */
-    'location'?: Location;
+    'location'?: Vector3;
     /**
      * Pitch adjustment level for the sound.
      */
@@ -13116,10 +13279,6 @@ export class StringBlockProperty extends IBlockProperty {
      */
     readonly 'name': string;
     /**
-     * A list of allowed values for this string property.
-     */
-    readonly 'validValues': string[];
-    /**
      * The current value of this property.
      * @throws
      * Setting this property can throw if the value passed is not
@@ -13128,6 +13287,10 @@ export class StringBlockProperty extends IBlockProperty {
      * allowed values.
      */
     'value': string;
+    /**
+     * Gets all valid string values for the StringBlockProperty.
+     */
+    getValidValues(): string[];
     protected constructor();
 }
 /**
@@ -13630,7 +13793,7 @@ export interface EntityQueryOptions {
      * conjunction with closest, farthest, limit, volume, and
      * distance properties.
      */
-    location?: Location;
+    location?: Vector3;
     /**
      * If specified, includes entities that are less than this
      * distance away from the location specified in the location
