@@ -2287,7 +2287,7 @@ export class Dimension {
      * ```
      * @example createFireAndWaterExplosions.ts
      * ```typescript
-     *          const explosionLoc = new mc.Location(targetLocation.x + 0.5, targetLocation.y + 0.5, targetLocation.z + 0.5);
+     *          const explosionLoc = {x: targetLocation.x + 0.5, y: targetLocation.y + 0.5, z: targetLocation.z + 0.5};
      *
      *          const fireExplosionOptions = new mc.ExplosionOptions();
      *
@@ -2300,7 +2300,7 @@ export class Dimension {
      *          // Explode in water
      *          waterExplosionOptions.allowUnderwater = true;
      *
-     *          const belowWaterLoc = new mc.Location(targetLocation.x + 3, targetLocation.y + 1, targetLocation.z + 3);
+     *          const belowWaterLoc = {x: targetLocation.x + 3, y: targetLocation.y + 1, z: targetLocation.z + 3};
      *
      *          overworld.createExplosion(belowWaterLoc, 10, waterExplosionOptions);
      * ```
@@ -2311,11 +2311,11 @@ export class Dimension {
      *          // Start by exploding without breaking blocks
      *          explosionOptions.breaksBlocks = false;
      *
-     *          const explodeNoBlocksLoc = new mc.Location(
-     *            Math.floor(targetLocation.x + 1),
-     *            Math.floor(targetLocation.y + 2),
-     *            Math.floor(targetLocation.z + 1)
-     *          );
+     *          const explodeNoBlocksLoc = {
+     *            x: Math.floor(targetLocation.x + 1),
+     *            y: Math.floor(targetLocation.y + 2),
+     *            z: Math.floor(targetLocation.z + 1)
+     *          };
      *
      *          overworld.createExplosion(explodeNoBlocksLoc, 15, explosionOptions);
      * ```
@@ -6407,60 +6407,6 @@ export class LeverActionEventSignal {
      */
     unsubscribe(callback: (arg: LeverActionEvent) => void): void;
     protected constructor();
-}
-/**
- * Contains a location description that is useful for entities
- * and other items. X, Y, and Z can contain decimal fractions.
- * For integer-based locations useful for blocks, see
- * {@link @minecraft/server.Vector3}.
- */
-export class Location {
-    /**
-     * X component of this location.
-     */
-    'x': number;
-    /**
-     * Y component of this location.
-     */
-    'y': number;
-    /**
-     * Z component of this location.
-     */
-    'z': number;
-    /**
-     * @remarks
-     * Creates a new instance of an abstract location.
-     * @param x
-     * X position of the location.
-     * @param y
-     * Y position of the location.
-     * @param z
-     * Z position of the location.
-     */
-    constructor(x: number, y: number, z: number);
-    /**
-     * @remarks
-     * Compares this Location and another Location to one another.
-     * @param other
-     * Other location to compare this Location to.
-     * @returns
-     * True if the two locations are equal.
-     */
-    equals(other: Location): boolean;
-    /**
-     * @remarks
-     * Determines whether or not two Locations are considered to be
-     * near each other.
-     * @param other
-     * Other Location to compare this Location to.
-     * @param epsilon
-     * Maximum distance that the Locations can be from each other
-     * to be considered nearby.
-     * @returns
-     * True if the two Locations are within epsilon distance of
-     * each other.
-     */
-    isNear(other: Location, epsilon: number): boolean;
 }
 /**
  * Contains definitions of standard Minecraft and Minecraft
