@@ -4749,7 +4749,7 @@ export class ItemUseEvent {
     /**
      * The impacted item stack that is being used.
      */
-    readonly itemStack: ItemStack;
+    readonly item: ItemStack;
     /**
      * Returns the source entity that triggered this item event.
      */
