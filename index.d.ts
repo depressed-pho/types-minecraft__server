@@ -14940,6 +14940,11 @@ export class World {
      */
     getAllPlayers(): Player[];
     /**
+     * Returns the default spawn position within the world where players
+     * are spawned if they don't have a specific spawn position set.
+     */
+    getDefaultSpawnPosition(): Vector3;
+    /**
      * @param dimensionId
      * @returns
      * The requested dimension
@@ -14996,13 +15001,52 @@ export class World {
      */
     removeDynamicProperty(identifier: string): boolean;
     /**
-     * @remarks
-     * Broadcasts a message that is displayed on all connected
-     * clients.
+     * Sends a message to all players.
      * @param message
-     * @throws This function can throw errors.
+     * The message to be displayed.
+     * @throws
+     * This method can throw if the provided {@link
+     * @minecraft/server.RawMessage} is in an invalid format. For example,
+     * if an empty `name` string is provided to `score`.
+     * @example nestedTranslation.ts
+     * ```typescript
+     * // Displays "Apple or Coal"
+     * let rawMessage = {
+     *   translate: "accessibility.list.or.two",
+     *   with: { rawtext: [{ translate: "item.apple.name" }, { translate: "item.coal.name" }] },
+     * };
+     * world.sendMessage(rawMessage);
+     * ```
+     * @example scoreWildcard.ts
+     * ```typescript
+     * // Displays the player's score for objective "obj". Each player will see their own score.
+     * const rawMessage = { score: { name: "*", objective: "obj" } };
+     * world.sendMessage(rawMessage);
+     * ```
+     * @example simpleString.ts
+     * ```typescript
+     * // Displays "Hello, world!"
+     * world.sendMessage("Hello, world!");
+     * ```
+     * @example translation.ts
+     * ```
+     * // Displays "First or Second"
+     * const rawMessage = { translate: "accessibility.list.or.two", with: ["First", "Second"] };
+     * world.sendMessage(rawMessage);
+     * ```
      */
-    say(message: RawMessage | string): void;
+    sendMessage(message: (RawMessage | string)[] | RawMessage | string): void;
+    /**
+     * Sets the default spawn location for players within the world. Note
+     * that players can override this with their own spawn position. Note
+     * also that the default spawn position must be in the overworld
+     * dimension.
+     * @param spawnPosition
+     * Location within the overworld where a player will spawn.
+     * @throws
+     * This function can throw errors.
+     */
+    setDefaultSpawn(spawnPosition: Vector3): void;
     /**
      * @remarks
      * Sets a specified property to a value.
