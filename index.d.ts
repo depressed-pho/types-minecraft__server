@@ -13252,6 +13252,19 @@ export interface RawText {
     rawtext?: RawMessage[];
 }
 /**
+ * Represents a two-directional vector.
+ */
+export interface Vector2 {
+    /**
+     * X component of the two-dimensional vector.
+     */
+    x: number;
+    /**
+     * Y component of the two-dimensional vector.
+     */
+    y: number;
+}
+/**
  * Contains a description of a vector.
  */
 export interface Vector3 {
