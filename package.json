@@ -4,6 +4,9 @@
     "description": "TypeScript definitions for @minecraft/server",
     "license": "MIT",
     "type": "module",
+    "files": [
+        "dist/**"
+    ],
     "types": "dist/index.d.ts",
     "scripts": {
         "prepare": "gulp",
