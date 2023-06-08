@@ -1,4 +1,4 @@
-/// <reference types="../classes.d.ts" />
+/// <reference path="../classes.d.ts" />
 
 /**
  * Base type for components associated with blocks.

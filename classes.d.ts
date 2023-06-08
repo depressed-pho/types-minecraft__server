@@ -1,5 +1,5 @@
-/// <reference types="./enums.d.ts" />
-/// <reference types="./interfaces.d.ts" />
+/// <reference path="./enums.d.ts" />
+/// <reference path="./interfaces.d.ts" />
 
 /**
  * Represents a block in a dimension. A block represents a unique X, Y, and
