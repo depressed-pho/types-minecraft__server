@@ -3073,31 +3073,6 @@ export class System {
 }
 
 /**
- * Provides a set of events that fire within the broader scripting system
- * within Minecraft.
- */
-export class SystemAfterEvents {
-    /**
-     * An event that fires when a `/scriptevent` command is executed. This
-     * provides a way for commands and other systems to trigger behavior
-     * within script.
-     */
-    readonly scriptEventReceive: ScriptEventCommandMessageAfterEventSignal;
-}
-
-export class SystemBeforeEvents {
-    /**
-     * This event fires before a the performance watchdog terminates
-     * scripting execution due to exceeding a performance
-     * boundary. Depending on the configuration of the runtime environment,
-     * this event can be canceled. For example, on certain dedicated server
-     * environments the ability to override termination events may be
-     * disabled.
-     */
-    readonly watchdogTerminate: WatchdogTerminateBeforeEventSignal;
-}
-
-/**
  * Represents a trigger for firing an event.
  */
 export class Trigger {
