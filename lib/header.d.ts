@@ -19,31 +19,3 @@
  * }
  * ```
  */
-
-/// <reference path="./classes.d.ts" />
-/// <reference path="./classes/components.d.ts" />
-/// <reference path="./classes/events.d.ts" />
-/// <reference path="./enums.d.ts" />
-/// <reference path="./errors.d.ts" />
-/// <reference path="./interfaces.d.ts" />
-
-/**
- * How many times the server ticks per in-game day.
- */
-export const TicksPerDay = 24000;
-
-/**
- * How many times the server ticks per second of real time.
- */
-export const TicksPerSecond = 20;
-
-/**
- * A class that provides system-level events and functions.
- */
-export const system: System;
-
-/**
- * A class that wraps the state of a world - a set of
- * dimensions and the environment of Minecraft.
- */
-export const world: World;

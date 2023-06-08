@@ -3,9 +3,20 @@
     "version": "1.3.0-beta",
     "description": "TypeScript definitions for @minecraft/server",
     "license": "MIT",
-    "types": "index.d.ts",
+    "type": "module",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "prepare": "gulp",
+        "build": "gulp",
+        "clean": "gulp clean"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/depressed-pho/types-minecraft__server.git"
+    },
+    "devDependencies": {
+        "gulp": "^4.0.2",
+        "gulp-cli": "^2.3.0",
+        "gulp-concat": "^2.6.1"
     }
 }

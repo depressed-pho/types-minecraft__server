@@ -1,6 +1,3 @@
-/// <reference path="./enums.d.ts" />
-/// <reference path="./interfaces.d.ts" />
-
 /**
  * Represents a block in a dimension. A block represents a unique X, Y, and
  * Z within a dimension and get/sets the state of the block at that

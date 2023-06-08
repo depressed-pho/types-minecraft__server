@@ -1,6 +1,3 @@
-/// <reference path="../classes.d.ts" />
-/// <reference path="../interfaces.d.ts" />
-
 /**
  * Manages callbacks that are connected to when a block is
  * broken.

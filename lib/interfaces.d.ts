@@ -1,6 +1,3 @@
-/// <reference path="./classes.d.ts" />
-/// <reference path="./enums.d.ts" />
-
 /**
  * Contains additional options for a block fill operation.
  */
