@@ -243,10 +243,10 @@ export enum ScoreboardIdentityType {
 }
 
 export enum ScriptEventSource {
-    block = "block",
-    entity = "entity",
+    block       = "block",
+    entity      = "entity",
     npcDialogue = "npcDialogue",
-    server = "server",
+    server      = "server",
 }
 
 /**
