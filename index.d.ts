@@ -20,10 +20,10 @@
  * ```
  */
 
-/// <reference path="./classes.d.ts" />
-/// <reference path="./classes/components.d.ts" />
-/// <reference path="./classes/events.d.ts" />
-/// <reference path="./constants.d.ts" />
-/// <reference path="./enums.d.ts" />
-/// <reference path="./errors.d.ts" />
-/// <reference path="./interfaces.d.ts" />
+/// <reference types="./classes.d.ts" />
+/// <reference types="./classes/components.d.ts" />
+/// <reference types="./classes/events.d.ts" />
+/// <reference types="./constants.d.ts" />
+/// <reference types="./enums.d.ts" />
+/// <reference types="./errors.d.ts" />
+/// <reference types="./interfaces.d.ts" />

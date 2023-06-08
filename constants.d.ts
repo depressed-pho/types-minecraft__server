@@ -1,4 +1,4 @@
-/// <reference path="./classes.d.ts" />
+/// <reference types="./classes.d.ts" />
 
 /**
  * How many times the server ticks per in-game day.
