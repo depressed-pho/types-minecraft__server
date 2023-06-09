@@ -544,7 +544,7 @@ export class IChatSendBeforeEventSignal {
  * Provides an adaptable interface for callers to subscribe to an event
  * that fires when an entities' definition is triggered to change.
  */
-export class IDataDrivenEntityTriggerEventSignal {
+export class IDataDrivenEntityTriggerAfterEventSignal {
     protected constructor();
     subscribe(
         callback: (arg: DataDrivenEntityTriggerAfterEvent) => void,
