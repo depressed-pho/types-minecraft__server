@@ -1658,7 +1658,7 @@ export class PressurePlatePushAfterEventSignal extends IPressurePlatePushAfterEv
  * Contains information related to a projectile hitting an
  * entity or block.
  */
-export class ProjectileHitEvent {
+export class ProjectileHitAfterEvent {
     protected constructor();
     /**
      * Dimension where this projectile hit took place.
