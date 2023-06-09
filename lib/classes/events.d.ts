@@ -269,7 +269,7 @@ export class EffectAddAfterEventSignal extends IEffectAddAfterEventSignal {
 /**
  * Contains information related to the death of an entity in the game.
  */
-export class EntityDieEvent {
+export class EntityDieAfterEvent {
     protected constructor();
     /**
      * If specified, provides more information on the source of damage that
