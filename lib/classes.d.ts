@@ -204,7 +204,7 @@ export class BlockAreaSize {
  */
 export class BlockLocationIterator implements IterableIterator<Vector3> {
     protected constructor();
-    [Symbol.iterator](): Iterator<Vector3>;
+    [Symbol.iterator](): IterableIterator<Vector3>;
     next(): IteratorResult<Vector3>;
 }
 
@@ -1474,7 +1474,7 @@ export class EnchantmentList implements IterableIterator<Enchantment> {
      * Creates a new EnchantmentList.
      */
     constructor(enchantmentSlot: number);
-    [Symbol.iterator](): Iterator<Enchantment>;
+    [Symbol.iterator](): IterableIterator<Enchantment>;
     /**
      * Attempts to add the enchantment to this collection. Returns `true`
      * if successful.
@@ -2085,7 +2085,7 @@ export class EntityDefinitionFeedItem {
  */
 export class EntityIterator implements IterableIterator<Entity> {
     protected constructor();
-    [Symbol.iterator](): Iterator<Entity>;
+    [Symbol.iterator](): IterableIterator<Entity>;
     /**
      * Retrieves the next item in this iteration. The resulting
      * IteratorResult contains `.done` and `.value` properties which can be
@@ -2110,7 +2110,7 @@ export class EntityType {
  */
 export class EntityTypeIterator implements IterableIterator<EntityType> {
     protected constructor();
-    [Symbol.iterator](): Iterator<EntityType>;
+    [Symbol.iterator](): IterableIterator<EntityType>;
     next(): IteratorResult<EntityType>;
 }
 
@@ -2421,7 +2421,7 @@ export class ItemType {
  */
 export class ItemTypeIterator implements IterableIterator<ItemType> {
     protected constructor();
-    [Symbol.iterator](): Iterator<ItemType>;
+    [Symbol.iterator](): IterableIterator<ItemType>;
     next(): IteratorResult<ItemType>;
 }
 
@@ -2716,7 +2716,7 @@ export class Player extends Entity {
  */
 export class PlayerIterator implements IterableIterator<Player> {
     protected constructor();
-    [Symbol.iterator](): Iterator<Player>;
+    [Symbol.iterator](): IterableIterator<Player>;
     /**
      * Retrieves the next item in this iteration. The resulting
      * IteratorResult contains `.done` and `.value` properties which can be

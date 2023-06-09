@@ -1332,7 +1332,7 @@ export class LeverActionAfterEventSignal extends ILeverActionAfterEventSignal {
  * A specific currently-internal event used for passing messages from
  * client to server.
  */
-class MessageReceiveAfterEvent {
+export class MessageReceiveAfterEvent {
     protected constructor();
     readonly id: string;
     readonly message: string;
