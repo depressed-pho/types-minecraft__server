@@ -59,7 +59,7 @@ export class BlockExplodeAfterEvent extends BlockEvent {
  * Manages callbacks that are connected to when an explosion
  * occurs, as it impacts individual blocks.
  */
-export class BlockExplodeEventSignal extends IBlockExplodeAfterEventSignal {
+export class BlockExplodeAfterEventSignal extends IBlockExplodeAfterEventSignal {
     protected constructor();
 }
 
