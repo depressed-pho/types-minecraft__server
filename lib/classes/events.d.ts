@@ -83,7 +83,7 @@ export class BlockPlaceAfterEventSignal extends IBlockPlaceAfterEventSignal {
 
 /**
  * Contains information related to changes to a button push.
- * @example buttonPushEvent.ts
+ * @example buttonPushAfterEvent.ts
  * ```typescript
  * // set up a button on cobblestone
  * let cobblestone = overworld.getBlock(targetLocation);
@@ -106,7 +106,7 @@ export class BlockPlaceAfterEventSignal extends IBlockPlaceAfterEventSignal {
  * });
  * ```
  */
-export class ButtonPushEvent extends BlockEvent {
+export class ButtonPushAfterEvent extends BlockEvent {
     protected constructor();
     /**
      * Optional source that triggered the button push.
