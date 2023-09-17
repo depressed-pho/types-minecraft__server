@@ -318,35 +318,61 @@ export class EntityHealthChangedAfterEventSignal extends IEntityHealthChangedAft
 }
 
 /**
+ * Contains information related to an entity hitting a block.
+ */
+export class EntityHitBlockAfterEvent {
+    protected constructor();
+    /**
+     * Face of the block that was hit.
+     */
+    readonly blockFace: Direction;
+    /**
+     * Entity that made the attack.
+     */
+    readonly damagingEntity: Entity;
+    /**
+     * Block that was hit by the attack.
+     */
+    readonly hitBlock: Block;
+}
+
+/**
  * Contains information related to an entity hitting (melee attacking)
  * another entity.
  */
-export class EntityHitAfterEvent {
+export class EntityHitEntityAfterEvent {
     protected constructor();
     /**
      * Entity that made a hit/melee attack.
      */
-    readonly entity: Entity;
+    readonly damagingEntity: Entity;
     /**
-     * Block that was hit by the attack, or `undefined` if the hit attack
-     * did not hit a block. If both `hitEntity` and `hitBlock` are
-     * `undefined`, then the entity basically swiped into the air.
+     * Entity that was hit by the attack.
      */
-    readonly hitBlock?: Block;
-    /**
-     * Entity that was hit by the attack, or `undefined` if the hit attack
-     * did not hit an entity. If both `hitEntity` and `hitBlock` are
-     * `undefined`, then the entity basically swiped into the air.
-     */
-    readonly hitEntity?: Entity;
+    readonly hitEntity: Entity;
+}
+
+/**
+ * Manages callbacks that are connected to when an entity hits a block.
+ */
+export class EntityHitBlockAfterEventSignal extends IEntityHitBlockAfterEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: EntityHitBlockAfterEvent) => void,
+              options?: EntityEventOptions
+             ): (arg: EntityHitBlockAfterEvent) => void;
+    unsubscribe(callback: (arg: EntityHitBlockAfterEvent) => void): void;
 }
 
 /**
  * Manages callbacks that are connected to when an entity makes a melee
  * attack on another entity.
  */
-export class EntityHitAfterEventSignal extends IEntityHitAfterEventSignal {
+export class EntityHitEntityAfterEventSignal extends IEntityHitEntityAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: EntityHitEntityAfterEvent) => void,
+              options?: EntityEventOptions
+             ): (arg: EntityHitEntityAfterEvent) => void;
+    unsubscribe(callback: (arg: EntityHitEntityAfterEvent) => void): void;
 }
 
 /**
@@ -600,18 +626,6 @@ export class IEntityHealthChangedAfterEventSignal {
               options?: EntityEventOptions
              ): (arg: EntityHealthChangedAfterEvent) => void;
     unsubscribe(callback: (arg: EntityHealthChangedAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when an entity hits (melee attacks) another entity.
- */
-export class IEntityHitAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: EntityHitAfterEvent) => void,
-              options?: EntityEventOptions
-             ): (arg: EntityHitAfterEvent) => void;
-    unsubscribe(callback: (arg: EntityHitAfterEvent) => void): void;
 }
 
 /**
@@ -1340,7 +1354,8 @@ export class MessageReceiveAfterEvent {
 }
 
 /**
- * Returns additional data about a /scriptevent command invocation.
+ * Returns additional data about a /scriptevent command invocation. The
+ * maximum message length is 2048 characters.
  */
 export class ScriptEventCommandMessageAfterEvent {
     protected constructor();
@@ -1915,10 +1930,15 @@ export class WorldAfterEvents {
      */
     readonly entityHealthChanged: EntityHealthChangedAfterEventSignal;
     /**
-     * This event fires when an entity hits (makes a melee attack) and
-     * potentially impacts another entity or block.
+     * This event fires when an entity hits (that is, melee attacks) a
+     * block.
      */
-    readonly entityHit: EntityHitAfterEventSignal;
+    readonly entityHitBlock: EntityHitBlockAfterEventSignal;
+    /**
+     * This event fires when an entity hits (that is, melee attacks)
+     * another entity.
+     */
+    readonly entityHitEntity: EntityHitEntityAfterEventSignal;
     /**
      * This event fires when an entity is hurt (takes damage).
      */
@@ -1984,7 +2004,7 @@ export class WorldAfterEvents {
     /**
      * This event fires when a lever activates or is deactivated.
      */
-    readonly leverActivate: LeverActionAfterEventSignal;
+    readonly leverAction: LeverActionAfterEventSignal;
     /**
      * This event is an internal implementation detail, and is otherwise
      * not currently functional.

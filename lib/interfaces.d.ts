@@ -28,6 +28,24 @@ export interface BlockHitInformation {
 }
 
 /**
+ * Contains information for block raycast hit results.
+ */
+export interface BlockRaycastHit {
+    /**
+     * Block that was hit.
+     */
+    block: Block;
+    /**
+     * Face of the block that was hit.
+     */
+    face: Direction;
+    /**
+     * Hit location relative to the bottom north-west corner of the block.
+     */
+    faceLocation: Vector3;
+}
+
+/**
  * Contains additional options for configuring a block raycast query.
  */
 export interface BlockRaycastOptions {
@@ -404,7 +422,7 @@ export interface EntityQueryOptions {
  * Contains additional options for filtering players based on their score
  * for an objective.
  */
-export class EntityQueryScoreOptions {
+export interface EntityQueryScoreOptions {
     /**
      * If set to true, entities and players within this score range are
      * excluded from query results.
@@ -427,9 +445,23 @@ export class EntityQueryScoreOptions {
 }
 
 /**
+ * Contains information for entity raycast hit results.
+ */
+export interface EntityRaycastHit {
+    /**
+     * Distance from ray origin to entity bounds.
+     */
+    distance: number;
+    /**
+     * Entity that was hit.
+     */
+    entity: Entity;
+}
+
+/**
  * Contains additional options for an entity raycast operation.
  */
-export class EntityRaycastOptions {
+export interface EntityRaycastOptions {
     /**
      * Maximum distance, in blocks, to process the raycast.
      */
@@ -440,7 +472,7 @@ export class EntityRaycastOptions {
  * Additional configuration options for the {@link
  * @minecraft/server.Dimension.createExplosion} method.
  */
-export class ExplosionOptions {
+export interface ExplosionOptions {
     /**
      * Whether parts of the explosion also impact underwater.
      */
@@ -465,7 +497,7 @@ export class ExplosionOptions {
  * @minecraft/server.World.playMusic}/{@link
  * @minecraft/server.World.queueMusic} methods.
  */
-export class MusicOptions {
+export interface MusicOptions {
     /**
      * Specifies a fade overlap for music at the end of play.
      */
@@ -596,7 +628,7 @@ export interface RawText {
  * Contains additional options for how a scoreboard should be displayed
  * within its display slot.
  */
-export class ScoreboardObjectiveDisplayOptions {
+export interface ScoreboardObjectiveDisplayOptions {
     /**
      * Objective to be displayed.
      */
@@ -649,7 +681,7 @@ export interface TeleportOptions {
  * Contains additional options for displaying a title and optional
  * subtitle.
  */
-export class TitleDisplayOptions {
+export interface TitleDisplayOptions {
     /**
      * Fade-in duration for the title and subtitle, in ticks. There are 20
      * ticks per second. Use {@link @minecraft/server.TicksPerSecond}

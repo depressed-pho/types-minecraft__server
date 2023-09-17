@@ -18,32 +18,32 @@ export enum Direction {
      * Represents an object located or facing in the down (z - 1)
      * direction.
      */
-    down = "down",
+    Down = "Down",
     /**
      * Represents an object located or facing in the east (x + 1)
      * direction.
      */
-    east = "east",
+    East = "East",
     /**
      * Represents an object located or facing in the north (z - 1)
      * direction.
      */
-    north = "north",
+    North = "North",
     /**
      * Represents an object located or facing in the south (z + 1)
      * direction.
      */
-    south = "south",
+    South = "South",
     /**
      * Represents an object located or facing in the up (z + 1)
      * direction.
      */
-    up = "up",
+    Up = "Up",
     /**
      * Represents an object located or facing in the west (x - 1)
      * direction.
      */
-    west = "west",
+    West = "West",
 }
 
 /**
@@ -54,16 +54,16 @@ export enum DisplaySlotId {
     /**
      * Score for an objective is displayed below a player's nametag.
      */
-    belowname = "belowname",
+    BelowName = "BelowName",
     /**
      * This objective and respective list of players is shown on the Pause
      * menu.
      */
-    list = "list",
+    List = "List",
     /**
      * The objective is shown on the right-hand side of the screen.
      */
-    sidebar = "sidebar",
+    SideBar = "SideBar",
 }
 
 export enum DyeColor {
@@ -123,20 +123,20 @@ export enum EntityLifetimeState {
     /**
      * Corresponding object is loaded.
      */
-    loaded = "loaded",
+    Loaded = "Loaded",
     /**
      * Corresponding object is now unloaded.
      */
-    unloaded = "unloaded",
+    Unloaded = "Unloaded",
 }
 
 export enum EquipmentSlot {
-    chest    = "chest",
-    feet     = "feet",
-    head     = "head",
-    legs     = "legs",
-    mainhand = "mainhand",
-    offhand  = "offhand",
+    Chest    = "Chest",
+    Feet     = "Feet",
+    Head     = "Head",
+    Legs     = "Legs",
+    Mainhand = "Mainhand",
+    Offhand  = "Offhand",
 }
 
 /**
@@ -147,19 +147,19 @@ export enum FluidType {
     /**
      * Represents lava as a type of fluid.
      */
-    lava = "lava",
+    Lava = "Lava",
     /**
      * Represents a potion as a type of fluid.
      */
-    potion = "potion",
+    Potion = "Potion",
     /**
      * Represents powder snow as a type of fluid.
      */
-    powderSnow = "powderSnow",
+    PowderSnow = "PowderSnow",
     /**
      * Represents water as a type of fluida.
      */
-    water = "water",
+    Water = "Water",
 }
 
 /**
@@ -214,12 +214,12 @@ export enum ObjectiveSortOrder {
      * Objective participant list is displayed in ascending (e.g., A-Z)
      * order.
      */
-    ascending = 0,
+    Ascending = 0,
     /**
      * Objective participant list is displayed in descending (e.g., Z-A)
      * order.
      */
-    descending = 1,
+    Descending = 1,
 }
 
 /**
@@ -229,24 +229,24 @@ export enum ScoreboardIdentityType {
     /**
      * This scoreboard participant is tied to an entity.
      */
-    entity = "entity",
+    Entity = "Entity",
     /**
      * This scoreboard participant is tied to a pseudo player entity -
      * typically this is used to store scores as data or as abstract
      * progress.
      */
-    fakePlayer = "fakePlayer",
+    FakePlayer = "FakePlayer",
     /**
      * This scoreboard participant is tied to a player.
      */
-    player = "player",
+    Player = "Player",
 }
 
 export enum ScriptEventSource {
-    block       = "block",
-    entity      = "entity",
-    npcDialogue = "npcDialogue",
-    server      = "server",
+    Block       = "Block",
+    Entity      = "Entity",
+    NPCDialogue = "NPCDialogue",
+    Server      = "Server",
 }
 
 /**
@@ -256,11 +256,11 @@ export enum SignSide {
     /**
      * The back of the sign.
      */
-    back = "back",
+    Back = "Back",
     /**
      * The front of the sign.
      */
-    front = "front",
+    Front = "Front",
 }
 
 /**
@@ -284,16 +284,16 @@ export enum WatchdogTerminateReason {
      * Script runtime for a behavior pack is terminated due to
      * non-responsiveness from script (a hang or infinite loop).
      */
-    hang = "hang",
+    Hang = "Hang",
     /**
      * Script runtime for a behavior pack is terminated due to a stack
      * overflow (a long, and potentially infinite) chain of function calls.
      */
-    stackOverflow = "stackOverflow",
+    StackOverflow = "StackOverflow",
 }
 
 export enum WeatherType {
-    clear   = "clear",
-    rain    = "rain",
-    thunder = "thunder",
+    Clear   = "Clear",
+    Rain    = "Rain",
+    Thunder = "Thunder",
 }

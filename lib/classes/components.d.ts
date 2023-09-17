@@ -52,6 +52,14 @@ export class BlockLiquidContainerComponent extends BlockComponent {
      * Relative fill level of the liquid container.
      */
     fillLevel: number;
+    /**
+     * Returns true if this reference to a liquid container is still valid
+     * and contains the liquid of the type you have a reference for (for
+     * example, if the block is unloaded, no longer a liquid container or
+     * contains lava when you have a potion container component,
+     * isValidLiquid will not be true.)
+     */
+    isValidLiquid(): boolean;
 }
 
 /**
@@ -242,8 +250,16 @@ export class BlockWaterContainerComponent extends BlockLiquidContainerComponent 
  */
 export class Component {
     protected constructor();
-    /** Identifier of the component. */
+    /**
+     * Identifier of the component.
+     */
     readonly typeId: string;
+    /**
+     * Returns whether the component is valid. A component is considered
+     * valid if its owner is valid, in addition to any addition to any
+     * additional validation required by the component.
+     */
+    isValid(): boolean;
 }
 
 /**
@@ -452,11 +468,6 @@ export class EntityComponent extends Component {
      * The entity that owns this component.
      */
     readonly entity: Entity;
-    /**
-     * Returns `true` if the reference to this component is still valid and
-     * functional.
-     */
-    isValid(): boolean;
 }
 
 /**
@@ -1319,11 +1330,6 @@ export class EntityWantsJockeyComponent extends EntityComponent {
  */
 export class ItemComponent extends Component {
     protected constructor();
-    /**
-     * Returns `true` if the reference to this component is still valid and
-     * functional.
-     */
-    isValid(): boolean;
 }
 
 /**

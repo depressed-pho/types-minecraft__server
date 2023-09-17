@@ -1096,7 +1096,7 @@ export class Dimension {
      * @param options
      * Additional options for processing this raycast query.
      */
-    getBlockFromRay(location: Vector3, direction: Vector3, options?: BlockRaycastOptions): Block;
+    getBlockFromRay(location: Vector3, direction: Vector3, options?: BlockRaycastOptions): BlockRaycastHit | undefined;
     /**
      * Returns a set of entities based on a set of conditions defined via
      * the EntityQueryOptions set of filter criteria.
@@ -1174,7 +1174,7 @@ export class Dimension {
      * @param options
      * Additional options for processing this raycast query.
      */
-    getEntitiesFromRay(location: Vector3, direction: Vector3, options?: EntityRaycastOptions): Entity[];
+    getEntitiesFromRay(location: Vector3, direction: Vector3, options?: EntityRaycastOptions): EntityRaycastHit[];
     /**
      * Returns a set of players based on a set of conditions defined via
      * the EntityQueryOptions set of filter criteria.
@@ -1332,15 +1332,19 @@ export class DynamicPropertiesDefinition {
     /**
      * Defines a new boolean dynamic property.
      */
-    defineBoolean(identifier: string, defaultValue?: boolean): void;
+    defineBoolean(identifier: string, defaultValue?: boolean): DynamicPropertiesDefinition;
     /**
      * Defines a new number dynamic property.
      */
-    defineNumber(identifier: string, defaultValue?: number): void;
+    defineNumber(identifier: string, defaultValue?: number): DynamicPropertiesDefinition;
     /**
      * Defines a new string dynamic property.
      */
-    defineString(identifier: string, maxLength: number, defaultValue?: string): void;
+    defineString(identifier: string, maxLength: number, defaultValue?: string): DynamicPropertiesDefinition;
+    /**
+     * Defines a new Vector3-based dynamic property.
+     */
+    defineVector(identifier: string, defaultValue?: Vector3): DynamicPropertiesDefinition;
 }
 
 /**
@@ -1828,7 +1832,7 @@ export class Entity {
      * @param options
      * Additional options for processing this raycast query.
      */
-    getBlockFromViewDirection(options?: BlockRaycastOptions): Block;
+    getBlockFromViewDirection(options?: BlockRaycastOptions): BlockRaycastHit | undefined;
     /**
      * Gets a component (that represents additional capabilities) for an
      * entity.
@@ -1870,7 +1874,7 @@ export class Entity {
      * Returns a set of entities from the direction that this entity is
      * looking at.
      */
-    getEntitiesFromViewDirection(options?: EntityRaycastOptions): Entity[];
+    getEntitiesFromViewDirection(options?: EntityRaycastOptions): EntityRaycastHit[];
     /**
      * Returns the current location of the head component of this entity.
      */
@@ -1915,6 +1919,11 @@ export class Entity {
      * Identifier of the tag to test for.
      */
     hasTag(tag: string): boolean;
+    /**
+     * Returns whether the entity can be manipulated by script. A Player is
+     * considered valid when it's EntityLifetimeState is set to Loaded.
+     */
+    isValid(): boolean;
     /**
      * Kills this entity. The entity will drop loot as normal.
      * @returns
@@ -2734,14 +2743,16 @@ export class PropertyRegistry {
     protected constructor();
     /**
      * Registers a dynamic property for a particular entity type (e.g., a
-     * `minecraft:skeleton`).
+     * `minecraft:skeleton`). The maximum size of entity dynamic properties
+     * is 128 KiB.
      */
     registerEntityTypeDynamicProperties(
         propertiesDefinition: DynamicPropertiesDefinition,
         entityType: EntityType,
     ): void;
     /**
-     * Registers a globally available dynamic property for a world.
+     * Registers a globally available dynamic property for a world. The
+     * maximum size of world dynamic properties is 1 MiB.
      */
     registerWorldDynamicProperties(propertiesDefinition: DynamicPropertiesDefinition): void;
 }
@@ -3243,7 +3254,7 @@ export class World {
      * Returns the default spawn position within the world where players
      * are spawned if they don't have a specific spawn position set.
      */
-    getDefaultSpawnPosition(): Vector3;
+    getDefaultSpawnLocation(): Vector3;
     /**
      * @returns
      * The requested dimension
@@ -3273,7 +3284,7 @@ export class World {
     /**
      * Returns the current game time of the day.
      */
-    getTime(): number;
+    getTimeOfDay(): number;
     /**
      * Plays a particular music track for all players.
      * @throws
@@ -3363,6 +3374,11 @@ export class World {
      */
     sendMessage(message: (RawMessage | string)[] | RawMessage | string): void;
     /**
+     * Returns number - The current day, determined by the world time
+     * divided by the number of ticks per day. New worlds start at day 0.
+     */
+    getDay(): number;
+    /**
      * Sets the default spawn location for players within the world. Note
      * that players can override this with their own spawn position. Note
      * also that the default spawn position must be in the overworld
@@ -3380,7 +3396,7 @@ export class World {
     /**
      * Sets the current game time of the day.
      */
-    setTime(timeOfDay: number): void;
+    setTimeOfDay(timeOfDay: number | TimeOfDay): void;
     /**
      * Stops any music tracks from playing.
      */
