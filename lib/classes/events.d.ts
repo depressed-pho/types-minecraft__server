@@ -2,8 +2,10 @@
  * Manages callbacks that are connected to when a block is
  * broken.
  */
-export class BlockBreakAfterEventSignal extends IBlockBreakAfterEventSignal {
+export class BlockBreakAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: BlockBreakAfterEvent) => void): (arg: BlockBreakAfterEvent) => void;
+    unsubscribe(callback: (arg: BlockBreakAfterEvent) => void): void;
 }
 
 /**
@@ -59,8 +61,10 @@ export class BlockExplodeAfterEvent extends BlockEvent {
  * Manages callbacks that are connected to when an explosion
  * occurs, as it impacts individual blocks.
  */
-export class BlockExplodeAfterEventSignal extends IBlockExplodeAfterEventSignal {
+export class BlockExplodeAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: BlockExplodeAfterEvent) => void): (arg: BlockExplodeAfterEvent) => void;
+    unsubscribe(callback: (arg: BlockExplodeAfterEvent) => void): void;
 }
 
 /**
@@ -77,8 +81,10 @@ export class BlockPlaceAfterEvent extends BlockEvent {
 /**
  * Manages callbacks that are connected to when a block is placed.
  */
-export class BlockPlaceAfterEventSignal extends IBlockPlaceAfterEventSignal {
+export class BlockPlaceAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: BlockPlaceAfterEvent) => void): (arg: BlockPlaceAfterEvent) => void;
+    unsubscribe(callback: (arg: BlockPlaceAfterEvent) => void): void;
 }
 
 /**
@@ -117,8 +123,10 @@ export class ButtonPushAfterEvent extends BlockEvent {
 /**
  * Manages callbacks that are connected to when a button is pushed.
  */
-export class ButtonPushAfterEventSignal extends IButtonPushAfterEventSignal {
+export class ButtonPushAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ButtonPushAfterEvent) => void): (arg: ButtonPushAfterEvent) => void;
+    unsubscribe(callback: (arg: ButtonPushAfterEvent) => void): void;
 }
 
 /**
@@ -150,8 +158,10 @@ export class ChatSendAfterEvent {
 /**
  * Manages callbacks that are connected to chat messages being sent.
  */
-export class ChatSendAfterEventSignal extends IChatSendAfterEventSignal {
+export class ChatSendAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ChatSendAfterEvent) => void): (arg: ChatSendAfterEvent) => void;
+    unsubscribe(callback: (arg: ChatSendAfterEvent) => void): void;
 }
 
 /**
@@ -176,8 +186,10 @@ export class ChatSendBeforeEvent extends ChatSendAfterEvent {
  * Manages callbacks that are connected to an event that fires
  * before chat messages are sent.
  */
-export class ChatSendBeforeEventSignal extends IChatSendBeforeEventSignal {
+export class ChatSendBeforeEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ChatSendBeforeEvent) => void): (arg: ChatSendBeforeEvent) => void;
+    unsubscribe(callback: (arg: ChatSendBeforeEvent) => void): void;
 }
 
 /**
@@ -205,8 +217,13 @@ export class DataDrivenEntityTriggerAfterEvent {
  * Contains event registration related to firing of a data driven entity
  * event - for example, the `minecraft:ageable_grow_up` event on a chicken.
  */
-export class DataDrivenEntityTriggerAfterEventSignal extends IDataDrivenEntityTriggerAfterEventSignal {
+export class DataDrivenEntityTriggerAfterEventSignal {
     protected constructor();
+    subscribe(
+        callback: (arg: DataDrivenEntityTriggerAfterEvent) => void,
+        options?: EntityDataDrivenTriggerEventOptions,
+    ): (arg: DataDrivenEntityTriggerAfterEvent) => void;
+    unsubscribe(callback: (arg: DataDrivenEntityTriggerAfterEvent) => void): void;
 }
 
 /**
@@ -234,8 +251,12 @@ export class DataDrivenEntityTriggerBeforeEvent extends DataDrivenEntityTriggerA
  * entity event - for example, the `minecraft:ageable_grow_up`
  * event on a chicken.
  */
-export class DataDrivenEntityTriggerBeforeEventSignal extends IDataDrivenEntityTriggerBeforeEventSignal {
+export class DataDrivenEntityTriggerBeforeEventSignal {
     protected constructor();
+    subscribe(callback: (arg: DataDrivenEntityTriggerBeforeEvent) => void,
+              options?: EntityDataDrivenTriggerEventOptions
+             ): (arg: DataDrivenEntityTriggerBeforeEvent) => void;
+    unsubscribe(callback: (arg: DataDrivenEntityTriggerBeforeEvent) => void): void;
 }
 
 /**
@@ -262,8 +283,12 @@ export class EffectAddAfterEvent {
  * Manages callbacks that are connected to when an effect is added to an
  * entity.
  */
-export class EffectAddAfterEventSignal extends IEffectAddAfterEventSignal {
+export class EffectAddAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: EffectAddAfterEvent) => void,
+              options?: EntityEventOptions
+             ): (arg: EffectAddAfterEvent) => void;
+    unsubscribe(callback: (arg: EffectAddAfterEvent) => void): void;
 }
 
 /**
@@ -285,8 +310,12 @@ export class EntityDieAfterEvent {
 /**
  * Manages callbacks that are connected to when an entity dies.
  */
-export class EntityDieAfterEventSignal extends IEntityDieAfterEventSignal {
+export class EntityDieAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: EntityDieAfterEvent) => void,
+              options?: EntityEventOptions
+             ): (arg: EntityDieAfterEvent) => void;
+    unsubscribe(callback: (arg: EntityDieAfterEvent) => void): void;
 }
 
 /**
@@ -313,8 +342,12 @@ export class EntityHealthChangedAfterEvent {
  * Manages callbacks that are connected to when the health of an entity
  * changes.
  */
-export class EntityHealthChangedAfterEventSignal extends IEntityHealthChangedAfterEventSignal {
+export class EntityHealthChangedAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: EntityHealthChangedAfterEvent) => void,
+              options?: EntityEventOptions
+             ): (arg: EntityHealthChangedAfterEvent) => void;
+    unsubscribe(callback: (arg: EntityHealthChangedAfterEvent) => void): void;
 }
 
 /**
@@ -355,7 +388,7 @@ export class EntityHitEntityAfterEvent {
 /**
  * Manages callbacks that are connected to when an entity hits a block.
  */
-export class EntityHitBlockAfterEventSignal extends IEntityHitBlockAfterEventSignal {
+export class EntityHitBlockAfterEventSignal {
     protected constructor();
     subscribe(callback: (arg: EntityHitBlockAfterEvent) => void,
               options?: EntityEventOptions
@@ -367,7 +400,7 @@ export class EntityHitBlockAfterEventSignal extends IEntityHitBlockAfterEventSig
  * Manages callbacks that are connected to when an entity makes a melee
  * attack on another entity.
  */
-export class EntityHitEntityAfterEventSignal extends IEntityHitEntityAfterEventSignal {
+export class EntityHitEntityAfterEventSignal {
     protected constructor();
     subscribe(callback: (arg: EntityHitEntityAfterEvent) => void,
               options?: EntityEventOptions
@@ -398,8 +431,12 @@ export class EntityHurtAfterEvent {
 /**
  * Manages callbacks that are connected to when an entity is hurt.
  */
-export class EntityHurtAfterEventSignal extends IEntityHurtAfterEventSignal {
+export class EntityHurtAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: EntityHurtAfterEvent) => void,
+              options?: EntityEventOptions
+             ): (arg: EntityHurtAfterEvent) => void;
+    unsubscribe(callback: (arg: EntityHurtAfterEvent) => void): void;
 }
 
 /**
@@ -420,8 +457,12 @@ export class EntityRemovedAfterEvent {
  * the world (for example, the entity is unloaded because it is not close
  * to players.)
  */
-export class EntityRemovedAfterEventSignal extends IEntityRemovedAfterEventSignal {
+export class EntityRemovedAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: EntityRemovedAfterEvent) => void,
+              options?: EntityEventOptions
+             ): (arg: EntityRemovedAfterEvent) => void;
+    unsubscribe(callback: (arg: EntityRemovedAfterEvent) => void): void;
 }
 
 /**
@@ -454,8 +495,10 @@ export class EntitySpawnAfterEvent {
  * Registers a script-based event handler for handling what happens when an
  * entity spawns.
  */
-export class EntitySpawnAfterEventSignal extends IEntitySpawnAfterEventSignal {
+export class EntitySpawnAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: EntitySpawnAfterEvent) => void): (arg: EntitySpawnAfterEvent) => void;
+    unsubscribe(callback: (arg: EntitySpawnAfterEvent) => void): void;
 }
 
 /**
@@ -480,8 +523,10 @@ export class ExplosionAfterEvent {
 /**
  * Manages callbacks that are connected to when an explosion occurs.
  */
-export class ExplosionAfterEventSignal extends IExplosionAfterEventSignal {
+export class ExplosionAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ExplosionAfterEvent) => void): (arg: ExplosionAfterEvent) => void;
+    unsubscribe(callback: (arg: ExplosionAfterEvent) => void): void;
 }
 
 /**
@@ -502,465 +547,10 @@ export class ExplosionBeforeEvent extends ExplosionAfterEvent {
 /**
  * Manages callbacks that are connected to before an explosion occurs.
  */
-export class ExplosionBeforeEventSignal extends IExplosionBeforeEventSignal {
-    protected constructor();
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when blocks are broken.
- */
-export class IBlockBreakAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: BlockBreakAfterEvent) => void): (arg: BlockBreakAfterEvent) => void;
-    unsubscribe(callback: (arg: BlockBreakAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when an explosion occurs.
- */
-export class IBlockExplodeAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: BlockExplodeAfterEvent) => void): (arg: BlockExplodeAfterEvent) => void;
-    unsubscribe(callback: (arg: BlockExplodeAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after a block is placed.
- */
-export class IBlockPlaceAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: BlockPlaceAfterEvent) => void): (arg: BlockPlaceAfterEvent) => void;
-    unsubscribe(callback: (arg: BlockPlaceAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when a button is pushed.
- */
-export class IButtonPushAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ButtonPushAfterEvent) => void): (arg: ButtonPushAfterEvent) => void;
-    unsubscribe(callback: (arg: ButtonPushAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when a chat message is sent.
- */
-export class IChatSendAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ChatSendAfterEvent) => void): (arg: ChatSendAfterEvent) => void;
-    unsubscribe(callback: (arg: ChatSendAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires before a chat message is sent.
- */
-export class IChatSendBeforeEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ChatSendBeforeEvent) => void): (arg: ChatSendBeforeEvent) => void;
-    unsubscribe(callback: (arg: ChatSendBeforeEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when an entities' definition is triggered to change.
- */
-export class IDataDrivenEntityTriggerAfterEventSignal {
-    protected constructor();
-    subscribe(
-        callback: (arg: DataDrivenEntityTriggerAfterEvent) => void,
-        options?: EntityDataDrivenTriggerEventOptions,
-    ): (arg: DataDrivenEntityTriggerAfterEvent) => void;
-    unsubscribe(callback: (arg: DataDrivenEntityTriggerAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires before an entities' definition is scheduled to change via a
- * triggered event.
- */
-export class IDataDrivenEntityTriggerBeforeEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: DataDrivenEntityTriggerBeforeEvent) => void,
-              options?: EntityDataDrivenTriggerEventOptions
-             ): (arg: DataDrivenEntityTriggerBeforeEvent) => void;
-    unsubscribe(callback: (arg: DataDrivenEntityTriggerBeforeEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when an effect is added to an entity.
- */
-export class IEffectAddAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: EffectAddAfterEvent) => void,
-              options?: EntityEventOptions
-             ): (arg: EffectAddAfterEvent) => void;
-    unsubscribe(callback: (arg: EffectAddAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when an entity dies.
- */
-export class IEntityDieAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: EntityDieAfterEvent) => void,
-              options?: EntityEventOptions
-             ): (arg: EntityDieAfterEvent) => void;
-    unsubscribe(callback: (arg: EntityDieAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when the health of an entity changes.
- */
-export class IEntityHealthChangedAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: EntityHealthChangedAfterEvent) => void,
-              options?: EntityEventOptions
-             ): (arg: EntityHealthChangedAfterEvent) => void;
-    unsubscribe(callback: (arg: EntityHealthChangedAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when an entity is hurt.
- */
-export class IEntityHurtAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: EntityHurtAfterEvent) => void,
-              options?: EntityEventOptions
-             ): (arg: EntityHurtAfterEvent) => void;
-    unsubscribe(callback: (arg: EntityHurtAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when an entity is removed from the world (for example, the
- * entity is unloaded because it is not close to players.)
- */
-export class IEntityRemovedAfterEventSignal {
-    subscribe(callback: (arg: EntityRemovedAfterEvent) => void,
-              options?: EntityEventOptions
-             ): (arg: EntityRemovedAfterEvent) => void;
-    unsubscribe(callback: (arg: EntityRemovedAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after an entity is spawned.
- */
-export class IEntitySpawnAfterEventSignal {
-    subscribe(callback: (arg: EntitySpawnAfterEvent) => void): (arg: EntitySpawnAfterEvent) => void;
-    unsubscribe(callback: (arg: EntitySpawnAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after an explosion occurs.
- */
-export class IExplosionAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ExplosionAfterEvent) => void): (arg: ExplosionAfterEvent) => void;
-    unsubscribe(callback: (arg: ExplosionAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires before an explosion begins.
- */
-export class IExplosionBeforeEventSignal {
+export class ExplosionBeforeEventSignal {
     protected constructor();
     subscribe(callback: (arg: ExplosionBeforeEvent) => void): (arg: ExplosionBeforeEvent) => void;
     unsubscribe(callback: (arg: ExplosionBeforeEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after the completion of charging for a chargeable item.
- */
-export class IItemCompleteUseAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ItemCompleteUseAfterEvent) => void): (arg: ItemCompleteUseAfterEvent) => void;
-    unsubscribe(callback: (arg: ItemCompleteUseAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after an items' definition has changed.
- */
-export class IItemDefinitionAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ItemDefinitionTriggeredAfterEvent) => void): (arg: ItemDefinitionTriggeredAfterEvent) => void;
-    unsubscribe(callback: (arg: ItemDefinitionTriggeredAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires before an items' definition changes.
- */
-export class IItemDefinitionBeforeEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ItemDefinitionTriggeredBeforeEvent) => void): (arg: ItemDefinitionTriggeredBeforeEvent) => void;
-    unsubscribe(callback: (arg: ItemDefinitionTriggeredBeforeEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after a chargeable item is released from charging.
- */
-export class IItemReleaseUseAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ItemReleaseUseAfterEvent) => void): (arg: ItemReleaseUseAfterEvent) => void;
-    unsubscribe(callback: (arg: ItemReleaseUseAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after a chargeable item starts charging.
- */
-export class IItemStartUseAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ItemStartUseAfterEvent) => void): (arg: ItemStartUseAfterEvent) => void;
-    unsubscribe(callback: (arg: ItemStartUseAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when an item is starting to be used on a block.
- */
-export class IItemStartUseOnAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ItemStartUseOnAfterEvent) => void): (arg: ItemStartUseOnAfterEvent) => void;
-    unsubscribe(callback: (arg: ItemStartUseOnAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when a chargeable item stops charging.
- */
-export class IItemStopUseAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ItemStopUseAfterEvent) => void): (arg: ItemStopUseAfterEvent) => void;
-    unsubscribe(callback: (arg: ItemStopUseAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when an item has stopped being used on a block.
- */
-export class IItemStopUseOnAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ItemStopUseOnAfterEvent) => void): (arg: ItemStopUseOnAfterEvent) => void;
-    unsubscribe(callback: (arg: ItemStopUseOnAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after an item is used.
- */
-export class IItemUseAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ItemUseAfterEvent) => void): (arg: ItemUseAfterEvent) => void;
-    unsubscribe(callback: (arg: ItemUseAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires before an item is used.
- */
-export class IItemUseBeforeEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ItemUseBeforeEvent) => void): (arg: ItemUseBeforeEvent) => void;
-    unsubscribe(callback: (arg: ItemUseBeforeEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after an item is used on a block.
- */
-export class IItemUseOnAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ItemUseOnAfterEvent) => void): (arg: ItemUseOnAfterEvent) => void;
-    unsubscribe(callback: (arg: ItemUseOnAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires before an item is being used on a block.
- */
-export class IItemUseOnBeforeEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ItemUseOnBeforeEvent) => void): (arg: ItemUseOnBeforeEvent) => void;
-    unsubscribe(callback: (arg: ItemUseOnBeforeEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after a lever is used.
- */
-export class ILeverActionAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: LeverActionAfterEvent) => void): (arg: LeverActionAfterEvent) => void;
-    unsubscribe(callback: (arg: LeverActionAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when /script event command is called.
- */
-export class IScriptEventCommandMessageAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ScriptEventCommandMessageAfterEvent) => void,
-              options?: ScriptEventMessageFilterOptions
-             ): (arg: ScriptEventCommandMessageAfterEvent) => void;
-    unsubscribe(callback: (arg: ScriptEventCommandMessageAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after a server message is sent. Note that this event is for
- * internal use only.
- */
-export class IServerMessageAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: MessageReceiveAfterEvent) => void): (arg: MessageReceiveAfterEvent) => void;
-    unsubscribe(callback: (arg: MessageReceiveAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after a piston is activated.
- */
-export class IPistonActivateAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: PistonActivateAfterEvent) => void): (arg: PistonActivateAfterEvent) => void;
-    unsubscribe(callback: (arg: PistonActivateAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires before a piston is activated.
- */
-export class IPistonActivateBeforeEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: PistonActivateBeforeEvent) => void): (arg: PistonActivateBeforeEvent) => void;
-    unsubscribe(callback: (arg: PistonActivateBeforeEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after a player joins a world.
- */
-export class IPlayerJoinAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: PlayerJoinAfterEvent) => void): (arg: PlayerJoinAfterEvent) => void;
-    unsubscribe(callback: (arg: PlayerJoinAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after a player leaves a world.
- */
-export class IPlayerLeaveAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: PlayerLeaveAfterEvent) => void): (arg: PlayerLeaveAfterEvent) => void;
-    unsubscribe(callback: (arg: PlayerLeaveAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after a player spawns.
- */
-export class IPlayerSpawnAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: PlayerSpawnAfterEvent) => void): (arg: PlayerSpawnAfterEvent) => void;
-    unsubscribe(callback: (arg: PlayerSpawnAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when a pressure plate is popped.
- */
-export class IPressurePlatePopAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: PressurePlatePopAfterEvent) => void): (arg: PressurePlatePopAfterEvent) => void;
-    unsubscribe(callback: (arg: PressurePlatePopAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when a pressure plate is pushed.
- */
-export class IPressurePlatePushAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: PressurePlatePushAfterEvent) => void): (arg: PressurePlatePushAfterEvent) => void;
-    unsubscribe(callback: (arg: PressurePlatePushAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires after a projectile hits a target.
- */
-export class IProjectileHitAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: ProjectileHitAfterEvent) => void): (arg: ProjectileHitAfterEvent) => void;
-    unsubscribe(callback: (arg: ProjectileHitAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when a target block is hit.
- */
-export class ITargetBlockHitAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: TargetBlockHitAfterEvent) => void): (arg: TargetBlockHitAfterEvent) => void;
-    unsubscribe(callback: (arg: TargetBlockHitAfterEvent) => void): void;
-}
-
-/**
- * Provides an adaptable interface for callers to subscribe to an event
- * that fires when a trip wire is tripped.
- */
-export class ITripWireTripAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: TripWireTripAfterEvent) => void): (arg: TripWireTripAfterEvent) => void;
-    unsubscribe(callback: (arg: TripWireTripAfterEvent) => void): void;
-}
-
-/**
- * An event that fires before the watchdog is about to terminate a world
- * because various performance metrics for scripting have exceeded a
- * threshold.
- */
-export class IWatchdogTerminateBeforeEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: WatchdogTerminateBeforeEvent) => void): (arg: WatchdogTerminateBeforeEvent) => void;
-    unsubscribe(callback: (arg: WatchdogTerminateBeforeEvent) => void): void;
-}
-
-/**
- * An event that fires after the weather has changed.
- */
-export class IWeatherChangeAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: WeatherChangeAfterEvent) => void): (arg: WeatherChangeAfterEvent) => void;
-    unsubscribe(callback: (arg: WeatherChangeAfterEvent) => void): void;
-}
-
-/**
- * An event that fires when a world is first initialized or loaded.
- */
-export class IWorldInitializeAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: WorldInitializeAfterEvent) => void): (arg: WorldInitializeAfterEvent) => void;
-    unsubscribe(callback: (arg: WorldInitializeAfterEvent) => void): void;
 }
 
 /**
@@ -988,24 +578,30 @@ export class ItemCompleteUseAfterEvent {
  * Manages callbacks that are connected to the completion of charging for a
  * chargeable item.
  */
-export class ItemCompleteUseAfterEventSignal extends IItemCompleteUseAfterEventSignal {
+export class ItemCompleteUseAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ItemCompleteUseAfterEvent) => void): (arg: ItemCompleteUseAfterEvent) => void;
+    unsubscribe(callback: (arg: ItemCompleteUseAfterEvent) => void): void;
 }
 
 /**
  * Manages callbacks that are connected to an item's definition and
  * components changing.
  */
-export class ItemDefinitionAfterEventSignal extends IItemDefinitionAfterEventSignal {
+export class ItemDefinitionAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ItemDefinitionTriggeredAfterEvent) => void): (arg: ItemDefinitionTriggeredAfterEvent) => void;
+    unsubscribe(callback: (arg: ItemDefinitionTriggeredAfterEvent) => void): void;
 }
 
 /**
  * Manages callbacks that are connected to an item's definition and
  * components changing.
  */
-export class ItemDefinitionBeforeEventSignal extends IItemDefinitionBeforeEventSignal {
+export class ItemDefinitionBeforeEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ItemDefinitionTriggeredBeforeEvent) => void): (arg: ItemDefinitionTriggeredBeforeEvent) => void;
+    unsubscribe(callback: (arg: ItemDefinitionTriggeredBeforeEvent) => void): void;
 }
 
 /**
@@ -1067,8 +663,10 @@ export class ItemReleaseUseAfterEvent {
  * Manages callbacks that are connected to the releasing of charging for a
  * chargeable item.
  */
-export class ItemReleaseUseAfterEventSignal extends IItemReleaseUseAfterEventSignal {
+export class ItemReleaseUseAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ItemReleaseUseAfterEvent) => void): (arg: ItemReleaseUseAfterEvent) => void;
+    unsubscribe(callback: (arg: ItemReleaseUseAfterEvent) => void): void;
 }
 
 /**
@@ -1096,8 +694,10 @@ export class ItemStartUseAfterEvent {
  * Manages callbacks that are connected to the start of charging for a
  * chargeable item.
  */
-export class ItemStartUseAfterEventSignal extends IItemStartUseAfterEventSignal {
+export class ItemStartUseAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ItemStartUseAfterEvent) => void): (arg: ItemStartUseAfterEvent) => void;
+    unsubscribe(callback: (arg: ItemStartUseAfterEvent) => void): void;
 }
 
 /**
@@ -1130,8 +730,10 @@ export class ItemStartUseOnAfterEvent {
  * Manages callbacks that are connected to an item starting being used on a
  * block event.
  */
-export class ItemStartUseOnAfterEventSignal extends IItemStartUseOnAfterEventSignal {
+export class ItemStartUseOnAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ItemStartUseOnAfterEvent) => void): (arg: ItemStartUseOnAfterEvent) => void;
+    unsubscribe(callback: (arg: ItemStartUseOnAfterEvent) => void): void;
 }
 
 /**
@@ -1159,8 +761,10 @@ export class ItemStopUseAfterEvent {
  * Manages callbacks that are connected to the stopping of charging for an
  * item that has a registered `minecraft:chargeable` component.
  */
-export class ItemStopUseAfterEventSignal extends IItemStopUseAfterEventSignal {
+export class ItemStopUseAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ItemStopUseAfterEvent) => void): (arg: ItemStopUseAfterEvent) => void;
+    unsubscribe(callback: (arg: ItemStopUseAfterEvent) => void): void;
 }
 
 /**
@@ -1191,8 +795,10 @@ export class ItemStopUseOnAfterEvent {
  * Manages callbacks that are connected to an item stops used on a block
  * event.
  */
-export class ItemStopUseOnAfterEventSignal extends IItemStopUseOnAfterEventSignal {
+export class ItemStopUseOnAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ItemStopUseOnAfterEvent) => void): (arg: ItemStopUseOnAfterEvent) => void;
+    unsubscribe(callback: (arg: ItemStopUseOnAfterEvent) => void): void;
 }
 
 /**
@@ -1214,8 +820,10 @@ export class ItemUseAfterEvent {
 /**
  * Manages callbacks that are connected to an item use event.
  */
-export class ItemUseAfterEventSignal extends IItemUseAfterEventSignal {
+export class ItemUseAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ItemUseAfterEvent) => void): (arg: ItemUseAfterEvent) => void;
+    unsubscribe(callback: (arg: ItemUseAfterEvent) => void): void;
 }
 
 /**
@@ -1232,8 +840,10 @@ export class ItemUseBeforeEvent extends ItemUseAfterEvent {
 /**
  * Manages callbacks that fire before an item is used.
  */
-export class ItemUseBeforeEventSignal extends IItemUseBeforeEventSignal {
+export class ItemUseBeforeEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ItemUseBeforeEvent) => void): (arg: ItemUseBeforeEvent) => void;
+    unsubscribe(callback: (arg: ItemUseBeforeEvent) => void): void;
 }
 
 /**
@@ -1269,8 +879,10 @@ export class ItemUseOnAfterEvent {
  * Manages callbacks that are connected to an item being used on a block
  * event.
  */
-export class ItemUseOnAfterEventSignal extends IItemUseOnAfterEventSignal {
+export class ItemUseOnAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ItemUseOnAfterEvent) => void): (arg: ItemUseOnAfterEvent) => void;
+    unsubscribe(callback: (arg: ItemUseOnAfterEvent) => void): void;
 }
 
 /**
@@ -1287,8 +899,10 @@ export class ItemUseOnBeforeEvent extends ItemUseOnAfterEvent {
 /**
  * Manages callbacks that fire before an item being used on a block event.
  */
-export class ItemUseOnBeforeEventSignal extends IItemUseOnBeforeEventSignal {
+export class ItemUseOnBeforeEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ItemUseOnBeforeEvent) => void): (arg: ItemUseOnBeforeEvent) => void;
+    unsubscribe(callback: (arg: ItemUseOnBeforeEvent) => void): void;
 }
 
 /**
@@ -1338,8 +952,10 @@ export class LeverActionAfterEvent extends BlockEvent {
  * Manages callbacks that are connected to lever moves (activates or
  * deactivates).
  */
-export class LeverActionAfterEventSignal extends ILeverActionAfterEventSignal {
+export class LeverActionAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: LeverActionAfterEvent) => void): (arg: LeverActionAfterEvent) => void;
+    unsubscribe(callback: (arg: LeverActionAfterEvent) => void): void;
 }
 
 /**
@@ -1392,8 +1008,12 @@ export class ScriptEventCommandMessageAfterEvent {
  * Allows for registering an event handler that responds to inbound
  * `/scriptevent` commands.
  */
-export class ScriptEventCommandMessageAfterEventSignal extends IScriptEventCommandMessageAfterEventSignal {
+export class ScriptEventCommandMessageAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ScriptEventCommandMessageAfterEvent) => void,
+              options?: ScriptEventMessageFilterOptions
+             ): (arg: ScriptEventCommandMessageAfterEvent) => void;
+    unsubscribe(callback: (arg: ScriptEventCommandMessageAfterEvent) => void): void;
 }
 
 /**
@@ -1401,8 +1021,10 @@ export class ScriptEventCommandMessageAfterEventSignal extends IScriptEventComma
  * server. This event is not currently fully implemented, and should not be
  * used.
  */
-export class ServerMessageAfterEventSignal extends IServerMessageAfterEventSignal {
+export class ServerMessageAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: MessageReceiveAfterEvent) => void): (arg: MessageReceiveAfterEvent) => void;
+    unsubscribe(callback: (arg: MessageReceiveAfterEvent) => void): void;
 }
 
 /**
@@ -1479,8 +1101,10 @@ export class PistonActivateAfterEvent extends BlockEvent {
 /**
  * Manages callbacks that are connected to piston activations.
  */
-export class PistonActivateAfterEventSignal extends IPistonActivateAfterEventSignal {
+export class PistonActivateAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: PistonActivateAfterEvent) => void): (arg: PistonActivateAfterEvent) => void;
+    unsubscribe(callback: (arg: PistonActivateAfterEvent) => void): void;
 }
 
 /**
@@ -1546,8 +1170,10 @@ export class PistonActivateBeforeEvent extends PistonActivateAfterEvent {
  * Manages callbacks that are connected to an event that fires before a
  * piston is activated.
  */
-export class PistonActivateBeforeEventSignal extends IPistonActivateBeforeEventSignal {
+export class PistonActivateBeforeEventSignal {
     protected constructor();
+    subscribe(callback: (arg: PistonActivateBeforeEvent) => void): (arg: PistonActivateBeforeEvent) => void;
+    unsubscribe(callback: (arg: PistonActivateBeforeEvent) => void): void;
 }
 
 /**
@@ -1571,8 +1197,10 @@ export class PlayerJoinAfterEvent {
 /**
  * Manages callbacks that are connected to a player joining the world.
  */
-export class PlayerJoinAfterEventSignal extends IPlayerJoinAfterEventSignal {
+export class PlayerJoinAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: PlayerJoinAfterEvent) => void): (arg: PlayerJoinAfterEvent) => void;
+    unsubscribe(callback: (arg: PlayerJoinAfterEvent) => void): void;
 }
 
 /**
@@ -1593,8 +1221,10 @@ export class PlayerLeaveAfterEvent {
 /**
  * Manages callbacks that are connected to a player leaving the world.
  */
-export class PlayerLeaveAfterEventSignal extends IPlayerLeaveAfterEventSignal {
+export class PlayerLeaveAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: PlayerLeaveAfterEvent) => void): (arg: PlayerLeaveAfterEvent) => void;
+    unsubscribe(callback: (arg: PlayerLeaveAfterEvent) => void): void;
 }
 
 /**
@@ -1617,8 +1247,10 @@ export class PlayerSpawnAfterEvent {
  * Registers an event when a player is spawned (or re-spawned after death)
  * and fully ready within the world.
  */
-export class PlayerSpawnAfterEventSignal extends IPlayerSpawnAfterEventSignal {
+export class PlayerSpawnAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: PlayerSpawnAfterEvent) => void): (arg: PlayerSpawnAfterEvent) => void;
+    unsubscribe(callback: (arg: PlayerSpawnAfterEvent) => void): void;
 }
 
 /**
@@ -1639,8 +1271,10 @@ export class PressurePlatePopAfterEvent extends BlockEvent {
 /**
  * Manages callbacks that are connected to when a pressure plate is popped.
  */
-export class PressurePlatePopAfterEventSignal extends IPressurePlatePopAfterEventSignal {
+export class PressurePlatePopAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: PressurePlatePopAfterEvent) => void): (arg: PressurePlatePopAfterEvent) => void;
+    unsubscribe(callback: (arg: PressurePlatePopAfterEvent) => void): void;
 }
 
 /**
@@ -1665,8 +1299,10 @@ export class PressurePlatePushAfterEvent extends BlockEvent {
 /**
  * Manages callbacks that are connected to when a pressure plate is pushed.
  */
-export class PressurePlatePushAfterEventSignal extends IPressurePlatePushAfterEventSignal {
+export class PressurePlatePushAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: PressurePlatePushAfterEvent) => void): (arg: PressurePlatePushAfterEvent) => void;
+    unsubscribe(callback: (arg: PressurePlatePushAfterEvent) => void): void;
 }
 
 /**
@@ -1710,8 +1346,10 @@ export class ProjectileHitAfterEvent {
  * Manages callbacks that are connected to when a projectile hits an entity
  * or block.
  */
-export class ProjectileHitAfterEventSignal extends IProjectileHitAfterEventSignal {
+export class ProjectileHitAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: ProjectileHitAfterEvent) => void): (arg: ProjectileHitAfterEvent) => void;
+    unsubscribe(callback: (arg: ProjectileHitAfterEvent) => void): void;
 }
 
 /**
@@ -1740,8 +1378,10 @@ export class TargetBlockHitAfterEvent extends BlockEvent {
 /**
  * Manages callbacks that are connected to when a target block is hit.
  */
-export class TargetBlockHitAfterEventSignal extends ITargetBlockHitAfterEventSignal {
+export class TargetBlockHitAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: TargetBlockHitAfterEvent) => void): (arg: TargetBlockHitAfterEvent) => void;
+    unsubscribe(callback: (arg: TargetBlockHitAfterEvent) => void): void;
 }
 
 /**
@@ -1788,8 +1428,10 @@ export class TripWireTripAfterEvent extends BlockEvent {
 /**
  * Manages callbacks that are connected to when a trip wire is tripped.
  */
-export class TripWireTripAfterEventSignal extends ITripWireTripAfterEventSignal {
+export class TripWireTripAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: TripWireTripAfterEvent) => void): (arg: TripWireTripAfterEvent) => void;
+    unsubscribe(callback: (arg: TripWireTripAfterEvent) => void): void;
 }
 
 /**
@@ -1814,8 +1456,10 @@ export class WatchdogTerminateBeforeEvent {
  * when a script runtime is being terminated due to a violation of the
  * performance watchdog system.
  */
-export class WatchdogTerminateBeforeEventSignal extends IWatchdogTerminateBeforeEventSignal {
+export class WatchdogTerminateBeforeEventSignal {
     protected constructor();
+    subscribe(callback: (arg: WatchdogTerminateBeforeEvent) => void): (arg: WatchdogTerminateBeforeEvent) => void;
+    unsubscribe(callback: (arg: WatchdogTerminateBeforeEvent) => void): void;
 }
 
 /**
@@ -1840,8 +1484,10 @@ export class WeatherChangeAfterEvent {
 /**
  * Manages callbacks that are connected to weather changing.
  */
-export class WeatherChangeAfterEventSignal extends IWeatherChangeAfterEventSignal {
+export class WeatherChangeAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: WeatherChangeAfterEvent) => void): (arg: WeatherChangeAfterEvent) => void;
+    unsubscribe(callback: (arg: WeatherChangeAfterEvent) => void): void;
 }
 
 /**
@@ -1878,8 +1524,10 @@ export class WorldInitializeAfterEvent {
  * environment for a World. Do note that this event may run multiple times
  * within a session in the case that the `/reload` command is used.
  */
-export class WorldInitializeAfterEventSignal extends IWorldInitializeAfterEventSignal {
+export class WorldInitializeAfterEventSignal {
     protected constructor();
+    subscribe(callback: (arg: WorldInitializeAfterEvent) => void): (arg: WorldInitializeAfterEvent) => void;
+    unsubscribe(callback: (arg: WorldInitializeAfterEvent) => void): void;
 }
 
 /**
