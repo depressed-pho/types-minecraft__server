@@ -18,7 +18,8 @@ export const build =
                  "lib/classes/events.d.ts",
                  "lib/interfaces.d.ts",
                  "lib/errors.d.ts",
-                 "lib/constants.d.ts"])
+                 "lib/constants.d.ts",
+                 "lib/types.d.ts"])
                 .pipe(gulpConcat("index.d.ts"))
                 .pipe(gulp.dest("dist"));
         });

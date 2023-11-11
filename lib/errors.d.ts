@@ -2,10 +2,10 @@ export class CommandError extends Error {
     protected constructor();
 }
 
-export class PositionInUnloadedChunkError extends Error {
+export class LocationInUnloadedChunkError extends Error {
     protected constructor();
 }
 
-export class PositionOutOfWorldBoundariesError extends Error {
+export class LocationOutOfWorldBoundariesError extends Error {
     protected constructor();
 }

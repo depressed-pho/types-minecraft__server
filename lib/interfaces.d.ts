@@ -1,4 +1,20 @@
 /**
+ * Contains optional parameters for registering a block event.
+ */
+export interface BlockEventOptions {
+    /**
+     * If this value is set, this event will only fire if the impacted
+     * block's type matches this parameter.
+     */
+    blockTypes?: string[];
+    /**
+     * If this value is set, this event will only fire if the impacted
+     * block's permutation matches this parameter.
+     */
+    permutations?: BlockPermutation[];
+}
+
+/**
  * Contains additional options for a block fill operation.
  */
 export interface BlockFillOptions {
@@ -135,30 +151,80 @@ export interface BoundingBox {
     min: Vector3;
 }
 
+export interface CameraDefaultOptions {
+    /**
+     * Sets a set of easing options for the camera.
+     */
+    easeOptions: CameraEaseOptions;
+}
+
 /**
- * Represents a fully customizable color within Minecraft.
+ * Contains options associated with a camera ease operation.
  */
-export interface Color {
+export interface CameraEaseOptions {
     /**
-     * Determines a color's alpha (opacity) component. Valid values are
-     * between 0 (transparent) and 1.0 (opaque).
+     * Time for the ease operation.
      */
-    alpha: number;
+    easeTime?: number;
     /**
-     * Determines a color's blue component. Valid values are between 0 and
-     * 1.0.
+     * Type of ease operation to use.
      */
-    blue: number;
+    easeType?: EasingType;
+}
+
+/**
+ * Used to initiate a full-screen color fade.
+ */
+export interface CameraFadeOptions {
     /**
-     * Determines a color's green component. Valid values are between 0 and
-     * 1.0.
+     * Fade color to use.
      */
-    green: number;
+    fadeColor?: RGB;
     /**
-     * Determines a color's red component. Valid values are between 0 and
-     * 1.0.
+     * Time in seconds for the fade-in, hold, and fade-out seconds.
      */
-    red: number;
+    fadeTime?: CameraFadeTimeOptions;
+}
+
+/**
+ * Contains timings for a fade transition.
+ */
+export interface CameraFadeTimeOptions {
+    /**
+     * Time, in seconds, for a fade-in.
+     */
+    fadeInTime: number;
+    /**
+     * Time, in seconds, for a fade-out.
+     */
+    fadeOutTime: number;
+    /**
+     * Time, in seconds, to hold the full screen color.
+     */
+    holdTime: number;
+}
+
+export interface CameraSetFacingOptions {
+    easeOptions?: CameraEaseOptions;
+    facingEntity: Entity;
+    location?: Vector3;
+}
+
+export interface CameraSetLocationOptions {
+    easeOptions?: CameraEaseOptions;
+    location: Vector3;
+}
+
+export interface CameraSetPosOptions {
+    easeOptions?: CameraEaseOptions;
+    facingLocation: Vector3;
+    location?: Vector3;
+}
+
+export interface CameraSetRotOptions {
+    easeOptions?: CameraEaseOptions;
+    location?: Vector3;
+    rotation: Vector2;
 }
 
 /**
@@ -567,6 +633,38 @@ export interface PlayerSoundOptions {
      * Optional volume of the sound.
      */
     volume?: number;
+}
+
+/**
+ * Represents a fully customizable color within Minecraft.
+ */
+export interface RGB {
+    /**
+     * Determines a color's blue component. Valid values are between 0 and
+     * 1.0.
+     */
+    blue: number;
+    /**
+     * Determines a color's green component. Valid values are between 0 and
+     * 1.0.
+     */
+    green: number;
+    /**
+     * Determines a color's red component. Valid values are between 0 and
+     * 1.0.
+     */
+    red: number;
+}
+
+/**
+ * Represents a fully customizable color within Minecraft.
+ */
+export interface RGBA extends RGB {
+    /**
+     * Determines a color's alpha (opacity) component. Valid values are
+     * between 0 (transparent) and 1.0 (opaque).
+     */
+    alpha: number;
 }
 
 /**

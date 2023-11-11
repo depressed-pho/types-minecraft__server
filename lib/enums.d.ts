@@ -1,3 +1,14 @@
+export enum BlockComponentTypes {
+    Inventory = "minecraft:inventory",
+    LavaContainer = "minecraft:lavaContainer",
+    Piston = "minecraft:piston",
+    PotionContainer = "minecraft:potionContainer",
+    RecordPlayer = "minecraft:recordPlayer",
+    Sign = "minecraft:sign",
+    SnowContainer = "minecraft:snowContainer",
+    WaterContainer = "minecraft:waterContainer",
+}
+
 export enum BlockVolumeIntersection {
     Disjoint   = 0,
     Contains   = 1,
@@ -85,6 +96,106 @@ export enum DyeColor {
     yellow    = "yellow",
 }
 
+export enum EasingType {
+    InBack = "InBack",
+    InBounce = "InBounce",
+    InCirc = "InCirc",
+    InCubic = "InCubic",
+    InElastic = "InElastic",
+    InExpo = "InExpo",
+    InOutBack = "InOutBack",
+    InOutBounce = "InOutBounce",
+    InOutCirc = "InOutCirc",
+    InOutCubic = "InOutCubic",
+    InOutElastic = "InOutElastic",
+    InOutExpo = "InOutExpo",
+    InOutQuad = "InOutQuad",
+    InOutQuart = "InOutQuart",
+    InOutQuint = "InOutQuint",
+    InOutSine = "InOutSine",
+    InQuad = "InQuad",
+    InQuart = "InQuart",
+    InQuint = "InQuint",
+    InSine = "InSine",
+    Linear = "Linear",
+    OutBack = "OutBack",
+    OutBounce = "OutBounce",
+    OutCirc = "OutCirc",
+    OutCubic = "OutCubic",
+    OutElastic = "OutElastic",
+    OutExpo = "OutExpo",
+    OutQuad = "OutQuad",
+    OutQuart = "OutQuart",
+    OutQuint = "OutQuint",
+    OutSine = "OutSine",
+    Spring = "Spring",
+}
+
+export enum EntityComponentTypes {
+    AddRider = "minecraft:addrider",
+    Ageable = "minecraft:ageable",
+    Breathable = "minecraft:breathable",
+    CanClimb = "minecraft:can_climb",
+    CanFly = "minecraft:can_fly",
+    CanPowerJump = "minecraft:can_power_jump",
+    Color = "minecraft:color",
+    Equippable = "minecraft:equippable",
+    FireImmune = "minecraft:fire_immune",
+    FloatsInLiquid = "minecraft:floats_in_liquid",
+    FlyingSpeed = "minecraft:flying_speed",
+    FrictionModifier = "minecraft:friction_modifier",
+    GroundOffset = "minecraft:ground_offset",
+    Healable = "minecraft:healable",
+    Health = "minecraft:health",
+    Inventory = "minecraft:inventory",
+    IsBaby = "minecraft:is_baby",
+    IsCharged = "minecraft:is_charged",
+    IsChested = "minecraft:is_chested",
+    IsDyeable = "minecraft:is_dyeable",
+    IsHiddenWhenInvisible = "minecraft:is_hidden_when_invisible",
+    IsIgnited = "minecraft:is_ignited",
+    IsIllagerCaptain = "minecraft:is_illager_captain",
+    IsSaddled = "minecraft:is_saddled",
+    IsShaking = "minecraft:is_shaking",
+    IsSheared = "minecraft:is_sheared",
+    IsStackable = "minecraft:is_stackable",
+    IsStunned = "minecraft:is_stunned",
+    IsTamed = "minecraft:is_tamed",
+    Item = "minecraft:item",
+    LavaMovement = "minecraft:lava_movement",
+    Leashable = "minecraft:leashable",
+    MarkVariant = "minecraft:mark_variant",
+    MountTaming = "minecraft:tamemount",
+    Movement = "minecraft:movement",
+    MovementAmphibious = "minecraft:movement.amphibious",
+    MovementBasic = "minecraft:movement.basic",
+    MovementFly = "minecraft:movement.fly",
+    MovementGeneric = "minecraft:movement.generic",
+    MovementGlide = "minecraft:movement.glide",
+    MovementHover = "minecraft:movement.hover",
+    MovementJump = "minecraft:movement.jump",
+    MovementSkip = "minecraft:movement.skip",
+    MovementSway = "minecraft:movement.sway",
+    NavigationClimb = "minecraft:navigation.climb",
+    NavigationFloat = "minecraft:navigation.float",
+    NavigationFly = "minecraft:navigation.fly",
+    NavigationGeneric = "minecraft:navigation.generic",
+    NavigationHover = "minecraft:navigation.hover",
+    NavigationWalk = "minecraft:navigation.walk",
+    Npc = "minecraft:npc",
+    OnFire = "minecraft:onfire",
+    PushThrough = "minecraft:push_through",
+    Rideable = "minecraft:rideable",
+    Riding = "minecraft:riding",
+    Scale = "minecraft:scale",
+    SkinId = "minecraft:skin_id",
+    Strength = "minecraft:strength",
+    Tameable = "minecraft:tameable",
+    UnderwaterMovement = "minecraft:underwater_movement",
+    Variant = "minecraft:variant",
+    WantsJockey = "minecraft:wants_jockey",
+}
+
 export enum EntityDamageCause {
     anvil           = "anvil",
     blockExplosion  = "blockExplosion",
@@ -117,6 +228,34 @@ export enum EntityDamageCause {
     thorns          = "thorns",
     void            = "void",
     wither          = "wither",
+}
+
+/**
+ * An enumeration describing initialization cause of an entity.
+ */
+export enum EntityInitializationCause {
+    /**
+     * Case when an entity is created as child of other entity or entities,
+     * e.g., cows making a cow or slimes making smaller slimes after dying.
+     */
+    Born = "Born",
+    /**
+     * Case when an entity is created by an event, e.g., a Wandering trader
+     * spawning llamas.
+     */
+    Event = "Event",
+    /**
+     * Case when an entity is loaded into the world.
+     */
+    Loaded = "Loaded",
+    /**
+     * Case when an entity is naturally spawned in the world.
+     */
+    Spawned = "Spawned",
+    /**
+     * Case when an entity is transformed into another entity.
+     */
+    Transformed = "Transformed",
 }
 
 export enum EntityLifetimeState {
@@ -199,10 +338,74 @@ export enum GameMode {
     survival = "survival",
 }
 
+export enum ItemComponentTypes {
+    Cooldown = "minecraft:cooldown",
+    Durability = "minecraft:durability",
+    Enchants = "minecraft:enchantments",
+    Food = "minecraft:food",
+}
+
+/**
+ * Describes how an an item can be moved within a container.
+ */
 export enum ItemLockMode {
+    /**
+     * The item cannot be dropped or crafted with.
+     */
     inventory = "inventory",
-    none      = "none",
-    slot      = "slot",
+    /**
+     * The item has no container restrictions.
+     */
+    none = "none",
+    /**
+     * The item cannot be moved from its slot, dropped or crafted with.
+     */
+    slot = "slot",
+}
+
+/**
+ * Enum containing the different phases of the moon based on the current
+ * day. Obtain the current MoonPhase using world.getMoonPhase.
+ *
+ * The fullness of the moon controls various mob behaviors such as the
+ * number of slimes that spawn in Swamp biomes, the chance skeletons and
+ * zombies have to spawn with armor, as well as the chance for spiders to
+ * spawn with certain status effects.
+ */
+export enum MoonPhase {
+    /**
+     * The brightest moon phase. During this phase, cats have a 50% chance
+     * of spawning as black cats.
+     */
+    FullMoon = 0,
+    /**
+     * The phase following the Full Moon.
+     */
+    WaningGibbous = 1,
+    /**
+     * The phase following the Waxing Crescent.
+     */
+    FirstQuarter = 2,
+    /**
+     * The phase following the Last Quarter.
+     */
+    WaningCrescent = 3,
+    /**
+     * The darkest moon phase.
+     */
+    NewMoon = 4,
+    /**
+     * The phase following the New Moon.
+     */
+    WaxingCrescent = 5,
+    /**
+     * The phase following the Waning Gibbous.
+     */
+    LastQuarter = 6,
+    /**
+     * The phase following the First Quarter.
+     */
+    WaxingGibbous = 7,
 }
 
 /**

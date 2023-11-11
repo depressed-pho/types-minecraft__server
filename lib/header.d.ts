@@ -1,4 +1,4 @@
-// Type definitions for Minecraft Bedrock Edition script APIs 1.3.0-beta
+// Type definitions for Minecraft Bedrock Edition script APIs
 // Project: https://docs.microsoft.com/minecraft/creator/
 // Definitions by: Jake Shirley <https://github.com/JakeShirley>
 //                 Mike Ammerlaan <https://github.com/mammerla>
@@ -15,7 +15,8 @@
  * ```json
  * {
  *   "module_name": "@minecraft/server",
- *   "version": "1.3.0"
+ *   "version": "1.7.0-beta"
  * }
  * ```
  */
+import * from "@minecraft/common";

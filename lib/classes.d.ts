@@ -10,6 +10,22 @@ export class Block {
      */
     readonly dimension: Dimension;
     /**
+     * Returns true if this block is an air block (i.e., empty space).
+     */
+    readonly isAir: boolean;
+    /**
+     * Returns true if this block is a liquid block - (e.g., a water block
+     * and a lava block are liquid, while an air block and a stone block
+     * are not. Water logged blocks are not liquid blocks).
+     */
+    readonly isLiquid: boolean;
+    /**
+     * Returns true if this block is solid and impassible - (e.g., a
+     * cobblestone block and a diamond block are solid, while a ladder
+     * block and a fence block are not).
+     */
+    readonly isSolid: boolean;
+    /**
      * Returns or sets whether this block has a liquid on it.
      */
     isWaterlogged: boolean;
@@ -43,6 +59,25 @@ export class Block {
      */
     readonly z: number;
     /**
+     * Returns the {@link @minecraft/server.Block} above this block
+     * (positive in the Y direction).
+     * @param steps
+     * Number of steps above to step before returning.
+     */
+    above(steps?: number): Block | undefined;
+    /**
+     * Returns the {@link @minecraft/server.Block} below this block
+     * (negative in the Y direction).
+     * @param steps
+     * Number of steps above to step before returning.
+     */
+    below(steps?: number): Block | undefined;
+    /**
+     * Returns the {@link @minecraft/server.Location} of the center of this
+     * block on the X and Z axis.
+     */
+    bottomCenter(): Vector3;
+    /**
      * Checks to see whether it is valid to place the specified block type
      * or block permutation, on a specified face on this block.
      * @param blockToPlace
@@ -53,19 +88,30 @@ export class Block {
      * Returns `true` if the block type or permutation can be placed on
      * this block, else `false`.
      */
-    canPlace(blockToPlace: BlockPermutation | BlockType, faceToPlaceOn?: Direction): boolean;
+    canPlace(blockToPlace: BlockPermutation | BlockType | string, faceToPlaceOn?: Direction): boolean;
+    /**
+     * Returns the {@link @minecraft/server.Location} of the center of this
+     * block on the X, Y, and Z axis.
+     */
+    center(): Vector3;
+    /**
+     * Returns the {@link @minecraft/server.Block} to the east of this
+     * block (positive in the X direction).
+     */
+    east(steps?: number): Block | undefined;
     /**
      * Gets additional configuration properties (a component) for
      * specific capabilities of particular blocks - for example, an
      * inventory component of a chest block.
-     * @param componentName
-     * Identifier of the component. If a namespace is not
-     * specified, `minecraft:` is assumed.
+     * @param componentId
+     * Identifier of the component. If a namespace is not specified,
+     * `minecraft:` is assumed. Available component IDs can be found as
+     * part of the {@link @minecraft/server.BlockComponentTypes} enum.
      * @returns
      * Returns the component object if it is present on the
      * particular block.
      */
-    getComponent(componentName: string): BlockComponent | undefined;
+    getComponent<T>(componentId: T): BlockComponentTypeMap[T] | undefined;
     /**
      * Creates a prototype item stack based on this block that can be used
      * with {@link @minecraft/server.Container}/{@link
@@ -74,8 +120,11 @@ export class Block {
      * Number of instances of this block to place in the item stack.
      * @param withData
      * Whether additional data facets of the item stack are included.
+     * @returns
+     * An itemStack with the specified amount of items and data. Returns
+     * `undefined` if block type is incompatible.
      */
-    getItemStack(amount?: number, withData?: boolean): ItemStack;
+    getItemStack(amount?: number, withData?: boolean): ItemStack | undefined;
     /**
      * Returns the net redstone power of this block.
      * @returns
@@ -108,27 +157,29 @@ export class Block {
      */
     hasTag(tag: string): boolean;
     /**
-     * Returns true if this block is an air block (i.e., empty space).
-     */
-    isAir(): boolean;
-    /**
-     * Returns true if this block is a liquid block - (e.g., a water block
-     * and a lava black are liquid, while an air block and a stone block
-     * are not).
-     */
-    isLiquid(): boolean;
-    /**
-     * Returns true if this block is solid and impassible - (e.g., a
-     * cobblestone block and a diamond block are solid, while a ladder
-     * block and a fence block are not).
-     */
-    isSolid(): boolean;
-    /**
      * Returns true if this reference to a block is still valid (for
      * example, if the block is unloaded, references to that block will no
      * longer be valid.)
      */
     isValid(): boolean;
+    /**
+     * Returns the {@link @minecraft/server.Block} to the north of this
+     * block (negative in the Z direction).
+     * @param steps
+     * Number of steps to the north to step before returning.
+     */
+    north(steps?: number): Block | undefined;
+    /**
+     * Returns a block at an offset relative vector to this block.
+     * @param offset
+     * The offset vector. For example, an offset of 0, 1, 0 will return the
+     * block above the current block.
+     * @returns
+     * Block at the specified offset, or `undefined` if that block could
+     * not be retrieved (for example, the block and its relative chunk is
+     * not loaded yet.)
+     */
+    offset(offset: Vector3): Block | undefined;
     /**
      * Sets the block in the dimension to the state of the
      * permutation.
@@ -143,7 +194,14 @@ export class Block {
      * Identifier of the type of block to apply - for example,
      * `minecraft:powered_repeater`.
      */
-    setType(blockType: BlockType): void;
+    setType(blockType: BlockType | string): void;
+    /**
+     * Returns the {@link @minecraft/server.Block} to the south of this
+     * block (positive in the Z direction).
+     * @param steps
+     * Number of steps to the south to step before returning.
+     */
+    south(steps?: number): Block | undefined;
     /**
      * Tries to set the block in the dimension to the state of the
      * permutation by first checking if the placement is valid.
@@ -154,6 +212,13 @@ export class Block {
      * `false`.
      */
     trySetPermutation(permutation: BlockPermutation): boolean;
+    /**
+     * Returns the {@link @minecraft/server.Block} to the west of this
+     * block (negative in the X direction).
+     * @param steps
+     * Number of steps to the west to step before returning.
+     */
+    west(steps?: number): Block | undefined;
 }
 
 /**
@@ -294,7 +359,7 @@ export class BlockPermutation {
      * @param amount
      * Number of instances of this block to place in the prototype item stack.
      */
-    getItemStack(amount?: number): ItemStack;
+    getItemStack(amount?: number): ItemStack | undefined;
     /**
      * Gets a state for the permutation.
      * @returns
@@ -349,8 +414,11 @@ export class BlockStates {
     protected constructor();
     /**
      * Retrieves a specific block state instance.
+     * @returns
+     * Returns the {@link @minecraft/server.Block} state instance if it is
+     * found. If the block state instance is not found returns `undefined`.
      */
-    static "get"(stateName: string): BlockStateType;
+    static "get"(stateName: string): BlockStateType | undefined;
     /**
      * Retrieves a set of all available block states.
      */
@@ -388,6 +456,28 @@ export class BlockType {
      * Block type name - for example, `minecraft:acacia_stairs`.
      */
     readonly id: string;
+}
+
+/**
+ * Contains a catalog of Minecraft Block Types that are available in this
+ * world.
+ */
+export class BlockTypes {
+    protected constructor();
+    /**
+     * Returns a BlockType object for the specified identifier.
+     * @param typeName
+     * Identifier of the block type. Should follow a `namespace:id`
+     * pattern, such as `minecraft:dirt`.
+     * @returns
+     * `BlockType` object, or `undefined` if the block type is not
+     * available within this world.
+     */
+    static "get"(typeName: string): BlockType | undefined;
+    /**
+     * Returns a collection of all available block types.
+     */
+    static getAll(): BlockType[];
 }
 
 /**
@@ -561,6 +651,40 @@ export class BoundingBoxUtils {
      * Return a new BoundingBox object which represents the change.
      */
     static translate(box: BoundingBox, delta: Vector3): BoundingBox;
+}
+
+/**
+ * Contains methods relating to the active camera for the specified player.
+ */
+export class Camera {
+    protected constructor();
+    /**
+     * Clears the active camera for the specified player. Causes the
+     * specified players to end any in-progress camera perspectives,
+     * including any eased camera motions, and return to their normal
+     * perspective.
+     */
+    clear(): void;
+    /**
+     * Begins a camera fade transition. A fade transition is a full-screen
+     * color that fades-in, holds, and then fades-out.
+     * @param fadeCameraOptions
+     * Additional options around camera fade operations.
+     */
+    fade(fadeCameraOptions?: CameraFadeOptions): void;
+    /**
+     * Sets the current active camera for the specified player.
+     * @param cameraPreset
+     * Identifier of a camera preset file defined within JSON.
+     * @param setOptions
+     * Additional options for the camera.
+     */
+    setCamera(cameraPreset: string,
+              setOptions?: CameraDefaultOptions     |
+                           CameraSetFacingOptions   |
+                           CameraSetLocationOptions |
+                           CameraSetPosOptions      |
+                           CameraSetRotOptions      ): void;
 }
 
 /**
@@ -1017,6 +1141,10 @@ export class DefinitionModifier {
 export class Dimension {
     protected constructor();
     /**
+     * Height range of the dimension.
+     */
+    readonly heightRange: NumberRange;
+    /**
      * Identifier of the dimension.
      */
     readonly id: string;
@@ -1075,7 +1203,7 @@ export class Dimension {
      * @returns
      * Returns number of blocks placed.
      */
-    fillBlocks(begin: Vector3, end: Vector3, block: BlockPermutation | BlockType, options?: BlockFillOptions): number;
+    fillBlocks(begin: Vector3, end: Vector3, block: BlockPermutation | BlockType | string, options?: BlockFillOptions): number;
     /**
      * Returns a block instance at the given location. This method
      * was introduced as of version 1.17.10.21.
@@ -1181,6 +1309,23 @@ export class Dimension {
      */
     getPlayers(options?: EntityQueryOptions): Player[];
     /**
+     * Returns the current weather.
+     * @returns
+     * Returns a WeatherType that explains the broad category of weather that is currently going on.
+     */
+    getWeather(): WeatherType;
+    /**
+     * Runs a command synchronously using the context of the broader
+     * dimenion.
+     * @param commandString
+     * Command to run. Note that command strings should not start with
+     * slash.
+     * @returns
+     * Returns a command result with a count of successful values from the
+     * command.
+     */
+    runCommand(commandString: string): CommandResult;
+    /**
      * Runs a particular command asynchronously from the context of the
      * broader dimension. Note that there is a maximum queue of 128
      * asynchronous commands that can be run in a given tick.
@@ -1199,8 +1344,14 @@ export class Dimension {
     runCommandAsync(commandString: string): Promise<CommandResult>;
     /**
      * Sets the current weather within the dimesion.
+     * @param weatherType
+     * Set the type of weather to apply.
+     * @param duration
+     * Sets the duration of the weather (in ticks). If no duration is
+     * provided, the duration will be set to a random duration between 300
+     * and 900 seconds.
      */
-    setWeather(weatherType: WeatherType): void;
+    setWeather(weatherType: WeatherType, duration?: number): void;
     /**
      * Creates a new entity (e.g., a mob) at the specified location.
      * @param identifier
@@ -1314,37 +1465,32 @@ export class Dimension {
      * }
      * ```
      */
-    spawnParticle(effectName: string, location: Vector3, molangVariables: MolangVariableMap): void;
+    spawnParticle(effectName: string, location: Vector3, molangVariables?: MolangVariableMap): void;
 }
 
 /**
- * Class used in conjunction with {@link
- * @minecraft/server.PropertyRegistry} to define dynamic properties that
- * can be used on entities of a specified type or at the global World-
- * level.
+ * Represents a type of dimension.
  */
-export class DynamicPropertiesDefinition {
+export class DimensionType {
+    protected constructor();
     /**
-     * Creates a new DynamicPropertiesDefinition for use within a
-     * WorldInitialize event.
+     * Identifier of the dimension type.
      */
-    constructor();
+    readonly typeId: string;
+}
+
+/**
+ * Used for accessing all available dimension types.
+ */
+export class DimensionTypes {
     /**
-     * Defines a new boolean dynamic property.
+     * Retrieves a dimension type using a string-based identifier.
      */
-    defineBoolean(identifier: string, defaultValue?: boolean): DynamicPropertiesDefinition;
+    static "get"(dimensionTypeId: string): DimensionType | undefined;
     /**
-     * Defines a new number dynamic property.
+     * Retrieves an array of all dimension types.
      */
-    defineNumber(identifier: string, defaultValue?: number): DynamicPropertiesDefinition;
-    /**
-     * Defines a new string dynamic property.
-     */
-    defineString(identifier: string, maxLength: number, defaultValue?: string): DynamicPropertiesDefinition;
-    /**
-     * Defines a new Vector3-based dynamic property.
-     */
-    defineVector(identifier: string, defaultValue?: Vector3): DynamicPropertiesDefinition;
+    static getAll(): DimensionType[];
 }
 
 /**
@@ -1611,6 +1757,10 @@ export class Entity {
      */
     readonly isOnGround: boolean;
     /**
+     * If true, the entity is currently sleeping.
+     */
+    readonly isSleeping: boolean;
+    /**
      * Whether the entity is sneaking - that is, moving more slowly and
      * more quietly.
      */
@@ -1649,7 +1799,7 @@ export class Entity {
      * Retrieves or sets an entity that is used as the target of AI-related
      * behaviors, like attacking.
      */
-    target: Entity;
+    readonly target?: Entity;
     /**
      * Unique identifier of the type of the entity - for example,
      * 'minecraft:skeleton'.
@@ -1800,6 +1950,11 @@ export class Entity {
      */
     applyKnockback(directionX: number, directionZ: number, horizontalStrength: number, verticalStrength: number): void;
     /**
+     * Clears all dynamic properties that have been set on this entity by
+     * this behavior pack.
+     */
+    clearDynamicProperties(): void;
+    /**
      * Sets the current velocity of the Entity to zero. Note that this
      * method may not have an impact on Players.
      */
@@ -1840,9 +1995,10 @@ export class Entity {
      * The identifier of the component (e.g., `minecraft:rideable`) to
      * retrieve. If no namespace prefix is specified, `minecraft:` is
      * assumed. If the component is not present on the entity, `undefined`
-     * is returned.
+     * is returned. Available component IDs can be found as part of the
+     * {@link @minecraft/server.EntityComponentComponentTypes} enum.
      */
-    getComponent(componentId: string): EntityComponent | undefined;
+    getComponent<T>(componentId: T): EntityComponentTypeMap[T] | undefined;
     /**
      * Returns all components that are both present on this entity and
      * supported by the API.
@@ -1854,7 +2010,22 @@ export class Entity {
      * Returns the value for the property, or `undefined` if the property
      * has not been set.
      */
-    getDynamicProperty(identifier: string): boolean | number | string | undefined;
+    getDynamicProperty(identifier: string): boolean | number | string | Vector3 | undefined;
+    /**
+     * Returns the available set of dynamic property identifiers that have
+     * been set on this entity by this behavior pack.
+     * @returns
+     * A string array of the dynamic properties set on this entity.
+     */
+    getDynamicPropertyIds(): string[];
+    /**
+     * Returns the total size, in bytes, of all the dynamic properties that
+     * are currently stored for this entity. This can be useful for
+     * diagnosing performance warning signs - if, for example, an entity
+     * has many megabytes of associated dynamic properties, it may be slow
+     * to load on various devices.
+     */
+    getDynamicPropertyTotalByteCount(): number;
     /**
      * Returns the effect for the specified EffectType on the entity,
      * `undefined` if the effect is not present, or throws an error if the
@@ -1880,7 +2051,19 @@ export class Entity {
      */
     getHeadLocation(): Vector3;
     /**
+     * Gets an entity Property value. If the property was set using the
+     * setProperty function within the same tick, the updated value will
+     * not be reflected until the subsequent tick.
+     * @returns
+     * Returns the current property value. For enum properties, a string is
+     * returned. For float and int properties, a number is returned. For
+     * undefined properties, undefined is returned.
+     */
+    getProperty(identifier: string): boolean | number | string | undefined;
+    /**
      * Returns the current rotation component of this entity.
+     * @returns
+     * Returns a Vec2 containing the rotation of this entity (in degrees).
      */
     getRotation(): Vector2;
     /**
@@ -1932,6 +2115,15 @@ export class Entity {
      */
     kill(): boolean;
     /**
+     * Matches the entity against the passed in options. Uses the location
+     * of the entity for matching if the location is not specified in the
+     * passed in EntityQueryOptions.
+     * @returns
+     * Returns true if the entity matches the criteria in the passed in
+     * EntityQueryOptions, otherwise it returns false.
+     */
+    matches(options: EntityQueryOptions): boolean;
+    /**
      * Plays the specified animation for an entity.
      * @param animationName
      * The animation identifier. e.g. `animation.creeper.swelling`.
@@ -1941,11 +2133,10 @@ export class Entity {
      */
     playAnimation(animationName: string, options?: PlayAnimationOptions): void;
     /**
-     * Removes a specified property.
-     * @returns
-     * Returns whether the given property existed on the entity.
+     * Immediately removes the entity from the world. The removed entity
+     * will not perform a death animation or drop loot upon removal.
      */
-    removeDynamicProperty(identifier: string): boolean;
+    remove(): void;
     /**
      * Removes the specified EffectType on the entity, or returns `false`
      * if the effect is not present.
@@ -1960,6 +2151,18 @@ export class Entity {
      * Content of the tag to remove.
      */
     removeTag(tag: string): boolean;
+    /**
+     * Resets an Entity Property back to its default value, as specified in
+     * the Entity's definition. This property change is not applied until
+     * the next tick.
+     * @param identifier
+     * The Entity Property identifier.
+     * @returns
+     * Returns the default property value. For enum properties, a string is
+     * returned. For float and int properties, a number is returned. For
+     * undefined properties, undefined is returned.
+     */
+    resetProperty(identifier: string): boolean | number | string;
     /**
      * Runs a synchronous command on the entity.
      * @param commandString
@@ -1982,11 +2185,13 @@ export class Entity {
      */
     runCommandAsync(commandString: string): Promise<CommandResult>;
     /**
-     * Sets a specified property to a value.
+     * Sets a specified property to a value. There are no limits on the
+     * count and the size of properties that can be set. String dynamic
+     * properties are restricted to a length of 32767 bytes.
      * @param value
      * Data value of the property to set.
      */
-    setDynamicProperty(identifier: string, value: boolean | number | string): void;
+    setDynamicProperty(identifier: string, value?: boolean | number | string | Vector3): void;
     /**
      * Sets an entity on fire (if it is not in water or rain). Note that
      * you can call `getComponent('minecraft:onfire')` and, if present, the
@@ -2003,6 +2208,16 @@ export class Entity {
      * fire.
      */
     setOnFire(seconds: number, useEffects?: boolean): boolean;
+    /**
+     * Sets an Entity Property to the provided value. This property change
+     * is not applied until the next tick.
+     * @param identifier
+     * The Entity Property identifier.
+     * @param value
+     * The property value. The provided type must be compatible with the
+     * type specified in the entity's definition.
+     */
+    setProperty(identifier: string, value: boolean | number | string): void;
     /**
      * Sets the main rotation of the entity.
      * @param rotation
@@ -2309,13 +2524,23 @@ export class ItemStack {
      */
     clone(): ItemStack;
     /**
+     * Get the list of block types this item can break in Adventure mode.
+     */
+    getCanDestroy(): string[];
+    /**
+     * Get the list of block types this item can be placed on in Adventure
+     * mode.
+     */
+    getCanPlaceOn(): string[];
+    /**
      * Gets a component (that represents additional capabilities) for an
      * item stack.
      * @param componentId
      * The identifier of the component (e.g., `minecraft:food`) to
      * retrieve. If no namespace prefix is specified, `minecraft:` is
      * assumed. If the component is not present on the item stack,
-     * `undefined` is returned.
+     * `undefined` is returned. Available component IDs can be found as
+     * part of the {@link @minecraft/server.ItemComponentTypes} enum.
      * @example durability.ts
      * ```typescript
      * // Get the maximum durability of a custom sword item
@@ -2324,7 +2549,7 @@ export class ItemStack {
      * const maxDurability = durability.maxDurability;
      * ```
      */
-    getComponent(componentId: string): ItemComponent | undefined;
+    getComponent<T>(componentId: T): ItemComponentTypeMap[T] | undefined;
     /**
      * Returns all components that are both present on this item stack and
      * supported by the API.
@@ -2394,7 +2619,32 @@ export class ItemStack {
      */
     setCanPlaceOn(blockIdentifiers?: string[]): void;
     /**
-     * Sets the lore value - a secondary display string - for an ItemStack.
+     * Sets the lore value - a secondary display string - for an
+     * ItemStack. The lore list is cleared if set to an empty string or
+     * `undefined`.
+     * @param loreList
+     * List of lore lines. Each element in the list represents a new
+     * line. The maximum lore line count is 20. The maximum lore line
+     * length is 50 characters.
+     * @example diamondAwesomeSword.ts
+     * ```typescript
+     * const diamondAwesomeSword = new mc.ItemStack(mc.MinecraftItemTypes.diamondSword, 1);
+     * let players = mc.world.getAllPlayers();
+     *
+     * diamondAwesomeSword.setLore(["§c§lDiamond Sword of Awesome§r", "+10 coolness", "§p+4 shiny§r"]);
+     *
+     * // hover over/select the item in your inventory to see the lore.
+     * const inventory = players[0].getComponent("inventory") as mc.EntityInventoryComponent;
+     * inventory.container.setItem(0, diamondAwesomeSword);
+     *
+     * let item = inventory.container.getItem(0);
+     *
+     * if (item) {
+     *   let enchants = item.getComponent("minecraft:enchantments") as mc.ItemEnchantsComponent;
+     *   let knockbackEnchant = new mc.Enchantment("knockback", 3);
+     *   enchants.enchantments.addEnchantment(knockbackEnchant);
+     * }
+     * ```
      * @example multilineLore.ts
      * ```typescript
      * // Set the lore of an item to multiple lines of text
@@ -2426,15 +2676,6 @@ export class ItemType {
 }
 
 /**
- * An iterator over a set of available item types.
- */
-export class ItemTypeIterator implements IterableIterator<ItemType> {
-    protected constructor();
-    [Symbol.iterator](): IterableIterator<ItemType>;
-    next(): IteratorResult<ItemType>;
-}
-
-/**
  * Returns the set of item types registered within Minecraft.
  */
 export class ItemTypes {
@@ -2442,31 +2683,11 @@ export class ItemTypes {
     /**
      * Returns a specific item type, if available within Minecraft.
      */
-    static "get"(itemId: string): ItemType;
+    static "get"(itemId: string): ItemType | undefined;
     /**
      * Retrieves all available item types registered within Minecraft.
      */
-    static getAll(): ItemTypeIterator;
-}
-
-/**
- * Contains definitions of vanilla Minecraft and Minecraft Education
- * Edition block types.
- */
-export class MinecraftBlockTypes {
-    protected constructor();
-    /**
-     * Returns a specific Minecraft block type given a type id.
-     */
-    static "get"(typeName: string): BlockType;
-    /**
-     * Returns an array of all block types within Minecraft.
-     */
-    static getAllBlockTypes(): BlockType[];
-
-    // No, I'm not going to bloat the file by more than 3000 lines by
-    // giving types to all the vanilla blocks. This is abysmal. It's
-    // nothing but a torture against the compiler and .d.ts maintainers.
+    static getAll(): ItemType[];
 }
 
 /**
@@ -2503,29 +2724,6 @@ export class MinecraftDimensionTypes {
 }
 
 /**
- * A collection of vanilla Minecraft entity types.
- */
-export class MinecraftEntityTypes {
-    protected constructor();
-
-    // No, I'm not going to give types to all the vanilla entities. This is
-    // abysmal. It's nothing but a torture against the compiler and .d.ts
-    // maintainers.
-}
-
-/**
- * Contains definitions of vanilla Minecraft and Minecraft
- * Education Edition block types.
- */
-export class MinecraftItemTypes {
-    protected constructor();
-
-    // No, I'm not going to bloat the file by more than 3000 lines by
-    // giving types to all the vanilla items. This is abysmal. It's nothing
-    // but a torture against the compiler and .d.ts maintainers.
-}
-
-/**
  * Contains a set of additional variable values for further defining how
  * rendering and animations function.
  */
@@ -2534,12 +2732,16 @@ export class MolangVariableMap {
      * Sets a Molang rendering/animation variable with the value of a
      * Red/Green/Blue color.
      */
-    setColorRGB(variableName: string, color: Color): MolangVariableMap;
+    setColorRGB(variableName: string, color: RGB): void;
     /**
      * Sets a Molang rendering/animation variable with the value of a
      * Red/Green/Blue color + Alpha (transparency) value.
      */
-    setColorRGBA(variableName: string, color: Color): MolangVariableMap;
+    setColorRGBA(variableName: string, color: RGBA): void;
+    /**
+     * Sets a numeric (decimal) value within the Molang variable map.
+     */
+    setFloat(variableName: string, number: number): void;
     /**
      * Sets the speed and direction for a Molang (rendering and animation)
      * variable.
@@ -2574,6 +2776,14 @@ export class NavigationResult {
  */
 export class Player extends Entity {
     protected constructor();
+    /**
+     * The player's Camera.
+     */
+    readonly camera: Camera;
+    /**
+     * If true, the player is currently emoting.
+     */
+    readonly isEmoting: boolean;
     /**
      * Whether the player is flying. For example, in Creative or Spectator
      * mode.
@@ -2617,12 +2827,13 @@ export class Player extends Entity {
      * Adds/removes experience to/from the Player and returns the current
      * experience of the Player.
      * @param amount
-     * Amount of experience to add. Note that this can be negative.
+     * Amount of experience to add. Note that this can be negative. Min/max
+     * bounds at -2^24 ~ 2^24
      */
     addExperience(amount: number): number;
     /**
      * Adds/removes level to/from the Player and returns the current level
-     * of the Player.
+     * of the Player. Min/max bounds at -2^24 ~ 2^24
      */
     addLevels(amount: number): number;
     /**
@@ -2640,11 +2851,15 @@ export class Player extends Entity {
     /**
      * Gets the total experience of the Player.
      */
-    getTotalXp(): number
+    getTotalXp(): number;
     /**
      * Returns true if this player has operator-level permissions.
      */
     isOp(): boolean;
+    /**
+     * Plays a music track that only this particular player can hear.
+     */
+    playMusic(trackId: string, musicOptions?: MusicOptions): void;
     /**
      * Plays a sound that only this particular player can hear.
      * @param soundID
@@ -2658,6 +2873,11 @@ export class Player extends Entity {
      * downstream clients.
      */
     postClientMessage(id: string, value: string): void;
+    /**
+     * Queues an additional music track that only this particular player
+     * can hear. If a track is not playing, a music track will play.
+     */
+    queueMusic(trackId: string, musicOptions?: MusicOptions): void;
     /**
      * Resets the level of the player.
      */
@@ -2716,6 +2936,10 @@ export class Player extends Entity {
      * Duration in ticks of the item cooldown.
      */
     startItemCooldown(itemCategory: string, tickDuration: number): void;
+    /**
+     * Stops any music tracks from playing for this particular player.
+     */
+    stopMusic(): void;
 }
 
 /**
@@ -2732,29 +2956,6 @@ export class PlayerIterator implements IterableIterator<Player> {
      * used to see the next Player in the iteration.
      */
     next(): IteratorResult<Player>;
-}
-
-/**
- * Provides methods that should be used within the World Initialize event
- * to register dynamic properties that can be used and stored within
- * Minecraft.
- */
-export class PropertyRegistry {
-    protected constructor();
-    /**
-     * Registers a dynamic property for a particular entity type (e.g., a
-     * `minecraft:skeleton`). The maximum size of entity dynamic properties
-     * is 128 KiB.
-     */
-    registerEntityTypeDynamicProperties(
-        propertiesDefinition: DynamicPropertiesDefinition,
-        entityType: EntityType,
-    ): void;
-    /**
-     * Registers a globally available dynamic property for a world. The
-     * maximum size of world dynamic properties is 1 MiB.
-     */
-    registerWorldDynamicProperties(propertiesDefinition: DynamicPropertiesDefinition): void;
 }
 
 /**
@@ -2804,16 +3005,16 @@ export class Scoreboard {
     /**
      * Clears the objective that occupies a display slot.
      */
-    clearObjectiveAtDisplaySlot(displaySlotId: string): ScoreboardObjective;
+    clearObjectiveAtDisplaySlot(displaySlotId: DisplaySlotId): ScoreboardObjective | undefined;
     /**
      * Returns a specific objective (by id).
      */
-    getObjective(objectiveId: string): ScoreboardObjective;
+    getObjective(objectiveId: string): ScoreboardObjective | undefined;
     /**
      * Returns an objective that occupies the specified display
      * slot.
      */
-    getObjectiveAtDisplaySlot(displaySlotId: string): ScoreboardObjectiveDisplayOptions;
+    getObjectiveAtDisplaySlot(displaySlotId: DisplaySlotId): ScoreboardObjectiveDisplayOptions | undefined;
     /**
      * Returns all defined objectives.
      */
@@ -2831,9 +3032,9 @@ export class Scoreboard {
      * additional display settings.
      */
     setObjectiveAtDisplaySlot(
-        displaySlotId: string,
+        displaySlotId: DisplaySlotId,
         objectiveDisplaySetting: ScoreboardObjectiveDisplayOptions,
-    ): ScoreboardObjective;
+    ): ScoreboardObjective | undefined;
 }
 
 /**
@@ -2857,7 +3058,7 @@ export class ScoreboardIdentity {
      * If the scoreboard identity is an entity or player, returns the
      * entity that this scoreboard item corresponds to.
      */
-    getEntity(): Entity;
+    getEntity(): Entity | undefined;
     /**
      * Returns whether the identity instance is available for use in this
      * context.
@@ -2878,6 +3079,12 @@ export class ScoreboardObjective {
      * Identifier of the scoreboard objective.
      */
     readonly id: string;
+    /**
+     * Adds a score to the given participant and objective.
+     * @param participant
+     * Participant to apply the scoreboard value addition to.
+     */
+    addScore(participant: Entity | ScoreboardIdentity | string, scoreToAdd: number): number;
     /**
      * Returns all objective participant identities.
      */
@@ -3243,6 +3450,11 @@ export class World {
      */
     broadcastClientMessage(id: string, value: string): void;
     /**
+     * Clears the set of dynamic properties declared for this behavior pack
+     * within the world.
+     */
+    clearDynamicProperties(): void;
+    /**
      * Returns the absolute time since the start of the world.
      */
     getAbsoluteTime(): number;
@@ -3251,8 +3463,18 @@ export class World {
      */
     getAllPlayers(): Player[];
     /**
-     * Returns the default spawn position within the world where players
-     * are spawned if they don't have a specific spawn position set.
+     * Returns the current day.
+     * @returns
+     * The current day, determined by the world time divided by the number
+     * of ticks per day. New worlds start at day 0.
+     */
+    getDay(): number;
+    /**
+     * Returns the default Overworld spawn location.
+     * @returns
+     * The default Overworld spawn location. By default, the Y coordinate
+     * is 32767, indicating a player's spawn height is not fixed and will
+     * be determined by surrounding blocks.
      */
     getDefaultSpawnLocation(): Vector3;
     /**
@@ -3268,13 +3490,28 @@ export class World {
      * Returns the value for the property, or `undefined` if the property
      * has not been set.
      */
-    getDynamicProperty(identifier: string): boolean | number | string | undefined;
+    getDynamicProperty(identifier: string): boolean | number | string | Vector3 | undefined;
+    /**
+     * Gets a set of dynamic property identifiers that have been set in
+     * this world by this behavior pack.
+     */
+    getDynamicPropertyIds(): string[];
+    /**
+     * Gets the total byte count of dynamic properties. This could
+     * potentially be used for your own analytics to ensure you're not
+     * storing gigantic sets of dynamic properties.
+     */
+    getDynamicPropertyTotalByteCount(): number;
     /**
      * Returns an entity based on the provided id.
      * @throws
      * Throws if the given entity id is invalid.
      */
     getEntity(id: string): Entity | undefined;
+    /**
+     * Returns the MoonPhase for the current time.
+     */
+    getMoonPhase(): MoonPhase;
     /**
      * Returns all players currently in the world.
      * @returns
@@ -3334,10 +3571,6 @@ export class World {
      */
     queueMusic(trackID: string, musicOptions?: MusicOptions): void;
     /**
-     * Removes a specified property.
-     */
-    removeDynamicProperty(identifier: string): boolean;
-    /**
      * Sends a message to all players.
      * @param message
      * The message to be displayed.
@@ -3374,10 +3607,11 @@ export class World {
      */
     sendMessage(message: (RawMessage | string)[] | RawMessage | string): void;
     /**
-     * Returns number - The current day, determined by the world time
-     * divided by the number of ticks per day. New worlds start at day 0.
+     * Sets the world time.
+     * @param absoluteTime
+     * The world time, in ticks.
      */
-    getDay(): number;
+    setAbsoluteTime(absoluteTime: number): void;
     /**
      * Sets the default spawn location for players within the world. Note
      * that players can override this with their own spawn position. Note
@@ -3388,11 +3622,13 @@ export class World {
      */
     setDefaultSpawnLocation(spawnPosition: Vector3): void;
     /**
-     * Sets a specified property to a value.
+     * Sets a specified property to a value.There are no limits on the
+     * count and the size of properties that can be set. String dynamic
+     * properties are restricted to a length of 32767 bytes.
      * @param value
      * Data value of the property to set.
      */
-    setDynamicProperty(identifier: string, value: boolean | number | string): void;
+    setDynamicProperty(identifier: string, value?: boolean | number | string | Vector3): void;
     /**
      * Sets the current game time of the day.
      */

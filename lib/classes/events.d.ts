@@ -1,31 +1,4 @@
 /**
- * Manages callbacks that are connected to when a block is
- * broken.
- */
-export class BlockBreakAfterEventSignal {
-    protected constructor();
-    subscribe(callback: (arg: BlockBreakAfterEvent) => void): (arg: BlockBreakAfterEvent) => void;
-    unsubscribe(callback: (arg: BlockBreakAfterEvent) => void): void;
-}
-
-/**
- * Contains information regarding an event where a player
- * breaks a block.
- */
-export class BlockBreakAfterEvent extends BlockEvent {
-    protected constructor();
-    /**
-     * Returns permutation information about this block before it
-     * was broken.
-     */
-    readonly brokenBlockPermutation: BlockPermutation;
-    /**
-     * Player that broke the block for this event.
-     */
-    readonly player: Player;
-}
-
-/**
  * Contains information regarding an event that impacts a specific block.
  */
 export class BlockEvent {
@@ -270,10 +243,6 @@ export class EffectAddAfterEvent {
      */
     effect: Effect;
     /**
-     * Additional variant number for the effect.
-     */
-    effectState: number;
-    /**
      * Entity that the effect is being added to.
      */
     entity: Entity;
@@ -289,6 +258,40 @@ export class EffectAddAfterEventSignal {
               options?: EntityEventOptions
              ): (arg: EffectAddAfterEvent) => void;
     unsubscribe(callback: (arg: EffectAddAfterEvent) => void): void;
+}
+
+/**
+ * Contains information related to changes to an effect - like poison -
+ * being added to an entity.
+ */
+export class EffectAddBeforeEvent extends {
+    protected constructor();
+    /**
+     * When set to `true` will cancel the event.
+     */
+    cancel: boolean;
+    /**
+     * Effect duration.
+     */
+    duration: number;
+    /**
+     * The type of the effect that is being added.
+     */
+    readonly effectType: string;
+    /**
+     * Entity that the effect is being added to.
+     */
+    readonly entity: Entity;
+}
+
+/**
+ * Manages callbacks that are connected to when an effect is added to an
+ * entity.
+ */
+export class EffectAddBeforeEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: EffectAddBeforeEvent) => void): (arg: EffectAddBeforeEvent) => void;
+    unsubscribe(callback: (arg: EffectAddBeforeEvent) => void): void;
 }
 
 /**
@@ -440,29 +443,81 @@ export class EntityHurtAfterEventSignal {
 }
 
 /**
+ * Contains data related to an entity loaded within the world. This could
+ * happen when an unloaded chunk is reloaded, or when an entity changes
+ * dimensions.
+ */
+export class EntityLoadAfterEvent {
+    protected constructor();
+    /**
+     * Entity that was loaded.
+     */
+    entity: Entity;
+}
+
+/**
+ * Registers a script-based event handler for handling what happens when an
+ * entity loads.
+ */
+export class EntityLoadAfterEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: EntityLoadAfterEvent) => void): (arg: EntityLoadAfterEvent) => void;
+    unsubscribe(callback: (arg: EntityLoadAfterEvent) => void): void;
+}
+
+/**
  * Data for an event that happens when an entity is removed from the world
  * (for example, the entity is unloaded because it is not close to
  * players.)
  */
-export class EntityRemovedAfterEvent {
+export class EntityRemoveAfterEvent {
     protected constructor();
     /**
-     * Reference to an entity that was removed.
+     * Id of the entity that was removed.
      */
-    readonly removedEntity: string;
+    readonly removedEntityId: string;
+    /**
+     * Identifier of the type of the entity removed - for example,
+     * `minecraft:skeleton`.
+     */
+    readonly typeId: string;
 }
 
 /**
- * Manages callbacks that are connected to when an entity is removed from
- * the world (for example, the entity is unloaded because it is not close
- * to players.)
+ * Allows registration for an event that fires when an entity is removed
+ * from the game (for example, unloaded, or a few seconds after they are
+ * dead.)
  */
-export class EntityRemovedAfterEventSignal {
+export class EntityRemoveAfterEventSignal {
     protected constructor();
-    subscribe(callback: (arg: EntityRemovedAfterEvent) => void,
+    subscribe(callback: (arg: EntityRemoveAfterEvent) => void,
               options?: EntityEventOptions
-             ): (arg: EntityRemovedAfterEvent) => void;
-    unsubscribe(callback: (arg: EntityRemovedAfterEvent) => void): void;
+             ): (arg: EntityRemoveAfterEvent) => void;
+    unsubscribe(callback: (arg: EntityRemoveAfterEvent) => void): void;
+}
+
+/**
+ * Data for an event that happens when an entity is being removed from the
+ * world (for example, the entity is unloaded because it is not close to
+ * players.)
+ */
+export class EntityRemoveBeforeEvent {
+    protected constructor();
+    /**
+     * Reference to an entity that is being removed.
+     */
+    readonly removedEntity: Entity;
+}
+
+/**
+ * Allows registration for an event that fires when an entity is being
+ * removed from the game (for example, unloaded, or a few seconds after
+ * they are dead.)
+ */
+export class EntityRemoveBeforeEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: EntityRemoveBeforeEvent) => void): (arg: EntityRemoveBeforeEvent) => void;
+    unsubscribe(callback: (arg: EntityRemoveBeforeEvent) => void): void;
 }
 
 /**
@@ -485,6 +540,10 @@ export class EntityRemovedAfterEventSignal {
  */
 export class EntitySpawnAfterEvent {
     protected constructor();
+    /**
+     * Initialization cause (Spawned, Born ...).
+     */
+    readonly cause: EntityInitializationCause;
     /**
      * Entity that was spawned.
      */
@@ -516,7 +575,7 @@ export class ExplosionAfterEvent {
     /**
      * A collection of blocks impacted by this explosion event.
      */
-    getImpactedBlocks(): Vector3[];
+    getImpactedBlocks(): Block[];
     protected constructor();
 }
 
@@ -541,7 +600,7 @@ export class ExplosionBeforeEvent extends ExplosionAfterEvent {
     /**
      * Updates a collection of blocks impacted by this explosion event.
      */
-    setImpactedBlocks(blocks: Vector3[]): void;
+    setImpactedBlocks(blocks: Block[]): void;
 }
 
 /**
@@ -622,7 +681,7 @@ export class ItemDefinitionTriggeredAfterEvent {
     /**
      * Returns the source entity that triggered this item event.
      */
-    readonly source: Entity;
+    readonly source?: Entity;
 }
 
 /**
@@ -1177,6 +1236,228 @@ export class PistonActivateBeforeEventSignal {
 }
 
 /**
+ * Contains information regarding an event after a player breaks a block.
+ */
+export class PlayerBreakBlockAfterEvent extends BlockEvent {
+    protected constructor();
+    /**
+     * Returns permutation information about this block before it
+     * was broken.
+     */
+    readonly brokenBlockPermutation: BlockPermutation;
+    /**
+     * The item stack that was used to break the block after the block was
+     * broken, or undefined if empty hand.
+     */
+    readonly itemStackAfterBreak?: ItemStack;
+    /**
+     * The item stack that was used to break the block before the block was
+     * broken, or undefined if empty hand.
+     */
+    readonly itemStackBeforeBreak?: ItemStack;
+    /**
+     * Player that broke the block for this event.
+     */
+    readonly player: Player;
+}
+
+/**
+ * Manages callbacks that are connected to when a block is
+ * broken.
+ */
+export class PlayerBreakBlockAfterEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: PlayerBreakBlockAfterEvent) => void,
+              options?: BlockEventOptions
+             ): (arg: PlayerBreakBlockAfterEvent) => void
+    unsubscribe(callback: (arg: PlayerBreakBlockAfterEvent) => void): void;
+}
+
+/**
+ * Contains information regarding an event before a player breaks a block.
+ */
+export class PlayerBreakBlockBeforeEvent extends BlockEvent {
+    protected constructor();
+    /**
+     * If set to true, cancels the block break event.
+     */
+    cancel: boolean;
+    /**
+     * The item stack that is being used to break the block, or undefined
+     * if empty hand.
+     */
+    itemStack?: ItemStack;
+    /**
+     * Player breaking the block for this event.
+     */
+    readonly player: Player;
+}
+
+/**
+ * Manages callbacks that are connected to before a player breaks a block.
+ */
+export class PlayerBreakBlockBeforeEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: PlayerBreakBlockBeforeEvent) => void,
+              options?: BlockEventOptions
+             ): (arg: PlayerBreakBlockBeforeEvent) => void;
+    unsubscribe(callback: (arg: PlayerBreakBlockBeforeEvent) => void): void;
+}
+
+/**
+ * Contains information related to changes to a player's dimension having
+ * been changed.
+ */
+export class PlayerDimensionChangeAfterEvent {
+    protected constructor();
+    /**
+     * The dimension the player is changing from.
+     */
+    readonly fromDimension: Dimension;
+    /**
+     * The location the player was at before changing dimensions.
+     */
+    readonly fromLocation: Vector3;
+    /**
+     * Handle to the player that is changing dimensions.
+     */
+    readonly player: Player;
+    /**
+     * The dimension that the player is changing to.
+     */
+    readonly toDimension: Dimension;
+    /**
+     * The location the player will spawn to after changing dimensions.
+     */
+    readonly toLocation: Vector3;
+}
+
+/**
+ * Manages callbacks that are connected to successful player dimension
+ * changes.
+ */
+export class PlayerDimensionChangeAfterEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: PlayerDimensionChangeAfterEvent) => void): (arg: PlayerDimensionChangeAfterEvent) => void;
+    unsubscribe(callback: (arg: PlayerDimensionChangeAfterEvent) => void): void;
+}
+
+/**
+ * Contains information regarding an event after a player interacts with a
+ * block.
+ */
+export class PlayerInteractWithBlockAfterEvent {
+    protected constructor();
+    /**
+     * The block that will be interacted with.
+     */
+    readonly block: Block;
+    /**
+     * The face of the block that is being interacted with.
+     */
+    readonly blockFace: Direction;
+    /**
+     * Location relative to the bottom north-west corner of the block where
+     * the item is placed.
+     */
+    readonly faceLocation: Vector3;
+    /**
+     * The item stack that is being used in the interaction, or `undefined`
+     * if empty hand.
+     */
+    readonly itemStack?: ItemStack;
+    /**
+     * Source Player for this event.
+     */
+    readonly player: Player;
+}
+
+/**
+ * Manages callbacks that are connected to after a player interacts with a
+ * block.
+ */
+export class PlayerInteractWithBlockAfterEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: PlayerInteractWithBlockAfterEvent) => void): (arg: PlayerInteractWithBlockAfterEvent) => void;
+    unsubscribe(callback: (arg: PlayerInteractWithBlockAfterEvent) => void): void;
+}
+
+/**
+ * Contains information regarding an event before a player interacts with a
+ * block.
+ */
+export class PlayerInteractWithBlockBeforeEvent extends PlayerInteractWithBlockAfterEvent {
+    protected constructor();
+    /**
+     * If set to true the interaction will be cancelled.
+     */
+    cancel: boolean;
+}
+
+/**
+ * Manages callbacks that are connected to before a player interacts with a
+ * block.
+ */
+export class PlayerInteractWithBlockBeforeEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: PlayerInteractWithBlockBeforeEvent) => void): (arg: PlayerInteractWithBlockBeforeEvent) => void;
+    unsubscribe(callback: (arg: PlayerInteractWithBlockBeforeEvent) => void): void;
+}
+
+/**
+ * Contains information regarding an event after a player interacts with an
+ * entity.
+ */
+export class PlayerInteractWithEntityAfterEvent {
+    protected constructor();
+    /**
+     * The item stack that is being used in the interaction, or undefined
+     * if empty hand.
+     */
+    readonly itemStack?: ItemStack;
+    /**
+     * Source Player for this event.
+     */
+    readonly player: Player;
+    /**
+     * The entity that will be interacted with.
+     */
+    readonly target: Entity;
+}
+
+/**
+ * Manages callbacks that are connected to after a player interacts with an
+ * entity.
+ */
+export class PlayerInteractWithEntityAfterEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: PlayerInteractWithEntityAfterEvent) => void): (arg: PlayerInteractWithEntityAfterEvent) => void;
+    unsubscribe(callback: (arg: PlayerInteractWithEntityAfterEvent) => void): void;
+}
+
+/**
+ * Contains information regarding an event before a player interacts with
+ * an entity.
+ */
+export class PlayerInteractWithEntityBeforeEvent extends PlayerInteractWithEntityAfterEvent {
+    protected constructor();
+    /**
+     * If set to true the interaction will be cancelled.
+     */
+    cancel: boolean;
+}
+
+/**
+ * Manages callbacks that are connected to before a player interacts with
+ * an entity.
+ */
+export class PlayerInteractWithEntityBeforeEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: PlayerInteractWithEntityBeforeEvent) => void): (arg: PlayerInteractWithEntityBeforeEvent) => void;
+    unsubscribe(callback: (arg: PlayerInteractWithEntityBeforeEvent) => void): void;
+}
+
+/**
  * Contains information regarding a player that has joined. See {@link
  * @minecraft/server.PlayerSpawnAfterEvent} for more detailed information
  * that could be returned after the first time a player has spawned within
@@ -1225,6 +1506,78 @@ export class PlayerLeaveAfterEventSignal {
     protected constructor();
     subscribe(callback: (arg: PlayerLeaveAfterEvent) => void): (arg: PlayerLeaveAfterEvent) => void;
     unsubscribe(callback: (arg: PlayerLeaveAfterEvent) => void): void;
+}
+
+export class PlayerLeaveBeforeEvent {
+    protected constructor();
+    readonly player: Player;
+}
+
+export class PlayerLeaveBeforeEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: PlayerLeaveBeforeEvent) => void): (arg: PlayerLeaveBeforeEvent) => void;
+    unsubscribe(callback: (arg: PlayerLeaveBeforeEvent) => void): void;
+}
+
+/**
+ * Contains information regarding an event where a player places a block.
+ */
+export class PlayerPlaceBlockAfterEvent extends BlockEvent {
+    protected constructor();
+    /**
+     * Player that placed the block for this event.
+     */
+    readonly player: Player;
+}
+
+/**
+ * Manages callbacks that are connected to when a block is placed by a
+ * player.
+ */
+export class PlayerPlaceBlockAfterEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: PlayerPlaceBlockAfterEvent) => void,
+              options?: BlockEventOptions): (arg: PlayerPlaceBlockAfterEvent) => void;
+    unsubscribe(callback: (arg: PlayerPlaceBlockAfterEvent) => void): void;
+}
+
+/**
+ * Contains information regarding an event before a player places a block.
+ */
+export class PlayerPlaceBlockBeforeEvent extends BlockEvent {
+    /**
+     * If set to true, cancels the block place event.
+     */
+    cancel: boolean;
+    /**
+     * The face of the block that the new block is being placed on.
+     */
+    readonly face: Direction;
+    /**
+     * Location relative to the bottom north-west corner of the block where
+     * the new block is being placed onto.
+     */
+    readonly faceLocation: Vector3;
+    /**
+     * The item being used to place the block.
+     */
+    itemStack: ItemStack;
+    /**
+     * Player that is placing the block for this event.
+     */
+    readonly player: Player;
+}
+
+/**
+ * Manages callbacks that are connected to before a block is placed by a
+ * player.
+ */
+export class PlayerPlaceBlockBeforeEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: PlayerPlaceBlockBeforeEvent) => void,
+              options?: BlockEventOptions
+             ): (arg: PlayerPlaceBlockBeforeEvent) => void;
+    unsubscribe(callback: (arg: PlayerPlaceBlockBeforeEvent) => void): void;
 }
 
 /**
@@ -1306,17 +1659,16 @@ export class PressurePlatePushAfterEventSignal {
 }
 
 /**
- * Contains information related to a projectile hitting an
- * entity or block.
+ * Contains information related to a projectile hitting a block.
  */
-export class ProjectileHitAfterEvent {
+export class ProjectileHitBlockAfterEvent {
     protected constructor();
     /**
      * Dimension where this projectile hit took place.
      */
     readonly dimension: Dimension;
     /**
-     * Direction vector of the projectile as it hit a block/entity.
+     * Direction vector of the projectile as it hit a block.
      */
     readonly hitVector: Vector3;
     /**
@@ -1324,7 +1676,7 @@ export class ProjectileHitAfterEvent {
      */
     readonly location: Vector3;
     /**
-     * Entity for the projectile that hit a block/entity.
+     * Entity for the projectile that hit a block.
      */
     readonly projectile: Entity;
     /**
@@ -1333,23 +1685,58 @@ export class ProjectileHitAfterEvent {
     readonly source: Entity;
     /**
      * Contains additional information about the block that was hit by the
-     * projectile, or `undefined` if the projectile did not hit a block.
+     * projectile.
      */
-    getBlockHit(): BlockHitInformation | undefined;
-    /**
-     * Contains additional information about an entity that was hit.
-     */
-    getEntityHit(): EntityHitInformation | undefined;
+    getBlockHit(): BlockHitInformation;
 }
 
 /**
- * Manages callbacks that are connected to when a projectile hits an entity
- * or block.
+ * Manages callbacks that are connected to when a projectile hits a block.
  */
-export class ProjectileHitAfterEventSignal {
+export class ProjectileHitBlockAfterEventSignal {
     protected constructor();
-    subscribe(callback: (arg: ProjectileHitAfterEvent) => void): (arg: ProjectileHitAfterEvent) => void;
-    unsubscribe(callback: (arg: ProjectileHitAfterEvent) => void): void;
+    subscribe(callback: (arg: ProjectileHitBlockAfterEvent) => void): (arg: ProjectileHitBlockAfterEvent) => void;
+    unsubscribe(callback: (arg: ProjectileHitBlockAfterEvent) => void): void;
+}
+
+/** * Contains information related to a projectile hitting an * entity.
+ */
+export class ProjectileHitEntityAfterEvent {
+    protected constructor();
+    /**
+     * Dimension where this projectile hit took place.
+     */
+    readonly dimension: Dimension;
+    /**
+     * Direction vector of the projectile as it hit an entity.
+     */
+    readonly hitVector: Vector3;
+    /**
+     * Location where the projectile hit occurred.
+     */
+    readonly location: Vector3;
+    /**
+     * Entity for the projectile that hit an entity.
+     */
+    readonly projectile: Entity;
+    /**
+     * Optional source entity that fired the projectile.
+     */
+    readonly source: Entity;
+    /**
+     * Contains additional information about an entity that was hit.
+     */
+    getEntityHit(): EntityHitInformation;
+}
+
+/**
+ * Manages callbacks that are connected to when a projectile hits an
+ * entity.
+ */
+export class ProjectileHitEntityAfterEventSignal {
+    protected constructor();
+    subscribe(callback: (arg: ProjectileHitEntityAfterEvent) => void): (arg: ProjectileHitEntityAfterEvent) => void;
+    unsubscribe(callback: (arg: ProjectileHitEntityAfterEvent) => void): void;
 }
 
 /**
@@ -1492,31 +1879,10 @@ export class WeatherChangeAfterEventSignal {
 
 /**
  * Contains information and methods that can be used at the initialization
- * of the scripting environment for a World. Also, use the supplied
- * propertyRegistry object to register any dynamic properties, within the
- * scope of the World Initialize execution.
- * @example propertyRegistration.js
- * ```typescript
- * import { DynamicPropertiesDefinition, MinecraftEntityTypes, world } from "@minecraft/server";
- *
- * world.afterEvents.worldInitialize.subscribe((e) => {
- *   let def = new DynamicPropertiesDefinition();
- *
- *   def.defineNumber("rpgStrength");
- *   def.defineString("rpgRole", 16);
- *   def.defineBoolean("rpgIsHero");
- *
- *   e.propertyRegistry.registerEntityTypeDynamicProperties(def, MinecraftEntityTypes.skeleton);
- * });
- * ```
+ * of the scripting environment for a World.
  */
 export class WorldInitializeAfterEvent {
     protected constructor();
-    /**
-     * Contains methods for scripts to initialize and register dynamic
-     * properties they may wish to use within a world.
-     */
-    readonly propertyRegistry: PropertyRegistry;
 }
 
 /**
@@ -1537,18 +1903,10 @@ export class WorldInitializeAfterEventSignal {
 export class WorldAfterEvents {
     protected constructor();
     /**
-     * This event fires for a block that is broken by a player.
-     */
-    readonly blockBreak: BlockBreakAfterEventSignal;
-    /**
      * This event fires for each BlockLocation destroyed by an
      * explosion. It is fired after the blocks have already been destroyed.
      */
     readonly blockExplode: BlockExplodeAfterEventSignal;
-    /**
-     * This event fires for a block that is placed by a player.
-     */
-    readonly blockPlace: BlockPlaceAfterEventSignal;
     /**
      * This event fires when a button is pushed.
      */
@@ -1592,10 +1950,14 @@ export class WorldAfterEvents {
      */
     readonly entityHurt: EntityHurtAfterEventSignal;
     /**
+     * Fires when an entity is loaded.
+     */
+    readonly entityLoad: EntityLoadAfterEventSignal;
+    /**
      * This event fires when an entity is removed from the world (for
      * example, the entity is unloaded because it is not close to players.)
      */
-    readonly entityRemoved: EntityRemovedAfterEventSignal;
+    readonly entityRemove: EntityRemoveAfterEventSignal;
     /**
      * This event fires when an entity is spawned.
      */
@@ -1663,15 +2025,36 @@ export class WorldAfterEvents {
      */
     readonly pistonActivate: PistonActivateAfterEventSignal;
     /**
+     * This event fires for a block that is broken by a player.
+     */
+    readonly playerBreakBlock: PlayerBreakBlockAfterEventSignal;
+    /**
+     * Fires when a player moved to a different dimension.
+     */
+    readonly playerDimensionChange: PlayerDimensionChangeAfterEventSignal;
+    /**
+     * An event for when a player interacts with a block.
+     */
+    readonly playerInteractWithBlock: PlayerInteractWithBlockAfterEventSignal
+    /**
+     * This event fires when a player interacts with an entity.
+     */
+    readonly playerInteractWithEntity: PlayerInteractWithEntityAfterEventSignal;
+    /**
      * This event fires when a player joins a world. See also {@link
-     * @minecraft/server.Events.playerSpawn} for another related event you
-     * can trap for when a player is spawned the first time within a world.
+     * @minecraft/server.WorldAfterEvents.playerSpawn} for another related
+     * event you can trap for when a player is spawned the first time
+     * within a world.
      */
     readonly playerJoin: PlayerJoinAfterEventSignal;
     /**
      * This event fires when a player leaves a world.
      */
     readonly playerLeave: PlayerLeaveAfterEventSignal;
+    /**
+     * This event fires for a block that is placed by a player.
+     */
+    readonly playerPlaceBlock: PlayerPlaceBlockAfterEventSignal;
     /**
      * This event fires when a player spawns or respawns. Note that an
      * additional flag within this event will tell you whether the player
@@ -1687,9 +2070,13 @@ export class WorldAfterEvents {
      */
     readonly pressurePlatePush: PressurePlatePushAfterEventSignal;
     /**
-     * This event fires when a projectile hits an entity or block.
+     * This event fires when a projectile hits a block.
      */
-    readonly projectileHit: ProjectileHitAfterEventSignal;
+    readonly projectileHitBlock: ProjectileHitBlockAfterEventSignal;
+    /**
+     * This event fires when a projectile hits an entity.
+     */
+    readonly projectileHitEntity: ProjectileHitEntityAfterEventSignal;
     /**
      * This event fires when a target block is hit.
      */
@@ -1705,8 +2092,7 @@ export class WorldAfterEvents {
     readonly weatherChange: WeatherChangeAfterEventSignal;
     /**
      * This event fires when the script environment is initialized on a
-     * World. In addition, you can register dynamic properties within the
-     * scope of a world Initialize event.
+     * World.
      */
     readonly worldInitialize: WorldInitializeAfterEventSignal;
 }
@@ -1733,6 +2119,15 @@ export class WorldBeforeEvents {
      */
     readonly dataDrivenEntityTriggerEvent: DataDrivenEntityTriggerBeforeEventSignal;
     /**
+     * This event is triggered after an event has been added to an entity.
+     */
+    readonly effectAdd: EffectAddBeforeEventSignal;
+    /**
+     * Fires before an entity is removed from the world (for example,
+     * unloaded or removed after being killed.)
+     */
+    readonly entityRemove: EntityRemoveBeforeEventSignal;
+    /**
      * This event is fired before an explosion occurs.
      */
     readonly explosion: ExplosionBeforeEventSignal;
@@ -1756,4 +2151,24 @@ export class WorldBeforeEvents {
      * Fires before a piston extends or retracts.
      */
     readonly pistonActivate: PistonActivateBeforeEventSignal;
+    /**
+     * This event fires before a block is broken by a player.
+     */
+    readonly playerBreakBlock: PlayerBreakBlockBeforeEventSignal;
+    /**
+     * Fires before a player interacts with a block.
+     */
+    readonly playerInteractWithBlock: PlayerInteractWithBlockBeforeEventSignal;
+    /**
+     * Fires before a player interacts with an entity.
+     */
+    readonly playerInteractWithEntity: PlayerInteractWithEntityBeforeEventSignal;
+    /**
+     * Fires when a player leaves the game.
+     */
+    readonly playerLeave: PlayerLeaveBeforeEventSignal;
+    /**
+     * This event fires before a block is placed by a player.
+     */
+    readonly playerPlaceBlock: PlayerPlaceBlockBeforeEventSignal;
 }

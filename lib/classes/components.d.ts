@@ -30,7 +30,7 @@ export class BlockInventoryComponent extends BlockComponent {
     /**
      * The container which holds an {@link @minecraft/server.ItemStack}.
      */
-    readonly container: Container;
+    readonly container?: Container;
     static readonly componentId = "minecraft:inventory";
 }
 
@@ -237,11 +237,11 @@ export class BlockWaterContainerComponent extends BlockLiquidContainerComponent 
     /**
      * Retrieves a custom base color used for the sign text.
      */
-    getCustomColor(): Color;
+    getCustomColor(): RGBA;
     /**
      * Sets a custom base color used for the sign text.
      */
-    setCustomColor(color: Color): void;
+    setCustomColor(color: RGBA): void;
     static readonly componentId = "minecraft:waterContainer";
 }
 
@@ -477,7 +477,7 @@ export class EntityComponent extends Component {
  * ```typescript
  * let players = mc.world.getAllPlayers();
  *
- * const equipment = players[0].getComponent("equipment_inventory") as mc.EntityEquipmentInventoryComponent;
+ * const equipment = players[0].getComponent("minecraft:equippable") as mc.EntityEquippableComponent;
  * equipment.setEquipment(mc.EquipmentSlot.chest, new mc.ItemStack("minecraft:elytra"));
  *
  * log("Player given Elytra");
@@ -489,7 +489,7 @@ export class EntityComponent extends Component {
  * const armorStandLoc = { x: targetLocation.x, y: targetLocation.y, z: targetLocation.z + 4 };
  * let armorStand = players[0].dimension.spawnEntity("armor_stand", armorStandLoc);
  *
- * const equipmentCompPlayer = players[0].getComponent("equipment_inventory") as mc.EntityEquipmentInventoryComponent;
+ * const equipmentCompPlayer = players[0].getComponent("minecraft:equippable") as mc.EntityEquippableComponent;
  * equipmentCompPlayer.setEquipment(mc.EquipmentSlot.head, new mc.ItemStack("minecraft:golden_helmet"));
  * equipmentCompPlayer.setEquipment(mc.EquipmentSlot.chest, new mc.ItemStack("minecraft:iron_chestplate"));
  * equipmentCompPlayer.setEquipment(mc.EquipmentSlot.legs, new mc.ItemStack("minecraft:diamond_leggings"));
@@ -498,8 +498,8 @@ export class EntityComponent extends Component {
  * equipmentCompPlayer.setEquipment(mc.EquipmentSlot.offhand, new mc.ItemStack("minecraft:shield"));
  *
  * const equipmentCompArmorStand = armorStand.getComponent(
- *   "equipment_inventory"
- * ) as mc.EntityEquipmentInventoryComponent;
+ *   "minecraft:equippable"
+ * ) as mc.EntityEquippableComponent;
  * equipmentCompArmorStand.setEquipment(mc.EquipmentSlot.head, new mc.ItemStack("minecraft:golden_helmet"));
  * equipmentCompArmorStand.setEquipment(mc.EquipmentSlot.chest, new mc.ItemStack("minecraft:iron_chestplate"));
  * equipmentCompArmorStand.setEquipment(mc.EquipmentSlot.legs, new mc.ItemStack("minecraft:diamond_leggings"));
@@ -508,7 +508,7 @@ export class EntityComponent extends Component {
  * equipmentCompArmorStand.setEquipment(mc.EquipmentSlot.offhand, new mc.ItemStack("minecraft:shield"));
  * ```
  */
-export class EntityEquipmentInventoryComponent {
+export class EntityEquippableComponent {
     protected constructor();
     /**
      * Gets the equipped item for the given EquipmentSlot.
@@ -534,8 +534,8 @@ export class EntityEquipmentInventoryComponent {
      * @param itemStack
      * The item to equip. If `undefined`, clears the slot.
      */
-    setEquipment(equipmentSlot: EquipmentSlot, itemStack?: ItemStack): void;
-    static readonly componentId = "minecraft:equipment_inventory";
+    setEquipment(equipmentSlot: EquipmentSlot, itemStack?: ItemStack): boolean;
+    static readonly componentId = "minecraft:equippable";
 }
 
 /**
@@ -1118,7 +1118,28 @@ export class EntityNavigationHoverComponent extends EntityNavigationComponent {
 export class EntityNavigationWalkComponent extends EntityNavigationComponent {
     protected constructor();
     static readonly componentId = 'minecraft:navigation.walk';
+}
 
+/**
+ * Adds NPC capabilities to an entity such as custom skin, name, and
+ * dialogue interactions.
+ */
+export class EntityNpcComponent extends EntityComponent {
+    protected constructor();
+    /**
+     * The DialogueScene that is opened when players first interact with
+     * the NPC.
+     */
+    defaultScene: string;
+    /**
+     * The name of the NPC as it is displayed to players.
+     */
+    name: string;
+    /**
+     * The index of the skin the NPC will use.
+     */
+    skinIndex: number;
+    static readonly componentId = "minecraft:npc";
 }
 
 /**
