@@ -111,7 +111,7 @@ export class Block {
      * Returns the component object if it is present on the
      * particular block.
      */
-    getComponent<T>(componentId: T): BlockComponentTypeMap[T] | undefined;
+    getComponent<T extends keyof BlockComponentTypeMap>(componentId: T): BlockComponentTypeMap[T] | undefined;
     /**
      * Creates a prototype item stack based on this block that can be used
      * with {@link @minecraft/server.Container}/{@link
@@ -1998,7 +1998,7 @@ export class Entity {
      * is returned. Available component IDs can be found as part of the
      * {@link @minecraft/server.EntityComponentComponentTypes} enum.
      */
-    getComponent<T>(componentId: T): EntityComponentTypeMap[T] | undefined;
+    getComponent<T extends keyof EntityComponentTypeMap>(componentId: T): EntityComponentTypeMap[T] | undefined;
     /**
      * Returns all components that are both present on this entity and
      * supported by the API.
@@ -2549,7 +2549,7 @@ export class ItemStack {
      * const maxDurability = durability.maxDurability;
      * ```
      */
-    getComponent<T>(componentId: T): ItemComponentTypeMap[T] | undefined;
+    getComponent<T extends keyof ItemComponentTypeMap>(componentId: T): ItemComponentTypeMap[T] | undefined;
     /**
      * Returns all components that are both present on this item stack and
      * supported by the API.

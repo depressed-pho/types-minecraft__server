@@ -264,7 +264,7 @@ export class EffectAddAfterEventSignal {
  * Contains information related to changes to an effect - like poison -
  * being added to an entity.
  */
-export class EffectAddBeforeEvent extends {
+export class EffectAddBeforeEvent {
     protected constructor();
     /**
      * When set to `true` will cancel the event.
