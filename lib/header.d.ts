@@ -19,4 +19,4 @@
  * }
  * ```
  */
-import * from "@minecraft/common";
+import { NumberRange } from "@minecraft/common";
